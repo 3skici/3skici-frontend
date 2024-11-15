@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import i18n from '../../i18n';
 import { getPathWithLanguage } from '../../utils/pathHelpers';
@@ -27,7 +26,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3000/auth/signup`, formData);
+      // const response = await axios.post(`http://localhost:3000/auth/signup`, formData);
       navigate('/:lang/login'); // Redirect to login page after successful signup
     } catch (err) {
       setError(err.response.data.message || 'Error signing up');

@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
-import UserSettings from "../../pages/UserSettings";
 
 const Footer = () => {
   const currentLanguage = i18n.language;
   const faq = getPathWithLanguage("/faq", currentLanguage);
   const filter = getPathWithLanguage("/filter", currentLanguage);
-  const fav = getPathWithLanguage("/fav", currentLanguage);
   const report = getPathWithLanguage("/report/", currentLanguage);
   const contact = getPathWithLanguage("/contact-us/", currentLanguage);
-  const userDashboard = getPathWithLanguage("/user-dashboard/", currentLanguage);
   const termsAndConditions = getPathWithLanguage("/terms-and-conditions/", currentLanguage);
   const sitemap = getPathWithLanguage("/sitemap/", currentLanguage);
 
