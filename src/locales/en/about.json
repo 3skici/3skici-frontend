@@ -1,0 +1,19 @@
+{
+  "about_hero_title":" Welcome to 3skici, the platform dedicated to connecting sellers and buyers of second-hand products seamlessly.",
+ "about_introductory_text": " Unlike other similar platforms, 3skici offers a completely free experience for both sellers and buyers. Sellers simply need to register and log in to list their items, while buyers can browse and purchase products without creating an account. This makes buying second-hand items easier and more accessible for everyone.",
+  "about_us": "Welcome to 3skici, the platform dedicated to connecting sellers and buyers of second-hand products seamlessly. Unlike other similar platforms, 3skici offers a completely free experience for both sellers and buyers. Sellers simply need to register and log in to list their items, while buyers can browse and purchase products without creating an account. This makes buying second-hand items easier and more accessible for everyone. The products listed on 3skici come with detailed descriptions, images, and seller contact information, so buyers can directly connect with sellers to finalize transactions. Features requiring registration, such as listing items for sale or reporting inappropriate products, are designed to maintain a safe and organized marketplace, while all other functionalities are freely accessible.",
+  "unique_features": {
+    "title": "Our Unique Features",
+    "free_service": "Completely Free for Sellers and Buyers: At 3skici, there are no fees or hidden charges. Selling or buying second-hand items on our platform is completely free. Sellers can register and list items without worrying about commissions, and buyers can access all the product details and make direct purchases with no barriers.",
+    "report_products": "Report Fake or Inappropriate Products: If you encounter any product that seems fake or inappropriate, you can easily report it. Our dedicated team will review your report and take necessary actions to ensure the integrity of the marketplace."
+  },
+  "returns_policy": "Returns Policy: Please note that there is no return policy on 3skici. As our platform simply connects buyers and sellers directly, we do not take responsibility for the condition or authenticity of the products. Transactions are made between users, and we act solely as a bridge to facilitate the buying and selling process. We advise all users to communicate clearly and verify items before purchasing.",
+  "delivery_service": "Delivery Service: We are currently working to develop a delivery service that will make the buying process even more convenient for our users. In the future, we plan to offer specialized delivery accounts and mechanisms to make delivering items easier. Stay tuned as we work to launch this exciting feature soon!",
+  "in_numbers_title": "3skici in Numbers",
+  "in_numbers": "3skici in Numbers: This section dynamically showcases our community statistics—live figures on the number of active users, items for sale, and successful transactions, updated in real-time from our backend.",
+  "contact_us": {
+    "title": "Contact Us",
+    "phone": "Phone Number: [Your Phone Number]",
+    "email": "Email: [Your Email Address]"
+  }
+}
