@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaBars, FaTimes, FaHeart } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FiLogIn } from "react-icons/fi";

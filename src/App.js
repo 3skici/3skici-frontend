@@ -15,7 +15,6 @@ import AboutUs from "./pages/About";
 import Products from "./components/products/Product";
 import ProductSearchAndFilter from "./components/filter&search/ProductSearchAndFilter";
 import Report from "./components/report/Report";
-import { useDispatch, useSelector } from "react-redux";
 import SellingProduct from "./components/products/SellingProduct";
 import Layout from "./components/layout/Layout";
 import FAQ from "./pages/FAQ";

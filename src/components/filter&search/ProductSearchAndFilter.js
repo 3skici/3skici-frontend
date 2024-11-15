@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../layout/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
 import { FaHeart, FaCartPlus } from "react-icons/fa";

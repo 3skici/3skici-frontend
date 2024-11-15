@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, selectCategories, selectError, selectLoading } from "../features/categories/categoriesSlice";
-import Navbar from "../components/layout/Navbar";
 
 const Category = () => {
   const dispatch = useDispatch();

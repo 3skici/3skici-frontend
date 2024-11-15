@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, deleteProduct } from "../features/products/productsSlice"; // Import actions for fetching and deleting products
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
 import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 
 const ProductsManagement = () => {

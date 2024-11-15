@@ -7,9 +7,7 @@ import {
   selectError,
   fetchCategories,
 } from '../features/categories/categoriesSlice';
-import { updateProduct } from '../features/products/productsSlice'; // Import update action
-import Navbar from '../components/layout/Navbar';
-
+import { updateProduct } from '../features/products/productsSlice'; 
 const EditProduct = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
