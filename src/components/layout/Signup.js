@@ -15,6 +15,7 @@ const Signup = () => {
     email: '',
     password: '',
   });
+  console.log(formData)
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -26,10 +27,22 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await axios.post(`http://localhost:3000/auth/signup`, formData);
-      navigate('/:lang/login'); // Redirect to login page after successful signup
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const responseText = await response.text();
+        console.log(responseText)
+        // throw new Error(errorData.message || 'Error signing up')
+      }
+      navigate(login); // Redirect to login page after successful signup
     } catch (err) {
-      setError(err.response.data.message || 'Error signing up');
+      setError(err.message || 'Error signing up');
     }
   };
 

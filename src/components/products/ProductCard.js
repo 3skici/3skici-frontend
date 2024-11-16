@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   FaHeart,
+  FaRegHeart,
   FaMapMarkerAlt,
   FaEnvelope,
   FaPhoneAlt,
@@ -8,9 +9,16 @@ import {
   FaExclamationCircle,
   FaCopy,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFavorite,
+  removeFavorite,
+} from "../../features/products/favoriteSlice";
 
 const ProductCard = ({ product }) => {
-  console.log("this is product data: ", product);
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.user._id);
+  const { favorites } = useSelector((state) => state.favorites);
 
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -38,16 +46,31 @@ const ProductCard = ({ product }) => {
     not_available: { label: "Not Available", color: "bg-gray-500" }, // Gray for not available
   };
 
-  // conditions cases
+  // favorite function
+  const handleToggleFavorite = (productId) => {
+    if (favorites.some((fav) => fav._id === productId)) {
+      dispatch(removeFavorite({ userId, productId }));
+    } else {
+      dispatch(addFavorite({ userId, productId }));
+    }
+  };
 
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative">
+      {/* Favorite Icon */}
       <div className="absolute top-2 right-2">
-      <FaHeart 
-          className={`text-red-500 cursor-pointer hover:text-red-700 transition duration-300 ${
-            product.favorite ? "text-red-500" : ""
-          }`}
-        />
+        {/* Show filled heart if product is in favorites, otherwise outline heart */}
+        {favorites.some((fav) => fav._id === product._id) ? (
+          <FaHeart
+            className="text-red-500 cursor-pointer hover:text-red-700 transition duration-300"
+            onClick={() => handleToggleFavorite(product._id)}
+          />
+        ) : (
+          <FaRegHeart
+            className="text-gray-500 cursor-pointer hover:text-red-500 transition duration-300"
+            onClick={() => handleToggleFavorite(product._id)}
+          />
+        )}
       </div>
       <div className="absolute top-2 left-2 flex items-center space-x-2">
         <div

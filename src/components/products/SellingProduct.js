@@ -117,8 +117,7 @@ const AddProductPage = () => {
               amount: parseFloat(product.price),
             },
             seller: seller,
-            category:
-              product.categories.length > 0 ? product.categories[0] : [],
+            category:product.categories,
             images: product.images,
             location: product.location,
             contactInfo: {

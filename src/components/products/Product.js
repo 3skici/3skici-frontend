@@ -110,7 +110,7 @@ const Products = () => {
                     Condition: {product.condition || 'Unknown'}
                   </p>
                   <p className="text-gray-500">
-                    Category: {product.category?.name || 'Uncategorized'}
+                    Category: {product.category?.name || 'Not categorized'}
                   </p>
                   <p className="text-gray-500">
                     Seller: {product.seller?.name || 'Not found'}
