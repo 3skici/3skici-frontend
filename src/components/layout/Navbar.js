@@ -130,7 +130,7 @@ const Navbar = () => {
             {t("about_us_nav")}
           </Link>
           <Link
-            to={getPathWithLanguage("/cat", currentLanguage)}
+            to={getPathWithLanguage("/categories", currentLanguage)}
             className="hover:text-yellow-400 py-2 lg:py-0"
           >
             {t("categories")}

@@ -14,23 +14,18 @@ import {
   addFavorite,
   removeFavorite,
 } from "../../features/products/favoriteSlice";
+import {
+  fetchCategories,
+  selectCategories,
+} from "../../features/categories/categoriesSlice";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user._id);
   const { favorites } = useSelector((state) => state.favorites);
+  const categories = useSelector(selectCategories);
 
   const [copySuccess, setCopySuccess] = useState(false);
-
-  let categories = [];
-
-  if (product.categories) {
-    if (Array.isArray(product.categories)) {
-      categories = product.categories;
-    } else {
-      categories = [product.categories];
-    }
-  }
 
   // copy code for copy the product id
   const handleCopy = () => {
@@ -53,6 +48,17 @@ const ProductCard = ({ product }) => {
     } else {
       dispatch(addFavorite({ userId, productId }));
     }
+  };
+
+  // handle categories names
+  const getCategoryNames = (categoryIds) => {
+    if (!Array.isArray(categoryIds)) return "Not categorized";
+    return (
+      categoryIds
+        .map((id) => categories.find((category) => category._id === id)?.name)
+        .filter(Boolean)
+        .join(", ") || "Not categorized"
+    );
   };
 
   return (
@@ -129,16 +135,18 @@ const ProductCard = ({ product }) => {
             <FaTags className="text-gray-800 mr-2" />
             <span className="text-gray-800 font-semibold">Categories:</span>
           </div>
-          {categories.length > 0 ? (
+          {product.category && product.category.length > 0 ? (
             <div className="flex flex-wrap">
-              {categories.map((category, index) => (
-                <span
-                  key={index}
-                  className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded"
-                >
-                  {category}
-                </span>
-              ))}
+              {getCategoryNames(product.category)
+                .split(", ") // Split the concatenated category names into an array
+                .map((categoryName, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded"
+                  >
+                    {categoryName}
+                  </span>
+                ))}
             </div>
           ) : (
             <p className="text-gray-600">No categories available.</p>

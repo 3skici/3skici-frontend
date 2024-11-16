@@ -24,6 +24,9 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import Sitemap from "./pages/Sitemap";
 import ErrorPage from "./pages/ErrorPage";
 import UserSettings from "./pages/UserSettings";
+import CategoriesGrid from "./components/categories/CategoryList";
+import CategoryFilter from "./components/categories/CategoryDetails";
+import CategoryList from "./components/categories/CategoryList";
 function App() {
 
   return (
@@ -42,6 +45,8 @@ function App() {
         <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route path="/:lang/login" element={<Login />} />
         <Route path="/:lang/cat" element={<Category />} />
+        <Route path="/:lang/filter" element={<CategoryFilter />} />
+        <Route path="/:lang/categories" element={<CategoryList />} />
         <Route path="/:lang/signup" element={<Signup />} />
         <Route path="/:lang/profile" element={<Profile />} />
         <Route path="/:lang/user-dashboard" element={<UserDashboard />} />
