@@ -18,7 +18,7 @@ export const fetchFavorites = createAsyncThunk(
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Add the token in the header
+          'Authorization': `Bearer ${token}`,
         },
       });
       if (!response.ok) {
@@ -34,12 +34,14 @@ export const fetchFavorites = createAsyncThunk(
 
 export const addFavorite = createAsyncThunk(
   'favorites/addFavorite',
-  async ({ userId, productId }, { rejectWithValue }) => {
+  async ({ userId, productId }, { rejectWithValue, getState }) => {
     try {
+      const token = getState().auth.token; // Assuming token is stored in state.auth.token
       const response = await fetch(`${process.env.REACT_APP_API_URL}/user/${userId}/favorites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ productId }),
       });
@@ -47,6 +49,8 @@ export const addFavorite = createAsyncThunk(
         throw new Error('Failed to add to favorites');
       }
       const data = await response.json();
+      console.log("this is the data of fav:", data)
+
       return data.favorites;
     } catch (error) {
       return rejectWithValue(error.message || 'Server error');
@@ -96,11 +100,13 @@ const favoriteSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
-        state.favorites = action.payload;
+        const newFavorite = action.payload; // Assuming the API returns the added favorite
+        state.favorites.push(newFavorite); // Add only the new favorite
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        state.favorites = action.payload;
-      });
+        const removedProductId = action.payload; // Assuming the API returns the removed product ID
+        state.favorites = state.favorites.filter(fav => fav._id !== removedProductId);
+      });      
   },
 });
 

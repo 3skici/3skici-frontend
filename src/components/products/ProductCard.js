@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, memo, useState } from "react";
 import {
   FaHeart,
   FaRegHeart,
@@ -12,23 +12,24 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
+  fetchFavorites,
   removeFavorite,
 } from "../../features/products/favoriteSlice";
-import {
-  fetchCategories,
-  selectCategories,
-} from "../../features/categories/categoriesSlice";
+import { selectCategories } from "../../features/categories/categoriesSlice";
 
-const ProductCard = ({ product }) => {
+const ProductCard = memo(({ product }) => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user._id);
+  const userId = useSelector((state) => state.auth.user?._id);
   const { favorites } = useSelector((state) => state.favorites);
   const categories = useSelector(selectCategories);
-
+  const [isUpdating, setIsUpdating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // check if product is a favorite
+  const isFavorite = favorites.some((fav) => fav._id === product._id);
+
   // copy code for copy the product id
-  const handleCopy = () => {
+  const handleCopy = (product) => {
     navigator.clipboard.writeText(product.customId);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
@@ -42,11 +43,20 @@ const ProductCard = ({ product }) => {
   };
 
   // favorite function
-  const handleToggleFavorite = (productId) => {
-    if (favorites.some((fav) => fav._id === productId)) {
-      dispatch(removeFavorite({ userId, productId }));
-    } else {
-      dispatch(addFavorite({ userId, productId }));
+  const handleToggleFavorite = async (productId) => {
+    if (!userId) {
+      alert("You must be logged in to add to favorites. ");
+      return;
+    }
+    setIsUpdating(true);
+    try {
+      if (isFavorite) {
+        await dispatch(removeFavorite({ userId, productId }));
+      } else {
+        await dispatch(addFavorite({ userId, productId }));
+      }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -61,23 +71,29 @@ const ProductCard = ({ product }) => {
     );
   };
 
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative">
       {/* Favorite Icon */}
       <div className="absolute top-2 right-2">
-        {/* Show filled heart if product is in favorites, otherwise outline heart */}
-        {favorites.some((fav) => fav._id === product._id) ? (
-          <FaHeart
-            className="text-red-500 cursor-pointer hover:text-red-700 transition duration-300"
-            onClick={() => handleToggleFavorite(product._id)}
-          />
-        ) : (
-          <FaRegHeart
-            className="text-gray-500 cursor-pointer hover:text-red-500 transition duration-300"
-            onClick={() => handleToggleFavorite(product._id)}
-          />
-        )}
+        <button
+          className="focus:outline-none"
+          onClick={() => handleToggleFavorite(product._id)}
+          disabled={isUpdating}
+        >
+          {isUpdating ? (
+            <FaHeart className="text-gray-400 animate-spin" />
+          ) : isFavorite ? (
+            <FaHeart className="text-red-500 transition-colors duration-300 hover:text-red-700" />
+          ) : (
+            <FaRegHeart className="text-gray-500 transition-colors duration-300 hover:text-red-500" />
+          )}
+        </button>
       </div>
+      {/* product status */}
       <div className="absolute top-2 left-2 flex items-center space-x-2">
         <div
           className={`w-3 h-3 rounded-full ${
@@ -195,6 +211,6 @@ const ProductCard = ({ product }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProductCard;

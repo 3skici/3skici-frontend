@@ -10,6 +10,7 @@ import {
 import countryData from "country-telephone-data"; // Import data for countries
 import Flag from "react-world-flags"; // To show flags
 import { parsePhoneNumber } from "libphonenumber-js"; // Import phone number parsing library
+import ProductCard from "./ProductCard";
 
 const AddProductPage = () => {
   const categories = useSelector(selectCategories);
@@ -19,8 +20,7 @@ const AddProductPage = () => {
   const seller = user._id;
   const [selectedCountryCode, setSelectedCountryCode] = useState(""); // Default country code
   const [selectedCountry, setSelectedCountry] = useState(""); // Default country
- const [message, setMessage] = useState(null); // State to track success/error messages
-
+  const [message, setMessage] = useState(null); // State to track success/error messages
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -47,6 +47,30 @@ const AddProductPage = () => {
     images: [],
   });
   const [userProducts, setUserProducts] = useState([]);
+  console.log("user product", userProducts);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+
+    // Fetch user's existing products
+    const fetchUserProducts = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/product/user/${seller}`
+        );
+        if (response.ok) {
+          const products = await response.json();
+          setUserProducts(products);
+        } else {
+          console.error("Failed to fetch user products");
+        }
+      } catch (error) {
+        console.error("Error fetching user products:", error);
+      }
+    };
+
+    fetchUserProducts();
+  }, [dispatch, seller]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,13 +117,16 @@ const AddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     // Validate phone number before submitting
-     const phoneNumber = `${selectedCountryCode}${product.contactInfo.phone.trim()}`;
+    // Validate phone number before submitting
+    const phoneNumber = `${selectedCountryCode}${product.contactInfo.phone.trim()}`;
     try {
       // Use libphonenumber-js to parse and validate the phone number
       const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
       if (!parsedPhoneNumber.isValid()) {
-        setMessage({ type: "error", text: "Please enter a valid phone number." });
+        setMessage({
+          type: "error",
+          text: "Please enter a valid phone number.",
+        });
         return;
       }
       const response = await fetch(
@@ -117,7 +144,7 @@ const AddProductPage = () => {
               amount: parseFloat(product.price),
             },
             seller: seller,
-            category:product.categories,
+            category: product.categories,
             images: product.images,
             location: product.location,
             contactInfo: {
@@ -130,10 +157,13 @@ const AddProductPage = () => {
       if (response.ok) {
         const newProduct = await response.json();
         setUserProducts([...userProducts, newProduct]);
-         setMessage({ type: "success", text: "Product created successfully." });
+        setMessage({ type: "success", text: "Product created successfully." });
       } else {
         const errorResponse = await response.json();
-         setMessage({ type: "error", text: errorResponse.message || "Failed to add product." });
+        setMessage({
+          type: "error",
+          text: errorResponse.message || "Failed to add product.",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -186,29 +216,28 @@ const AddProductPage = () => {
     flag: country.iso2, // This is useful if you want to use the flag elsewhere
   }));
 
-
-
   // the phone number correct format
   const formatPhoneNumberCustom = (phoneNumber) => {
     // Assuming the number includes the country code and needs to be formatted like: +90 534 773 12 12
-    const cleaned = phoneNumber.replace(/\D+/g, ''); // Remove non-digit characters
+    const cleaned = phoneNumber.replace(/\D+/g, ""); // Remove non-digit characters
     const match = cleaned.match(/(\d{2})(\d{3})(\d{3})(\d{2})(\d{2})/);
     if (match) {
       return `+${match[1]} ${match[2]} ${match[3]} ${match[4]} ${match[5]}`;
     }
     return phoneNumber; // Return as-is if it doesn't match the expected pattern
   };
-  
-  
+
   return (
     <div className="flex flex-col w-full h-full p-6">
       <div className="flex flex-row w-full mb-6 h-1/2">
         {/* Right Side Form */}
         <div className="w-1/2 p-4">
-        {message && (
+          {message && (
             <div
               className={`p-4 mb-4 ${
-                message.type === "error" ? "bg-red-500 text-white" : "bg-green-500 text-white"
+                message.type === "error"
+                  ? "bg-red-500 text-white"
+                  : "bg-green-500 text-white"
               }`}
             >
               {message.text}
@@ -439,7 +468,10 @@ const AddProductPage = () => {
                 ${
                   product.contactInfo.phone
                     ? "Phone: " +
-                      formatPhoneNumberCustom(selectedCountryCode + product.contactInfo.phone) + ", "
+                      formatPhoneNumberCustom(
+                        selectedCountryCode + product.contactInfo.phone
+                      ) +
+                      ", "
                     : ""
                 }
                 ${
@@ -472,89 +504,12 @@ const AddProductPage = () => {
         </div>
       </div>
 
-      {/* Lower Half - User Products Display */}
-      <div className="w-full h-1/2 overflow-y-auto">
+      {/* User Products Section */}
+      <div className="w-full  overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Products</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {userProducts.map((prod, index) => (
-            <div
-              key={index}
-              className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative"
-            >
-              <div className="absolute top-2 right-2">
-                <FaHeart
-                  className={`text-red-500 cursor-pointer hover:text-red-700 transition duration-300 ${
-                    prod.favorite ? "text-red-700" : ""
-                  }`}
-                />
-              </div>
-              <div className="absolute top-2 left-2 bg-gray-800 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                {prod.availability === "available"
-                  ? "Available"
-                  : prod.availability === "sold"
-                  ? "Sold Out"
-                  : "Not Available"}
-              </div>
-              <div className="flex justify-center items-center h-56 bg-gray-200">
-                {prod.images && prod.images.length > 0 ? (
-                  <img
-                    src={prod.images[0]}
-                    alt={prod.name}
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <span className="text-gray-500 text-lg">{prod.name}</span>
-                )}
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-2 truncate">
-                  {prod.name}
-                </h2>
-                <p className="text-gray-900 text-2xl font-bold mb-4">
-                  ${prod.price}
-                </p>
-                <p className="text-gray-700 mb-2 truncate">
-                  {prod.description}
-                </p>
-                <p className="text-gray-500">Condition: {prod.condition}</p>
-                <p className="text-gray-500">
-                  Categories:{" "}
-                  {product.categories.length > 0
-                    ? product.categories
-                        .map(
-                          (catId) =>
-                            categories.find((cat) => cat._id === catId)?.name ||
-                            catId
-                        )
-                        .join(", ")
-                    : "None"}
-                </p>{" "}
-                <p className="text-gray-500">
-                  Contact Info:{" "}
-                  {`${
-                    prod.contactInfo.phone
-                      ? "Phone: " + prod.contactInfo.phone + ", "
-                      : ""
-                  }${
-                    prod.contactInfo.email
-                      ? "Email: " + prod.contactInfo.email
-                      : ""
-                  }`.replace(/,\s*$/, "") || "Contact Info not provided"}
-                </p>
-                <p className="text-gray-500">
-                  Location:{" "}
-                  {`${prod.location.street ? prod.location.street + ", " : ""}${
-                    prod.location.city ? prod.location.city + ", " : ""
-                  }${
-                    prod.location.country ? prod.location.country + ", " : ""
-                  }${prod.location.zipCode || ""}`.replace(/,\s*$/, "") ||
-                    "Location not provided"}
-                </p>
-              </div>
-              <p className="text-xs text-gray-500">
-                ID: {product.customId || "N/A"}
-              </p>
-            </div>
+        <div className="grid grid-cols-4 gap-4">
+          {userProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

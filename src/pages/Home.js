@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import ProductCard from "../components/products/ProductCard";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import i18n from "../i18n";
 import { getPathWithLanguage } from "../utils/pathHelpers";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/products/productsSlice";
+import { fetchCategories } from "../features/categories/categoriesSlice";
+import { fetchFavorites } from "../features/products/favoriteSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ const Home = () => {
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchProducts());
+      dispatch(fetchCategories());
     }
   }, [status, dispatch]);
 
