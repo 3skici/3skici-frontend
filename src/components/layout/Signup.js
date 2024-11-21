@@ -1,51 +1,55 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import i18n from '../../i18n';
-import { getPathWithLanguage } from '../../utils/pathHelpers';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import i18n from "../../i18n";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
 
 const Signup = () => {
-  
   const currentLanguage = i18n.language;
   const login = getPathWithLanguage("/login", currentLanguage);
-
+  const terms = getPathWithLanguage("/terms-and-conditions", currentLanguage);
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    email: '',
-    password: '',
+    username: "",
+    name: "",
+    email: "",
+    password: "",
   });
-  console.log(formData)
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
-        const responseText = await response.text();
-        console.log(responseText)
-        // throw new Error(errorData.message || 'Error signing up')
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error signing up");
       }
       navigate(login); // Redirect to login page after successful signup
     } catch (err) {
-      setError(err.message || 'Error signing up');
+      setError(err.message || "Error signing up");
     }
   };
 
+  // terms and conditions acceptances checkbox
+  const handleCheckboxChange = () => {
+    setAcceptTerms(!acceptTerms);
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -53,7 +57,12 @@ const Signup = () => {
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
             <input
               type="text"
               name="username"
@@ -65,7 +74,12 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Name
+            </label>
             <input
               type="text"
               name="name"
@@ -77,7 +91,12 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -89,7 +108,12 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -100,18 +124,46 @@ const Signup = () => {
               className="w-full border border-gray-300 p-2 rounded-lg mt-1"
             />
           </div>
+
+          {/* terms and conditions  */}
+          <div className="mb-4">
+            <label className="inline-flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                checked={acceptTerms}
+                onChange={handleCheckboxChange}
+                className="form-checkbox h-4 w-4 text-blue-600"
+              />
+              <span className="ml-2 text-sm text-gray-700">
+                I agree to the{" "}
+                <Link to={terms} className="text-blue-500 hover:underline">
+                  Terms and Conditions
+                </Link>
+                .
+              </span>
+            </label>
+          </div>
+
+          {/* info about terms  */}
+          {!acceptTerms && (
+            <p className="text-sm text-red-500">
+              You must agree the Terms and Conditions to proceed with the registration.
+            </p>
+          )}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            disabled={!acceptTerms}
           >
             Sign Up
           </button>
         </form>
         <p className="text-center text-sm text-gray-600 mt-4">
-          Already registered?{' '}
+          Already registered?{" "}
           <Link to={login} className="text-blue-500 hover:underline">
             Login
           </Link>
+          .
         </p>
       </div>
     </div>

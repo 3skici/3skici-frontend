@@ -5,13 +5,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
 
-const Report = () => {
+const Report = (productId) => {
   const token = useSelector((state) => state.auth.token);
 
   const currentLanguage = i18n.language;
   const login = getPathWithLanguage("/login", currentLanguage);
 
-  const { productId } = useParams();
+  // const { productId } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     productId: "",

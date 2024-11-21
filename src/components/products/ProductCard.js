@@ -16,14 +16,21 @@ import {
   removeFavorite,
 } from "../../features/products/favoriteSlice";
 import { selectCategories } from "../../features/categories/categoriesSlice";
+import Report from "../report/Report";
+import { useNavigate } from "react-router-dom";
+import i18n from "../../i18n";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
 
 const ProductCard = memo(({ product }) => {
+  const currentLanguage = i18n.language;
+  const report = getPathWithLanguage("/report", currentLanguage);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
   const { favorites } = useSelector((state) => state.favorites);
   const categories = useSelector(selectCategories);
   const [isUpdating, setIsUpdating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const navigate = useNavigate()
 
   // check if product is a favorite
   const isFavorite = favorites.some((fav) => fav._id === product._id);
@@ -75,6 +82,12 @@ const ProductCard = memo(({ product }) => {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
+
+  // handle report button
+  const handleReport = () => {
+    // Handle report action here, e.g., navigate to the report page
+    navigate(report);
+  };
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative">
       {/* Favorite Icon */}
@@ -201,12 +214,14 @@ const ProductCard = memo(({ product }) => {
         {/* Report Icon */}
         <button
           className="flex items-center text-red-500 hover:text-red-700 focus:outline-none"
-          onClick={() => alert("Report product clicked!")} // Replace with actual functionality
+          onClick={handleReport}
         >
           <FaExclamationCircle
             title="Report this product if you find any issues or inappropriate content"
             className="text-lg"
-          />
+          >
+            <Report productId={product._id} product={product} />
+          </FaExclamationCircle>
         </button>
       </div>
     </div>

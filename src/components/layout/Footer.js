@@ -8,7 +8,6 @@ const Footer = () => {
   const filter = getPathWithLanguage("/filter", currentLanguage);
   const report = getPathWithLanguage("/report/", currentLanguage);
   const contact = getPathWithLanguage("/contact-us/", currentLanguage);
-  const termsAndConditions = getPathWithLanguage("/terms-and-conditions/", currentLanguage);
   const sitemap = getPathWithLanguage("/sitemap/", currentLanguage);
 
 
@@ -38,12 +37,6 @@ const Footer = () => {
         className=" text-white  font-semibold  transition duration-200"
       >
         Contact Us
-      </Link>
-      <Link
-        to={termsAndConditions}
-        className=" text-white  font-semibold  transition duration-200"
-      >
-        Terms And Conditions 
       </Link>
       <Link
         to={sitemap}
