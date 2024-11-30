@@ -25,6 +25,8 @@ import Sitemap from "./pages/Sitemap";
 import ErrorPage from "./pages/ErrorPage";
 import UserSettings from "./pages/UserSettings";
 import CategoryList from "./components/categories/CategoryList";
+import ChatPage from "./chat/ChattingPage";
+import ProductSmallCard from "./components/products/ProductSmallCard";
 function App() {
 
   return (
@@ -55,6 +57,8 @@ function App() {
         <Route path="/:lang/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
+        <Route path="/:lang/chat" element={<ChatPage />} />
+        <Route path="/:lang/card" element={<ProductSmallCard />} />
         <Route
           path="/:lang/reset-password/:token"
           element={<ResetPassword />}

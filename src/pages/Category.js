@@ -24,7 +24,7 @@ const Category = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:3000/category/add`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/category/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newCategory),
@@ -48,7 +48,7 @@ const Category = () => {
   const handleUpdate = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/category/edit/${currentCategoryId}`,
+        `${process.env.REACT_APP_API_URL}/category/edit/${currentCategoryId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ const Category = () => {
 
     try {
       const response = 
-      await fetch(`http://localhost:3000/category/remove/${id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/category/remove/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -81,7 +81,7 @@ const Category = () => {
     } catch (err) {
       console.error("Error deleting category:", err);
     }
-  };
+  }
 
   if (loading) return <p>Loading . . .</p>;
   if (error) return <p>Error: {error}</p>;

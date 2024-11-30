@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   try {
-    const response = await fetch("http://localhost:3000/category/all");
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/category/all`);
     const data = await response.json();
     return data; // Return data to use in extraReducers
   } catch (error) {

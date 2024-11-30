@@ -17,7 +17,7 @@ const ForgotPassword = () => {
       setError("Invalid email address");
       return;
     }
-    const response = await fetch(`http://localhost:3000/auth/forgetPassword`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/forgetPassword`, {
       method: 'POST', 
       headers: {
         "Content-Type": "application/json"

@@ -11,20 +11,36 @@ import countryData from "country-telephone-data"; // Import data for countries
 import Flag from "react-world-flags"; // To show flags
 import { parsePhoneNumber } from "libphonenumber-js"; // Import phone number parsing library
 import ProductCard from "./ProductCard";
+import Modal from "../ommon/Modal";
+import i18n from "../../i18n";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
+import { Link } from "react-router-dom";
 
 const AddProductPage = () => {
+  const currentLanguage = i18n.language;
+  const login = getPathWithLanguage("/login", currentLanguage);
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const seller = user._id;
+  const seller = user?._id;
   const [selectedCountryCode, setSelectedCountryCode] = useState(""); // Default country code
   const [selectedCountry, setSelectedCountry] = useState(""); // Default country
   const [message, setMessage] = useState(null); // State to track success/error messages
+  const [isModalOpen, setIsModelOpen] = useState(!user);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+  const closeModal = () => setIsModelOpen(false);
+
+  useEffect(
+    () => {
+      if (!user) {
+        setIsModelOpen(true);
+      }
+      dispatch(fetchCategories());
+    },
+    [dispatch],
+    [user]
+  );
 
   const [product, setProduct] = useState({
     name: "",
@@ -229,6 +245,30 @@ const AddProductPage = () => {
 
   return (
     <div className="flex flex-col w-full h-full p-6">
+      <Modal
+        isOpen={isModalOpen}
+        title="Login Required"
+        type="warning"
+        onClose={closeModal}
+      >
+        <p>
+          You need to log in to add a product. Please log in or sign up to
+          continue.
+        </p>
+        <div className="flex justify-end mt-4">
+          <button 
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          >
+            <Link
+              to={login}
+              className=" text-white  font-semibold  transition duration-200"
+            >
+              Login
+            </Link>
+          </button>
+        </div>
+      </Modal>
+
       <div className="flex flex-row w-full mb-6 h-1/2">
         {/* Right Side Form */}
         <div className="w-1/2 p-4">

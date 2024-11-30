@@ -9,6 +9,7 @@ const Footer = () => {
   const report = getPathWithLanguage("/report/", currentLanguage);
   const contact = getPathWithLanguage("/contact-us/", currentLanguage);
   const sitemap = getPathWithLanguage("/sitemap/", currentLanguage);
+  const msg = getPathWithLanguage("/chat/", currentLanguage);
 
 
   return (
@@ -43,6 +44,12 @@ const Footer = () => {
         className=" text-white  font-semibold  transition duration-200"
       >
         Sitemap
+      </Link>
+      <Link
+        to={msg}
+        className=" text-white  font-semibold  transition duration-200"
+      >
+        Chatting
       </Link>
     </footer>
   );

@@ -55,6 +55,19 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+// Fetch products by category
+export const fetchProductsByCategory = createAsyncThunk(
+  'products/fetchProductsByCategory',
+  async (categoryId) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/product/bycategory/${categoryId}`
+    );
+    const data = await handleFetchResponse(response);
+    return data.data;
+  }
+);
+
+
 // Products slice
 const productsSlice = createSlice({
   name: 'products',
@@ -105,8 +118,23 @@ const productsSlice = createSlice({
       .addCase(updateProduct.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      });
+      })
+      .addCase(fetchProductsByCategory.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProductsByCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
+// Selectors
+export const selectProducts = (state) => state.products.items;
+export const selectLoading = (state) => state.products.status === 'loading';
+export const selectError = (state) => state.products.error;
 
 export default productsSlice.reducer;

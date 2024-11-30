@@ -30,7 +30,7 @@ const Report = (productId) => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/product/${productId}`
+          `${process.env.REACT_APP_API_URL}/product/${productId}`
         );
         if (!response.ok) {
           throw new Error("Field to fetch product details");
@@ -46,7 +46,7 @@ const Report = (productId) => {
     const fetchReports = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/report?productId=${productId}`
+          `${process.env.REACT_APP_API_URL}/report?productId=${productId}`
         );
         if (!response.ok) {
           throw new Error("Field to fetch reports");
@@ -69,7 +69,7 @@ const Report = (productId) => {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/report", {
+      const response = await fetch("${process.env.REACT_APP_API_URL}/report", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

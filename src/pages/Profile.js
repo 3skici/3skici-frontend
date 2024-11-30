@@ -22,7 +22,7 @@ const ProfilePage = () => {
 
   const handleChangePassword = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/user/change-password`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -19,7 +19,7 @@ const ResetPassword = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/auth/reset-password/${token}`, // Adjust this URL as needed
+        `${process.env.REACT_APP_API_URL}/auth/reset-password/${token}`, // Adjust this URL as needed
         {
           method: "POST",
           headers: {
