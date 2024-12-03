@@ -31,13 +31,13 @@ const ProductCard = memo(({ product }) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const navigate = useNavigate()
-
+  const productId = product.customId || product._id || "N/A"; // Fallback to _id
   // check if product is a favorite
   const isFavorite = favorites.some((fav) => fav._id === product._id);
 
   // copy code for copy the product id
   const handleCopy = (product) => {
-    navigator.clipboard.writeText(product.customId);
+    navigator.clipboard.writeText(productId);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
   };
@@ -196,7 +196,7 @@ const ProductCard = memo(({ product }) => {
         <div className="flex items-center">
           <p className="text-xs text-gray-500">
             Product Code:{" "}
-            <span className="font-semibold">{product.customId.slice(-8)}</span>
+            <span className="font-semibold">{productId.slice(-8)}</span>
           </p>
           <button
             className="ml-2 text-gray-500 hover:text-blue-600 focus:outline-none"

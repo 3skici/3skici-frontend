@@ -15,6 +15,7 @@ import Modal from "../ommon/Modal";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { Link } from "react-router-dom";
+import ProductSmallCard from "./ProductSmallCard";
 
 const AddProductPage = () => {
   const currentLanguage = i18n.language;
@@ -549,7 +550,7 @@ const AddProductPage = () => {
         <h2 className="text-lg font-bold mb-4">Your Products</h2>
         <div className="grid grid-cols-4 gap-4">
           {userProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductSmallCard key={product._id} product={product} />
           ))}
         </div>
       </div>

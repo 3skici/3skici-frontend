@@ -68,10 +68,20 @@ const ProductsManagement = () => {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product._id} className="hover:bg-gray-100 transition duration-300">
-                  <td className="py-2 px-4 border-b truncate max-w-xs">{product.name}</td>
-                  <td className="py-2 px-4 border-b truncate max-w-xs">{product.description}</td>
-                  <td className="py-2 px-4 border-b">${product.price}</td>
+                <tr
+                  key={product._id}
+                  className="hover:bg-gray-100 transition duration-300"
+                >
+                  <td className="py-2 px-4 border-b truncate max-w-xs">
+                    {product.name}
+                  </td>
+                  <td className="py-2 px-4 border-b truncate max-w-xs">
+                    {product.description}
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    {/* Render price amount if available */}
+                    {product.price ? `$${product.price.amount}` : "N/A"}
+                  </td>
                   <td className="py-2 px-4 border-b">{product.condition}</td>
                   <td className="py-2 px-4 border-b">{product.customId}</td>
                   <td className="py-2 px-4 border-b flex items-center">
@@ -97,5 +107,4 @@ const ProductsManagement = () => {
     </div>
   );
 };
-
 export default ProductsManagement;
