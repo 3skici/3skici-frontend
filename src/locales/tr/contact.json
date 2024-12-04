@@ -1,0 +1,21 @@
+{
+    "title": "Sizden Haber Almak İstiyoruz!",
+    "description": "Ürünlerimiz, fiyatlarımız veya başka bir konuda sorularınız varsa, ekibimiz tüm sorularınızı yanıtlamaya hazır.",
+    "contact_form_title": "Bize Ulaşın",
+    "response_success": "Mesajınız başarıyla gönderildi!",
+    "response_error": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "name_label": "İsim",
+    "email_label": "E-posta",
+    "message_type_label": "Mesaj Türü",
+    "message_label": "Mesaj",
+    "send_anonymously_label": "Anonim Gönder",
+    "message_placeholder": "Mesajınızı buraya yazın...",
+    "message_type_options": {
+        "inquiry": "Soru",
+        "report": "Rapor",
+        "feedback": "Geri Bildirim"
+    },
+    "submit_button": "Mesajı Gönder",
+    "sending_button": "Gönderiliyor...",
+    "social_media_text": "Ya da sosyal medyada bizimle bağlantı kurun"
+}

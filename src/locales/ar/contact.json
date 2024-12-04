@@ -1,0 +1,21 @@
+{
+    "title": "نود أن نسمع منك!",
+    "description": "سواء كان لديك أسئلة حول منتجاتنا أو أسعارنا أو أي شيء آخر، فريقنا مستعد للإجابة على جميع استفساراتك.",
+    "contact_form_title": " تواصل معنا",
+    "response_success": "تم إرسال رسالتك بنجاح!",
+    "response_error": "حدث خطأ. الرجاء المحاولة مرة أخرى.",
+    "name_label": "الاسم",
+    "email_label": "البريد الإلكتروني",
+    "message_type_label": "نوع الرسالة",
+    "message_label": "الرسالة",
+    "send_anonymously_label": "إرسال بشكل مجهول",
+    "message_placeholder": "اكتب رسالتك هنا...",
+    "message_type_options": {
+        "inquiry": "استفسار",
+        "report": "تقرير",
+        "feedback": "ملاحظات"
+    },
+    "submit_button": "إرسال الرسالة",
+    "sending_button": "جاري الإرسال...",
+    "social_media_text": "أو تواصل معنا على وسائل التواصل الاجتماعي"
+}

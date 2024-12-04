@@ -1,0 +1,21 @@
+{
+    "title": "We'd Love to Hear From You!",
+    "description": "Whether you have questions about our products, pricing, or anything else, our team is ready to answer all your inquiries.",
+    "contact_form_title": "Contact Us",
+    "response_success": "Your message has been successfully sent!",
+    "response_error": "An error occurred. Please try again.",
+    "name_label": "Name",
+    "email_label": "Email",
+    "message_type_label": "Message Type",
+    "message_label": "Message",
+    "send_anonymously_label": "Send Anonymously",
+    "message_placeholder": "Write your message here...",
+    "message_type_options": {
+        "inquiry": "Inquiry",
+        "report": "Report",
+        "feedback": "Feedback"
+    },
+    "submit_button": "Send Message",
+    "sending_button": "Sending...",
+    "social_media_text": "Or connect with us on social media"
+}

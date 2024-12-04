@@ -12,16 +12,19 @@ import enCommon from "./locales/en/common.json";
 import enHome from "./locales/en/home.json";
 import enNavbar from "./locales/en/navbar.json";
 import enAbout from "./locales/en/about.json";
+import enContact from "./locales/en/contact.json"
 
 import arCommon from "./locales/ar/common.json";
 import arHome from "./locales/ar/home.json";
 import arNavbar from "./locales/ar/navbar.json";
 import arAbout from "./locales/ar/about.json";
+import arContact from "./locales/ar/contact.json"
 
 import trCommon from "./locales/tr/common.json";
 import trHome from "./locales/tr/home.json";
 import trNavbar from "./locales/tr/navbar.json";
 import trAbout from "./locales/tr/about.json";
+import trContact from "./locales/tr/contact.json"
 
 // Extend LanguageDetector with the custom path detector
 const CustomPathLanguageDetector = new LanguageDetector();
@@ -58,6 +61,7 @@ i18n
           ...enHome,
           ...enNavbar,
           ...enAbout,
+          ...enContact,
         },
       },
       ar: {
@@ -67,6 +71,7 @@ i18n
           ...arHome,
           ...arNavbar,
           ...arAbout,
+          ...arContact,
         },
       },
       tr: {
@@ -76,6 +81,7 @@ i18n
           ...trHome,
           ...trNavbar,
           ...trAbout,
+          ...trContact,
         },
       },
     },
