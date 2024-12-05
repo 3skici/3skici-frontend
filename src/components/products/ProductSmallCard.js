@@ -1,18 +1,33 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
+import i18n from "../../i18n";
+import { useDispatch } from "react-redux";
+import { setSelectedProduct } from "../../features/products/productsSlice";
 
-const ProductSmallCard = ({ product = {} }) => {
-
+const ProductSmallCard = ({ product }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const currentLanguage = i18n.language;
+  const productDetails = getPathWithLanguage(`/product/${product.customId}`, currentLanguage);
   const [isFavorited, setIsFavorited] = useState(false);
 
   const handleFavoriteClick = () => {
     setIsFavorited(!isFavorited);
   };
 
+  const handleProductClick = () => {
+    console.log("Dispatching product:", product); // Log the product data
+      dispatch(setSelectedProduct(product));
+      navigate(productDetails);
+    
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden m-2">
       {/* Product Image and Favorite Icon */}
-      <div className="relative">
+      <div className="relative cursor-pointer" onClick={handleProductClick}>
         <img
           src={product.imageUrl || 'https://via.placeholder.com/150'}
           alt={product.name || 'No product name'}

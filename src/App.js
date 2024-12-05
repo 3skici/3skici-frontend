@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import ProductDetails from "./pages/ProductDetails";
 import Login from "./components/layout/Login";
 import Signup from "./components/layout/Signup";
 import UserDashboard from "./pages/UserDashboard";
@@ -27,6 +26,8 @@ import UserSettings from "./pages/UserSettings";
 import CategoryList from "./components/categories/CategoryList";
 import ChatPage from "./chat/ChattingPage";
 import ProductSmallCard from "./components/products/ProductSmallCard";
+import ChatWindow from "./components/conversation/ChatWindow";
+import ProductDetails from "./components/products/ProductDetails";
 function App() {
 
   return (
@@ -42,7 +43,6 @@ function App() {
         <Route path="/:lang/browse-products" element={<Products />} />
         <Route path="/:lang/selling-product" element={<SellingProduct />} />
         <Route path="/:lang/edit-product/:id" element={<EditProduct />} />
-        <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route path="/:lang/login" element={<Login />} />
         <Route path="/:lang/cat" element={<Category />} />
         <Route path="/:lang/categories" element={<CategoryList />} />
@@ -57,8 +57,10 @@ function App() {
         <Route path="/:lang/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
-        <Route path="/:lang/chat" element={<ChatPage />} />
+        <Route path="/:lang/chat" element={<ChatWindow />} />
+        <Route path="/:lang/chatting" element={<ChatPage />} />
         <Route path="/:lang/card" element={<ProductSmallCard />} />
+        <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route
           path="/:lang/reset-password/:token"
           element={<ResetPassword />}

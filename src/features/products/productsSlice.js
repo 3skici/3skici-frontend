@@ -75,8 +75,16 @@ const productsSlice = createSlice({
     items: [],
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
+    selectedProduct: null
   },
-  reducers: {},
+  reducers: {
+    setSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
+    clearSelectedProduct: (state) => {
+      state.selectedProduct = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Handle fetchProducts lifecycle
@@ -136,5 +144,7 @@ const productsSlice = createSlice({
 export const selectProducts = (state) => state.products.items;
 export const selectLoading = (state) => state.products.status === 'loading';
 export const selectError = (state) => state.products.error;
+export const { setSelectedProduct, clearSelectedProduct } = productsSlice.actions;
+
 
 export default productsSlice.reducer;

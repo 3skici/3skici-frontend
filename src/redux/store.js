@@ -15,14 +15,23 @@ const persistConfig = {
   
 };
 
+// Persist configuration for the products slice (to persist selectedProduct)
+const persistProductsConfig = {
+  key: "products",
+  storage,
+  whitelist: ["selectedProduct"],
+};
+
+
 const persistedReducer = persistReducer(persistConfig, authReducer);
+const persistedProductsReducer = persistReducer(persistProductsConfig, productsReducer);
 
 const store = configureStore({
   reducer: {
     language: languageReducer,
     auth: persistedReducer,
     categories: categoriesReducer,
-    products: productsReducer,
+    products: persistedProductsReducer,
     favorites: favoriteReducer,
   },
 });
