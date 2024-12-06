@@ -1,12 +1,31 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { FaCopy } from "react-icons/fa";
+import { format } from "timeago.js";
+import { Link } from "react-router-dom";
+import i18n from "../../i18n";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
 
 const Product = ({ suggestedProducts = [] }) => {
+
   const product = useSelector((state) => state.products.selectedProduct);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const productId = product.customId || product._id || "N/A"; // Fallback to _id
 
   const handleFavoriteClick = () => setIsFavorited((prev) => !prev);
+
+  const postedTime = format(new Date(product.createdAt));
+
+  const currentLanguage = i18n.language;
+  const chat = getPathWithLanguage(`/chat/${product.seller._id}/${product.customId}`, currentLanguage);
+  // copy code for copy the product id
+  const handleCopy = (product) => {
+    navigator.clipboard.writeText(productId);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
+  };
 
   return (
     <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden m-4">
@@ -50,7 +69,9 @@ const Product = ({ suggestedProducts = [] }) => {
             Report this product
           </button>
           <button className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors">
-            Chat with seller
+            <Link to={chat}>
+              Chat with seller
+            </Link>
           </button>
         </div>
       </div>
@@ -123,13 +144,32 @@ const Product = ({ suggestedProducts = [] }) => {
                 <span>{product.status}</span>
               </div>
 
-              <div className="flex justify-between text-sm text-gray-700 pb-3 border-b border-dotted border-gray-300 hover:bg-gray-50 transition-all">
-                <span className="font-semibold">Created At:</span>
-                <span>{new Date(product.createdAt).toLocaleString()}</span>
+              <div className="flex justify-between text-sm text-gray-700 pb-3  border-gray-300 hover:bg-gray-50 transition-all">
+                <span className="font-semibold">Posted At:</span>
+                <span>{postedTime}</span>
               </div>
-              <div className="flex justify-between text-sm text-gray-700 pb-3 border-b border-dotted border-gray-300 hover:bg-gray-50 transition-all">
-                <span className="font-semibold">Product ID:</span>
-                <span>{product.customId}</span>
+
+              {/* Product ID and Report Icon */}
+              <div className="p-4 border-t border-gray-200 flex items-center justify-between">
+                {/* Optimized Product ID */}
+                <div className="flex items-center">
+                  <p className="text-xs text-gray-500">
+                    Product ID:{" "}
+                    <span className="font-semibold">{productId.slice(-8)}</span>
+                  </p>
+                  <button
+                    className="ml-2 text-gray-500 hover:text-blue-600 focus:outline-none"
+                    onClick={handleCopy}
+                    title="Copy full ID"
+                  >
+                    <FaCopy className="text-sm" />
+                  </button>
+                </div>
+
+                {/* Copy Confirmation */}
+                {copySuccess && (
+                  <span className="text-xs text-green-500 ml-2">Copied!</span>
+                )}
               </div>
             </>
           )}
@@ -137,7 +177,7 @@ const Product = ({ suggestedProducts = [] }) => {
 
         <div className="mt-6">
           <p className="text-3xl font-bold text-gray-800 text-right">
-          <span>₺</span>
+            <span>₺</span>
             {product?.price?.amount != null
               ? product.price.amount.toFixed(2)
               : "0.00"}

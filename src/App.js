@@ -58,7 +58,7 @@ function App() {
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
         <Route path="/:lang/chat" element={<ChatWindow />} />
-        <Route path="/:lang/chatting" element={<ChatPage />} />
+        <Route path="/:lang/chat/:sellerId/:productId" element={<ChatPage />} />
         <Route path="/:lang/card" element={<ProductSmallCard />} />
         <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route
