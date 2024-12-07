@@ -1,30 +1,57 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaTags } from "react-icons/fa";
 import { format } from "timeago.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
+import { selectCategories } from "../../features/categories/categoriesSlice";
 
 const Product = ({ suggestedProducts = [] }) => {
-
   const product = useSelector((state) => state.products.selectedProduct);
   const [isFavorited, setIsFavorited] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const productId = product.customId || product._id || "N/A"; // Fallback to _id
+  const categories = useSelector(selectCategories);
 
   const handleFavoriteClick = () => setIsFavorited((prev) => !prev);
 
   const postedTime = format(new Date(product.createdAt));
 
   const currentLanguage = i18n.language;
-  const chat = getPathWithLanguage(`/chat/${product.seller._id}/${product.customId}`, currentLanguage);
+  const chat = getPathWithLanguage(
+    `/chat/${product.seller._id}/${product.customId}`,
+    currentLanguage
+  );
+  const login = getPathWithLanguage(`/login`, currentLanguage);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleChatClick = () => {
+    if (user) {
+      navigate(chat);
+    } else {
+      navigate(login); // Redirect to login page if the user isn't logged in
+    }
+  };
+
   // copy code for copy the product id
   const handleCopy = (product) => {
     navigator.clipboard.writeText(productId);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
+  };
+
+  // handle categories names
+  const getCategoryNames = (categoryIds) => {
+    if (!Array.isArray(categoryIds)) return "Not categorized";
+    return (
+      categoryIds
+        .map((id) => categories.find((category) => category._id === id)?.name)
+        .filter(Boolean)
+        .join(", ") || "Not categorized"
+    );
   };
 
   return (
@@ -68,10 +95,11 @@ const Product = ({ suggestedProducts = [] }) => {
           <button className="bg-blue-500 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 mb-62">
             Report this product
           </button>
-          <button className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors">
-            <Link to={chat}>
-              Chat with seller
-            </Link>
+          <button
+            onClick={handleChatClick}
+            className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors"
+          >
+            <Link to={chat}>Chat with seller</Link>
           </button>
         </div>
       </div>
@@ -93,11 +121,31 @@ const Product = ({ suggestedProducts = [] }) => {
                 <span className="font-semibold">Condition:</span>
                 <span>{product.condition}</span>
               </div>
-              <div className="flex justify-between text-sm text-gray-700 pb-3 border-b border-dotted border-gray-300 hover:bg-gray-50 transition-all">
-                <span className="font-semibold">Category:</span>
-                <span>
-                  {product.category?.join(", ") || "No category available"}
-                </span>
+    
+              {/* Categories */}
+              <div className="mt-4">
+                <div className="flex items-center mb-2">
+                  <FaTags className="text-gray-800 mr-2" />
+                  <span className="text-gray-800 font-semibold">
+                    Categories:
+                  </span>
+                </div>
+                {product.category && product.category.length > 0 ? (
+                  <div className="flex flex-wrap">
+                    {getCategoryNames(product.category)
+                      .split(", ") // Split the concatenated category names into an array
+                      .map((categoryName, index) => (
+                        <span
+                          key={index}
+                          className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded"
+                        >
+                          {categoryName}
+                        </span>
+                      ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-600">No categories available.</p>
+                )}
               </div>
               <div className="flex justify-between text-sm text-gray-700 pb-3 border-b border-dotted border-gray-300 hover:bg-gray-50 transition-all">
                 <span className="font-semibold">Location:</span>
