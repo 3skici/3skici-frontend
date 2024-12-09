@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaBars, FaTimes, FaHeart } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FiLogIn } from "react-icons/fi";
+import { BsChatDots } from "react-icons/bs"; // Importing chat icon
 import i18n from "i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
@@ -89,7 +90,6 @@ const Navbar = () => {
     { code: "en", label: "English", icon: "🇬🇧" },
   ];
 
-
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     navigate(getPathWithLanguage("/fav", currentLanguage)); // Navigate to the favorites page
@@ -123,34 +123,25 @@ const Navbar = () => {
           >
             {t("sell_product")}
           </Link>
-          <Link
-            to={getPathWithLanguage("/about", currentLanguage)}
-            className="hover:text-yellow-400 py-2 lg:py-0"
-          >
-            {t("about_us_nav")}
-          </Link>
-          <Link
-            to={getPathWithLanguage("/categories", currentLanguage)}
-            className="hover:text-yellow-400 py-2 lg:py-0"
-          >
-            {t("categories")}
-          </Link>
-          <Link
-            to={getPathWithLanguage("/products", currentLanguage)}
-            className="hover:text-yellow-400 flex items-center py-2 lg:py-0"
-          >
-            {t("manage_products")}
-          </Link>
+
           <div className="flex items-center space-x-4">
             {isLoggedIn && (
-              <button
-                onClick={toggleFavorite}
-                className={`text-xl ${
-                  isFavorite ? "text-red-500" : "text-white"
-                } hover:text-red-400 focus:outline-none`}
-              >
-                <FaHeart />
-              </button>
+              <>
+                <Link
+                  to={getPathWithLanguage("/chat", currentLanguage)}
+                  className="text-xl text-white hover:text-yellow-400 focus:outline-none"
+                >
+                  <BsChatDots />
+                </Link>
+                <button
+                  onClick={toggleFavorite}
+                  className={`text-xl ${
+                    isFavorite ? "text-red-500" : "text-white"
+                  } hover:text-red-400 focus:outline-none`}
+                >
+                  <FaHeart />
+                </button>
+              </>
             )}
             {isLoggedIn ? (
               <div className="relative py-2 lg:py-0 dropdown">
@@ -170,10 +161,19 @@ const Navbar = () => {
                       {t("navbar:profile")}
                     </Link>
                     <Link
-                      to={getPathWithLanguage("/user-dashboard", currentLanguage)}
+                      to={getPathWithLanguage(
+                        "/user-dashboard",
+                        currentLanguage
+                      )}
                       className="block px-4 py-2 hover:bg-gray-200 w-full text-left flex items-center"
                     >
                       User Dashboard
+                    </Link>
+                    <Link
+                      to={getPathWithLanguage("/products", currentLanguage)}
+                      className="hover:text-yellow-400 flex items-center py-2 lg:py-0"
+                    >
+                      {t("manage_products")}
                     </Link>
                     <Link
                       to={getPathWithLanguage(

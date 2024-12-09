@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
 import ProductCard from "./ProductCard";
+import ProductSmallCard from "./ProductSmallCard";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Products = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products && products.length > 0 ? (
             products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductSmallCard key={product._id} product={product} />
 
             ))
           ) : (

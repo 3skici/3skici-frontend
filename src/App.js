@@ -24,10 +24,14 @@ import Sitemap from "./pages/Sitemap";
 import ErrorPage from "./pages/ErrorPage";
 import UserSettings from "./pages/UserSettings";
 import CategoryList from "./components/categories/CategoryList";
-import ChatPage from "./chat/ChattingPage";
+import ChatPage from "./chat/ChatPage";
 import ProductSmallCard from "./components/products/ProductSmallCard";
-import ChatWindow from "./components/conversation/ChatWindow";
 import ProductDetails from "./components/products/ProductDetails";
+import ChatRoom from "./chat/ChatRoom";
+import ConversationList from "./chat/ConversationList";
+import ChattingPage from "./chat/ChattingPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Sustainability from "./pages/Sustainability";
 function App() {
 
   return (
@@ -38,7 +42,7 @@ function App() {
 
         {/* Language-specific routes */}
         <Route path="/:lang" element={<Home />} />
-        <Route path="/:lang/about" element={<AboutUs />} />
+        <Route path="/:lang/about-us" element={<AboutUs />} />
         <Route path="/:lang/products" element={<ProductsManagement />} />
         <Route path="/:lang/browse-products" element={<Products />} />
         <Route path="/:lang/selling-product" element={<SellingProduct />} />
@@ -57,10 +61,14 @@ function App() {
         <Route path="/:lang/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
-        <Route path="/:lang/chat" element={<ChatWindow />} />
-        <Route path="/:lang/chat/:sellerId/:productId" element={<ChatPage />} />
+        <Route path="/:lang/chat" element={<ConversationList />} />
+        <Route path="/:lang/chat/:sellerId/:productId" element={<ChattingPage />} />
+        <Route path="/:lang/chat-page" element={<ChatPage />} />
+        <Route path="/:lang/chat-room" element={<ChatRoom />} />
         <Route path="/:lang/card" element={<ProductSmallCard />} />
         <Route path="/:lang/product/:id" element={<ProductDetails />} />
+        <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/:lang/3skici-and-sustainability" element={<Sustainability />} />
         <Route
           path="/:lang/reset-password/:token"
           element={<ResetPassword />}

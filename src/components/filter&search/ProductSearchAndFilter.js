@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
 import { FaHeart, FaCartPlus } from "react-icons/fa";
+import ProductSmallCard from "../products/ProductSmallCard";
+import ProductCard from "../products/ProductCard";
 
 const ProductSearchAndFilter = () => {
   const dispatch = useDispatch();
   const { items: products, status } = useSelector((state) => state.products);
-  console.log("this is items: ", products);
   const [filters, setFilters] = useState({
     name: "",
     condition: "",
@@ -34,21 +35,31 @@ const ProductSearchAndFilter = () => {
       ? products.filter((product) => {
           return (
             (filters.name === "" ||
-              product.name?.toLowerCase().includes(filters.name.toLowerCase())) &&
+              product.name
+                ?.toLowerCase()
+                .includes(filters.name.toLowerCase())) &&
             (filters.condition === "" ||
-              product.condition?.toLowerCase() === filters.condition.toLowerCase()) &&
+              product.condition?.toLowerCase() ===
+                filters.condition.toLowerCase()) &&
             (filters.priceMin === "" ||
               product.price?.amount >= parseFloat(filters.priceMin)) &&
             (filters.priceMax === "" ||
               product.price?.amount <= parseFloat(filters.priceMax)) &&
             (filters.category === "" ||
-              product.category?.toLowerCase() === filters.category.toLowerCase()) &&
+              product.category?.toLowerCase() ===
+                filters.category.toLowerCase()) &&
             (filters.customId === "" ||
-              product.customId?.toLowerCase().includes(filters.customId.toLowerCase())) &&
+              product.customId
+                ?.toLowerCase()
+                .includes(filters.customId.toLowerCase())) &&
             (filters.availability === "" ||
-              (filters.availability === "available" ? product.status === "available" : product.status !== "available")) &&
+              (filters.availability === "available"
+                ? product.status === "available"
+                : product.status !== "available")) &&
             (filters.seller === "" ||
-              product.seller?.toLowerCase().includes(filters.seller.toLowerCase()))
+              product.seller
+                ?.toLowerCase()
+                .includes(filters.seller.toLowerCase()))
           );
         })
       : [];
@@ -186,58 +197,7 @@ const ProductSearchAndFilter = () => {
             <p className="text-center text-gray-500">Loading products...</p>
           ) : filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <div
-                key={product._id}
-                className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative"
-              >
-                <div className="absolute top-2 right-2">
-                  <FaHeart className="text-red-500 cursor-pointer hover:text-red-700 transition duration-300" />
-                </div>
-                <div className="absolute top-2 left-2 bg-gray-800 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                  {product.status === "available" ? "Available" : "Sold Out"}
-                </div>
-                <div className="flex justify-center items-center h-56 bg-gray-200">
-                  {product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <span className="text-gray-500 text-lg">
-                      {product.name}
-                    </span>
-                  )}
-                </div>
-                <div className="p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-2 truncate">
-                    {product.name}
-                  </h2>
-                  <p className="text-gray-900 text-2xl font-bold mb-4">
-                    {product.price?.amount} {product.price?.currency || "TL"}
-                  </p>
-                  <p className="text-gray-700 mb-2 truncate">
-                    {product.description || "No description available"}
-                  </p>
-                  <p className="text-gray-500">
-                    Condition: {product.condition || "Unknown"}
-                  </p>
-                  <p className="text-gray-500">
-                    Category: {product.category || "Uncategorized"}
-                  </p>
-                  <p className="text-gray-500">
-                    Seller: {product.seller || "Not found"}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center p-4 border-t space-y-2">
-                  <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 w-full justify-center">
-                    <FaCartPlus className="mr-2" /> Add to Cart
-                  </button>
-                  <p className="text-xs text-gray-500">
-                    ID: {product.customId}
-                  </p>
-                </div>
-              </div>
+              <ProductCard key={product._id} product={product} />
             ))
           ) : (
             <p className="text-center text-gray-500">

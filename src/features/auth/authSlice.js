@@ -22,8 +22,9 @@ export const login = createAsyncThunk(
 
       const data = await response.json();
       const { token, user } = data;
-      // Save token to localStorage (handle side effect here)
-      // localStorage.setItem('token', token);
+
+       // Save token to localStorage
+       localStorage.setItem("token", token);
 
       return { token, user };
     } catch (error) {
@@ -39,8 +40,9 @@ export const loadUser = createAsyncThunk(
     const token = thunkAPI.getState().auth.token;
 
     if (!token) {
-      // No token, user is not authenticated
-      return thunkAPI.rejectWithValue("No token found");
+      // If no token, just return null or a special value instead of rejecting.
+      // This way, we avoid treating it as an error.
+      return { token: null, user: null };
     }
 
     try {
@@ -79,7 +81,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 });
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("token") || null,
   user: null,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,

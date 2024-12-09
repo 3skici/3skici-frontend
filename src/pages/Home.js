@@ -11,39 +11,35 @@ import { fetchCategories } from "../features/categories/categoriesSlice";
 import { fetchFavorites } from "../features/products/favoriteSlice";
 import ProductSmallCard from "../components/products/ProductSmallCard";
 import Crossbar from "../components/crossbar/Crossbar";
+import CategoryList from "../components/categories/CategoryList";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const currentLanguage = i18n.language;
-  const browseProduct = getPathWithLanguage("/browse-products", currentLanguage);
+  const browseProduct = getPathWithLanguage(
+    "/browse-products",
+    currentLanguage
+  );
   const sellProduct = getPathWithLanguage("/selling-product", currentLanguage);
-  
+
   const products = useSelector((state) => state.products.items);
   const status = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(fetchProducts());
       dispatch(fetchCategories());
     }
   }, [status, dispatch]);
-
-  if (status === 'loading') {
-    return <div>Loading products...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-extrabold mb-4">Buy and Sell Second-Hand Items Effortlessly and for Free</h1>
+          
           <div className="flex justify-center gap-4 mt-8">
             <Link
               to={sellProduct}
@@ -71,22 +67,11 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Featured Products Section */}
-      <main className="flex-grow container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-center mb-8">Products by Category</h2>
-        <Crossbar />
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {products && products.length > 0 ? (
-            products.map((productItem) => (
-            <ProductSmallCard key={productItem._id} product={productItem} />
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500">
-          No products available.
+      <section className="bg-gray-100">
+        <div className="container mx-auto">
+          <CategoryList />
         </div>
-        )}
-        </div>
-      </main>
+      </section>
     </div>
   );
 };
