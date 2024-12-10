@@ -3,22 +3,39 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProduct } from "../../features/products/productsSlice";
+import { addFavorite, removeFavorite } from "../../features/products/favoriteSlice";
 
 const ProductSmallCard = ({ product }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const currentLanguage = i18n.language;
   const productDetails = getPathWithLanguage(`/product/${product.customId}`, currentLanguage);
-  const [isFavorited, setIsFavorited] = useState(false);
+  
+  const userId = useSelector((state) => state.auth.user?._id);
+  const favorites = useSelector((state) => state.favorites.favorites);
 
-  const handleFavoriteClick = () => {
-    setIsFavorited(!isFavorited);
+  // Check if the current product is already in favorites
+  // Assuming favorites is an array of product objects with `_id` field
+  const isFavorited = favorites.some((fav) => fav._id === product._id);
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    if (!userId) {
+      return;
+    }
+
+    if (isFavorited) {
+      // if product is already favorited, remove it
+      dispatch(removeFavorite({ userId, productId: product._id }));
+    } else {
+      // if product is not favorited yet, add it
+      dispatch(addFavorite({ userId, productId: product._id }));
+    }
   };
 
   const handleProductClick = () => {
-    console.log("Dispatching product:", product); // Log the product data
       dispatch(setSelectedProduct(product));
       navigate(productDetails);
     

@@ -1,80 +1,82 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFavorites, removeFavorite } from '../features/products/favoriteSlice'; // Adjust import path
+import { fetchFavorites } from '../features/products/favoriteSlice'; // Adjust import path
+import ProductSmallCard from '../components/products/ProductSmallCard'
+import { FaShareSquare, FaHeart } from 'react-icons/fa';
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user._id); // Assuming user info is stored in auth slice
-  const { favorites, loading, error } = useSelector((state) => state.favorites); // Access favorites state from Redux
+  const userId = useSelector((state) => state.auth.user?._id);
+  const { favorites, loading, error } = useSelector((state) => state.favorites);
 
-  // Fetch favorites when the component mounts or userId changes
   useEffect(() => {
     if (userId) {
       dispatch(fetchFavorites(userId));
     }
   }, [userId, dispatch]);
 
-  // Remove favorite product
-  const handleRemoveFavorite = (productId) => {
-    dispatch(removeFavorite({ userId, productId }));
-  };
-
-  // Share favorite product (you can replace this with actual share logic)
+  // Handle share action
   const handleShareFavorite = (productName) => {
     alert(`Sharing ${productName}`);
   };
 
-  // Loading and error handling
   if (loading) {
-    return <div>Loading favorites...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-500">Loading favorites...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-red-500 font-semibold">{error}</div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Favorites Page</h1>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-6 py-10">
+        {/* Page Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-gray-800 flex justify-center items-center space-x-3">
+            <FaHeart className="text-red-500" />
+            <span>Your Favorites</span>
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Browse your saved products. Click the heart again to remove, or share them with friends!
+          </p>
+        </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Saved Products</h2>
+        {/* Favorites Grid */}
         {favorites.length > 0 ? (
-          <ul className="space-y-4">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {favorites.map((product) => (
-              <li
-                key={product._id}
-                className="flex items-center justify-between p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
-              >
-                <div>
-                  <h3 className="text-lg font-medium">{product.name}</h3>
-                  {/* <p className="text-sm text-gray-600">Price: {product.price}</p> */}
-                </div>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => handleRemoveFavorite(product._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-                  >
-                    Remove
-                  </button>
-                  <button
-                    onClick={() => handleShareFavorite(product.name)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                  >
-                    Share
-                  </button>
-                </div>
-              </li>
+              <div key={product._id} className="relative group">
+                {/* Product Card */}
+                <ProductSmallCard product={product} />
+                
+                {/* Share Button (appears on hover) */}
+                <button
+                  onClick={() => handleShareFavorite(product.name)}
+                  className="absolute top-2 left-2 p-1.5 bg-white rounded-full shadow group-hover:opacity-100 opacity-0 transition-opacity hover:text-blue-600 text-gray-500"
+                  title="Share this product"
+                >
+                  <FaShareSquare size={18} />
+                </button>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
-          <p className="text-gray-500">No favorites saved yet.</p>
+          <div className="flex flex-col items-center justify-center mt-16">
+            <FaHeart className="text-red-400 mb-4" size={48} />
+            <p className="text-gray-500 text-lg text-center max-w-md">
+              You haven't added any favorites yet. Start exploring our products and add some of them to your favorites list by clicking the heart icon!
+            </p>
+          </div>
         )}
-      </div>
-
-      <div className="bg-white mt-6 p-4 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Notifications</h2>
-        <p className="text-gray-600">Alerts for price changes or updates on favorited items will be shown here.</p>
       </div>
     </div>
   );

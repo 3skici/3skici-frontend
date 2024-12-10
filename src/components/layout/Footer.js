@@ -108,7 +108,14 @@ const Footer = () => {
                   {t("categories")}
                 </Link>
               </li>
-              {/* Add more frequently visited links as needed */}
+              <li>
+              <Link
+                  to={getPathWithLanguage("/filter", currentLanguage)}
+                  className="hover:text-yellow-400 py-2 lg:py-0"
+                >
+                  Advance Search
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

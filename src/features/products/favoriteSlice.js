@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Initial state
 const initialState = {
@@ -9,80 +9,89 @@ const initialState = {
 
 // Thunks (asynchronous actions) using `fetch`
 export const fetchFavorites = createAsyncThunk(
-  'favorites/fetchFavorites',
+  "favorites/fetchFavorites",
   async (userId, { rejectWithValue, getState }) => {
     try {
-         // Get token from the auth slice in the Redux store
+      // Get token from the auth slice in the Redux store
       const token = getState().auth.token; // Assuming token is stored in state.auth.token
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/${userId}/favorites`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/${userId}/favorites`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch favorites');
+        throw new Error("Failed to fetch favorites");
       }
       const data = await response.json();
       return data.favorites;
     } catch (error) {
-      return rejectWithValue(error.message || 'Server error');
+      return rejectWithValue(error.message || "Server error");
     }
   }
 );
 
 export const addFavorite = createAsyncThunk(
-  'favorites/addFavorite',
+  "favorites/addFavorite",
   async ({ userId, productId }, { rejectWithValue, getState }) => {
     try {
       const token = getState().auth.token; // Assuming token is stored in state.auth.token
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/${userId}/favorites`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ productId }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/${userId}/favorites`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ productId }),
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to add to favorites');
+        throw new Error("Failed to add to favorites");
       }
       const data = await response.json();
-      console.log("this is the data of fav:", data)
+      console.log("this is the data of fav:", data);
 
       return data.favorites;
     } catch (error) {
-      return rejectWithValue(error.message || 'Server error');
+      return rejectWithValue(error.message || "Server error");
     }
   }
 );
 
 export const removeFavorite = createAsyncThunk(
-  'favorites/removeFavorite',
+  "favorites/removeFavorite",
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/${userId}/favorites`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productId }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/${userId}/favorites`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId }),
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to remove from favorites');
+        throw new Error("Failed to remove from favorites");
       }
       const data = await response.json();
       return data.favorites;
     } catch (error) {
-      return rejectWithValue(error.message || 'Server error');
+      return rejectWithValue(error.message || "Server error");
     }
   }
 );
 
 // Slice definition
 const favoriteSlice = createSlice({
-  name: 'favorites',
+  name: "favorites",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -99,14 +108,15 @@ const favoriteSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // In your favoriteSlice file, update addFavorite and removeFavorite extraReducers:
       .addCase(addFavorite.fulfilled, (state, action) => {
-        const newFavorite = action.payload; // Assuming the API returns the added favorite
-        state.favorites.push(newFavorite); // Add only the new favorite
+        // action.payload should be the entire updated favorites array
+        state.favorites = action.payload;
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        const removedProductId = action.payload; // Assuming the API returns the removed product ID
-        state.favorites = state.favorites.filter(fav => fav._id !== removedProductId);
-      });      
+        // action.payload should be the entire updated favorites array after removal
+        state.favorites = action.payload;
+      });
   },
 });
 
