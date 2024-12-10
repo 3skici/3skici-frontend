@@ -7,5 +7,6 @@
   "profile": "Profile",
   "settings": "Settings",
   "logout": "Logout",
-  "login": "Login"
+  "login": "Login",
+  "user_dashboard": "User Dashboard"
 }

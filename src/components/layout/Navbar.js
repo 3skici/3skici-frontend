@@ -96,7 +96,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white p-4 shadow-md">
+    <nav className="bg-gray-900 text-white p-6 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
@@ -124,7 +124,7 @@ const Navbar = () => {
             {t("sell_product")}
           </Link>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-8">
             {isLoggedIn && (
               <>
                 <Link
@@ -148,48 +148,63 @@ const Navbar = () => {
                 <button
                   onClick={toggleProfileDropdown}
                   className="flex items-center hover:text-yellow-400 focus:outline-none"
+                  aria-expanded={profileDropdown}
+                  aria-haspopup="true"
                 >
-                  <FaUserCircle className="mr-1" />
-                  <IoMdArrowDropdown />
+                  <FaUserCircle className="mr-1 text-xl" />
+                  <IoMdArrowDropdown className="text-xl" />
                 </button>
                 {profileDropdown && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg">
-                    <Link
-                      to={getPathWithLanguage("/profile", currentLanguage)}
-                      className="block px-4 py-2 hover:bg-gray-200 w-full text-left flex items-center"
-                    >
-                      {t("navbar:profile")}
-                    </Link>
-                    <Link
-                      to={getPathWithLanguage(
-                        "/user-dashboard",
-                        currentLanguage
-                      )}
-                      className="block px-4 py-2 hover:bg-gray-200 w-full text-left flex items-center"
-                    >
-                      User Dashboard
-                    </Link>
-                    <Link
-                      to={getPathWithLanguage("/products", currentLanguage)}
-                      className="hover:text-yellow-400 flex items-center py-2 lg:py-0"
-                    >
-                      {t("manage_products")}
-                    </Link>
-                    <Link
-                      to={getPathWithLanguage(
-                        "/user-settings",
-                        currentLanguage
-                      )}
-                      className="block px-4 py-2 hover:bg-gray-200 w-full text-left flex items-center"
-                    >
-                      {t("navbar:settings")}
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 hover:bg-gray-200 w-full text-left flex items-center"
-                    >
-                      {t("navbar:logout")}
-                    </button>
+                  <div
+                    className="absolute z-50 right-8 mt-1  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200"
+                  >
+                    <div className="overflow-auto max-h-60">
+                      {/* Profile Link */}
+                      <Link
+                        to={getPathWithLanguage("/profile", currentLanguage)}
+                        className="block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full flex  items-center"
+                      >
+                        {t("profile")}
+                      </Link>
+
+                      {/* User Dashboard Link */}
+                      <Link
+                        to={getPathWithLanguage(
+                          "/user-dashboard",
+                          currentLanguage
+                        )}
+                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
+                      >
+                        {t("user_dashboard")}
+                      </Link>
+
+                      {/* Manage Products Link */}
+                      <Link
+                        to={getPathWithLanguage("/products", currentLanguage)}
+                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
+                      >
+                        {t("manage_products")}
+                      </Link>
+
+                      {/* Settings Link */}
+                      <Link
+                        to={getPathWithLanguage(
+                          "/user-settings",
+                          currentLanguage
+                        )}
+                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
+                      >
+                        {t("settings")}
+                      </Link>
+
+                      {/* Logout Button */}
+                      <button
+                        onClick={handleLogout}
+                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
+                      >
+                        {t("logout")}
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

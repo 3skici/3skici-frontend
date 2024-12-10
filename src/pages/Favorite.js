@@ -57,15 +57,6 @@ const FavoritesPage = () => {
               <div key={product._id} className="relative group">
                 {/* Product Card */}
                 <ProductSmallCard product={product} />
-                
-                {/* Share Button (appears on hover) */}
-                <button
-                  onClick={() => handleShareFavorite(product.name)}
-                  className="absolute top-2 left-2 p-1.5 bg-white rounded-full shadow group-hover:opacity-100 opacity-0 transition-opacity hover:text-blue-600 text-gray-500"
-                  title="Share this product"
-                >
-                  <FaShareSquare size={18} />
-                </button>
               </div>
             ))}
           </div>
