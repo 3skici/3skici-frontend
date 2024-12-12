@@ -30,26 +30,22 @@ const ChattingPage = () => {
     };
   }, [conversationId]);
 
-
   // Effect to fetch or create a conversation and fetch messages for it
   useEffect(() => {
     const fetchConversation = async () => {
       try {
         // Create or fetch the conversation between buyer and seller
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/conversation`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              participants: [sellerId, buyerId],
-              productId
-            }),
-          }
-        );
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            participants: [sellerId, buyerId],
+            productId,
+          }),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to create or fetch conversation");
@@ -62,11 +58,11 @@ const ChattingPage = () => {
         // Fetch the messages for this conversation
         const messagesResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/message/${data.conversation._id}`,
-         {
-          headers: {
-            "Authorization": `Bearer ${token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-         }
         );
         const messagesData = await messagesResponse.json();
         setMessages(messagesData); // Set the messages to display in the UI
@@ -90,11 +86,11 @@ const ChattingPage = () => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               conversationId,
-              senderId: buyerId, 
+              senderId: buyerId,
               content: newMessage,
             }),
           }

@@ -28,12 +28,10 @@ import ChatPage from "./chat/ChatPage";
 import ProductSmallCard from "./components/products/ProductSmallCard";
 import ProductDetails from "./components/products/ProductDetails";
 import ChatRoom from "./chat/ChatRoom";
-import ConversationList from "./chat/ConversationList";
-import ChattingPage from "./chat/ChattingPage";
+import ChattingPage from "./chat/ChattingWithSeller";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
 function App() {
-
   return (
     <Layout>
       <Routes>
@@ -58,17 +56,25 @@ function App() {
         <Route path="/:lang/faq" element={<FAQ />} />
         <Route path="/:lang/fav" element={<FavoritesPage />} />
         <Route path="/:lang/contact-us" element={<ContactUs />} />
-        <Route path="/:lang/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route
+          path="/:lang/terms-and-conditions"
+          element={<TermsAndConditions />}
+        />
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
-        <Route path="/:lang/chat" element={<ConversationList />} />
-        <Route path="/:lang/chat/:sellerId/:productId" element={<ChattingPage />} />
-        <Route path="/:lang/chat-page" element={<ChatPage />} />
+        <Route
+          path="/:lang/chat/:sellerId/:productId"
+          element={<ChattingPage />}
+        />
+        <Route path="/:lang/chat" element={<ChatPage />} />
         <Route path="/:lang/chat-room" element={<ChatRoom />} />
         <Route path="/:lang/card" element={<ProductSmallCard />} />
         <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/:lang/3skici-and-sustainability" element={<Sustainability />} />
+        <Route
+          path="/:lang/3skici-and-sustainability"
+          element={<Sustainability />}
+        />
         <Route
           path="/:lang/reset-password/:token"
           element={<ResetPassword />}
