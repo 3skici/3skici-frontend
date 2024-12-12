@@ -30,7 +30,7 @@ const ProductCard = memo(({ product }) => {
   const categories = useSelector(selectCategories);
   const [isUpdating, setIsUpdating] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const productId = product.customId || product._id || "N/A"; // Fallback to _id
   // check if product is a favorite
   const isFavorite = favorites.some((fav) => fav._id === product._id);
@@ -81,7 +81,6 @@ const ProductCard = memo(({ product }) => {
   useEffect(() => {
     dispatch(fetchFavorites());
   }, [dispatch]);
-
 
   // handle report button
   const handleReport = () => {

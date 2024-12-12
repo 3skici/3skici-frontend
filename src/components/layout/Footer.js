@@ -32,12 +32,12 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">3skici</h3>
             <ul className="space-y-2">
-            <Link
-                  to={about}
-                  className="text-gray-400 hover:text-yellow-400 transition duration-200"
-                >
-                  {t("about_us_nav")}
-                </Link>
+              <Link
+                to={about}
+                className="text-gray-400 hover:text-yellow-400 transition duration-200"
+              >
+                {t("about_us_nav")}
+              </Link>
               <li>
                 <Link
                   to={sitemap}
@@ -109,11 +109,19 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-              <Link
+                <Link
                   to={getPathWithLanguage("/filter", currentLanguage)}
                   className="hover:text-yellow-400 py-2 lg:py-0"
                 >
                   Advance Search
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={getPathWithLanguage("/report", currentLanguage)}
+                  className="hover:text-yellow-400 py-2 lg:py-0"
+                >
+                  Report Product
                 </Link>
               </li>
             </ul>

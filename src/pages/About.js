@@ -94,7 +94,7 @@ const AboutUs = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-gray-50 shadow-inner rounded-lg p-6 text-center">
-              <h3 className="text-2xl font-bold text-gray-800">1,234</h3>
+              <h3 className="text-2xl font-bold text-gray-800">1,999</h3>
               <p className="text-gray-600">Active Users</p>
             </div>
             <div className="bg-gray-50 shadow-inner rounded-lg p-6 text-center">
