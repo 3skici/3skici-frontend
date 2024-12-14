@@ -10,31 +10,31 @@ const ChattingPage = () => {
 
   const buyerId = user?._id; // The logged-in user (buyer)
   const { productId, sellerId } = useParams(); // Get product and seller ids from route params
-  const [conversationId, setConversationId] = useState(null);
+  const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const socket = io(process.env.REACT_APP_API_URL);
+  // const socket = io(process.env.REACT_APP_API_URL);
 
   // live chatting
-  useEffect(() => {
-    // Join the conversation room
-    socket.emit("joinConversation", conversationId);
+  // useEffect(() => {
+  //   // Join the conversation room
+  //   // socket.emit("joinConversation", conversationId);
 
-    // Listen for new messages from the server
-    socket.on("newMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
+  //   // Listen for new messages from the server
+  //   socket.on("newMessage", (message) => {
+  //     setMessages((prevMessages) => [...prevMessages, message]);
+  //   });
 
-    return () => {
-      socket.off("newMessage");
-    };
-  }, [conversationId]);
+  //   return () => {
+  //     socket.off("newMessage");
+  //   };
+  // }, [conversationId]);
 
-  // Effect to fetch or create a conversation and fetch messages for it
+  // Effect to fetch or create a chat and fetch messages for it
   useEffect(() => {
     const fetchConversation = async () => {
       try {
-        // Create or fetch the conversation between buyer and seller
+        // Create or fetch the chat between buyer and seller
         const response = await fetch(`${process.env.REACT_APP_API_URL}/chat`, {
           method: "POST",
           headers: {
@@ -52,8 +52,7 @@ const ChattingPage = () => {
         }
 
         const data = await response.json();
-        setConversationId(data._id); // Set the conversation ID
-        // fetchMessages(data._id)
+        setChatId(data._id);
 
         // Fetch the messages for this conversation
         const messagesResponse = await fetch(
@@ -74,11 +73,11 @@ const ChattingPage = () => {
     if (buyerId && sellerId) {
       fetchConversation(); // Only fetch if buyerId and sellerId are available
     }
-  }, [productId, sellerId, buyerId]); // Effect depends on productId, sellerId, and buyerId
+  }, [productId, sellerId, buyerId]);
 
   // Function to handle sending a new message
   const handleSendMessage = async () => {
-    if (newMessage.trim() && conversationId) {
+    if (newMessage.trim() && chatId) {
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/message`,
@@ -89,7 +88,7 @@ const ChattingPage = () => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              conversationId,
+              chatId,
               senderId: buyerId,
               content: newMessage,
             }),

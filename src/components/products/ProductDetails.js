@@ -121,7 +121,7 @@ const Product = ({ suggestedProducts = [] }) => {
                 <span className="font-semibold">Condition:</span>
                 <span>{product.condition}</span>
               </div>
-    
+
               {/* Categories */}
               <div className="mt-4">
                 <div className="flex items-center mb-2">
