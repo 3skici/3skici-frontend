@@ -1,27 +1,46 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { format } from "timeago.js"; // Importing the format function from timeago.js
-import {
-  fetchChatContent,
-  selectChat,
-  sendMessage,
-} from "../features/chat/chatSlice"; // Import sendMessage action
+import { format } from "timeago.js";
+import { fetchChatContent, sendMessage } from "../features/chat/chatSlice";
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token); // Fetch token from Redux state
-  const userId = useSelector((state) => state.auth.userId); // Fetch current user ID from Redux state
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.user?._id);
+
   const { selectedChatId, selectedChat, loading, error } = useSelector(
     (state) => state.chats
   );
 
-  const [newMessage, setNewMessage] = useState(""); // Track new message input
+  const [newMessage, setNewMessage] = useState("");
 
+  const chatContainerRef = useRef(null); // Ref for the scrollable chat container
+
+  // Function to scroll to the bottom of the chat
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  // Fetch chat content when selectedChatId or token changes
   useEffect(() => {
     if (selectedChatId && token) {
-      dispatch(fetchChatContent(selectedChatId)); // Fetch messages when chatId changes
+      dispatch(fetchChatContent(selectedChatId));
     }
   }, [dispatch, selectedChatId, token]);
+
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    if (
+      selectedChat &&
+      selectedChat.messages &&
+      selectedChat.messages.length > 0
+    ) {
+      scrollToBottom();
+    }
+  }, [selectedChat]);
 
   const handleSendMessage = useCallback(() => {
     if (newMessage.trim()) {
@@ -32,43 +51,64 @@ const ChatRoom = () => {
     }
   }, [dispatch, newMessage, selectedChatId, token]);
 
-  console.log("selectedChat messages", selectedChat.messages);
+  // Sort messages by timestamp
+  const sortedMessages = selectedChat?.messages
+    ? selectedChat.messages
+        .slice()
+        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+    : [];
+
+  // Group messages by date
+  const groupedMessages = sortedMessages.reduce((groups, message) => {
+    const dateKey = new Date(message.timestamp).toLocaleDateString();
+    if (!groups[dateKey]) {
+      groups[dateKey] = [];
+    }
+    groups[dateKey].push(message);
+    return groups;
+  }, {});
 
   return (
     <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden h-[80vh]">
       <div className="bg-blue-600 text-white py-4 px-6 rounded-t-lg">
         <h2 className="text-lg font-semibold">Chat Room</h2>
       </div>
-      <div className="flex-1 overflow-y-auto px-4 py-6 bg-gray-100 space-y-4">
+      <div
+        ref={chatContainerRef} // Attach ref to the scrollable container
+        className="flex-1 overflow-y-auto px-4 py-6 bg-gray-100 space-y-4"
+      >
         {loading && (
           <p className="text-center text-gray-600">Loading chat content...</p>
         )}
         {error && <p className="text-red-500 text-center">{error}</p>}
 
-        {/* Correctly access selectedChat.messages */}
-        {selectedChat &&
-        selectedChat.messages &&
-        selectedChat.messages.length > 0 ? (
-          selectedChat.messages.map((message) => (
-            <div
-              key={message._id} // Use message._id for unique key
-              className={`flex ${
-                message.senderId === userId ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`p-4 rounded-lg max-w-xs text-sm ${
-                  message.senderId === userId
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-300 text-gray-800"
-                }`}
-              >
-                <div>{message.content}</div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {format(message.timestamp)}{" "}
-                  {/* Format timestamp with timeago.js */}
+        {Object.keys(groupedMessages).length > 0 ? (
+          Object.entries(groupedMessages).map(([date, messages]) => (
+            <div key={date} className="mb-6">
+              <div className="text-center text-gray-500 my-4">{date}</div>
+              {messages.map((message) => (
+                <div
+                  key={message._id}
+                  className={`flex mb-4 ${
+                    message.senderId === userId
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`p-4 rounded-lg max-w-xs text-sm shadow ${
+                      message.senderId === userId
+                        ? "bg-blue-500 text-white rounded-br-none"
+                        : "bg-gray-300 text-gray-800 rounded-bl-none"
+                    }`}
+                  >
+                    <div>{message.content}</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {format(message.timestamp)}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           ))
         ) : (
@@ -78,7 +118,6 @@ const ChatRoom = () => {
         )}
       </div>
 
-      {/* Send Message Input */}
       <div className="border-t py-4 px-6 flex items-center space-x-4 bg-white">
         <input
           type="text"
@@ -86,6 +125,11 @@ const ChatRoom = () => {
           onChange={(e) => setNewMessage(e.target.value)}
           className="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Type a message..."
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
         />
         <button
           onClick={handleSendMessage}
