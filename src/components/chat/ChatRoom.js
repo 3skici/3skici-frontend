@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { format } from "timeago.js";
-import { fetchChatContent, sendMessage } from "../features/chat/chatSlice";
+import {
+  fetchChatContent,
+  initializeSocketListeners,
+  sendMessage,
+} from "../../features/chat/chatSlice";
+import socket from "../../utils/socket";
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
@@ -24,11 +29,32 @@ const ChatRoom = () => {
     }
   };
 
+  // Initialize Socket.IO listeners once the component mounts
+  useEffect(() => {
+    dispatch(initializeSocketListeners());
+
+    // Cleanup on unmount
+    return () => {
+      // Optionally, remove all listeners
+      socket.off("newMessage");
+    };
+  }, [dispatch]);
+
   // Fetch chat content when selectedChatId or token changes
   useEffect(() => {
     if (selectedChatId && token) {
       dispatch(fetchChatContent(selectedChatId));
+
+      // Join the conversation room via Socket.IO
+      socket.emit("joinChat", selectedChatId);
     }
+
+    // Cleanup: Leaving the conversation room when component unmounts or selectedChatId change
+    return () => {
+      if (selectedChatId) {
+        socket.emit("leaveChat", selectedChatId);
+      }
+    };
   }, [dispatch, selectedChatId, token]);
 
   // Scroll to bottom whenever messages change
@@ -43,7 +69,16 @@ const ChatRoom = () => {
   }, [selectedChat]);
 
   const handleSendMessage = useCallback(() => {
-    if (newMessage.trim()) {
+    if (newMessage.trim() && selectedChatId) {
+      // Prepare the message data
+      const messageData = {
+        chatId: selectedChatId,
+        content: newMessage,
+      };
+
+      // Emit the 'sendMessage' event via Sock.IO
+      socket.emit("sendMessage", messageData);
+
       dispatch(
         sendMessage({ chatId: selectedChatId, message: newMessage, token })
       );
@@ -86,29 +121,31 @@ const ChatRoom = () => {
           Object.entries(groupedMessages).map(([date, messages]) => (
             <div key={date} className="mb-6">
               <div className="text-center text-gray-500 my-4">{date}</div>
-              {messages.map((message) => (
-                <div
-                  key={message._id}
-                  className={`flex mb-4 ${
-                    message.senderId === userId
-                      ? "justify-end"
-                      : "justify-start"
-                  }`}
-                >
+              <div className="space-y-4">
+                {messages.map((message) => (
                   <div
-                    className={`p-4 rounded-lg max-w-xs text-sm shadow ${
+                    key={message._id}
+                    className={`flex mb-4 ${
                       message.senderId === userId
-                        ? "bg-blue-500 text-white rounded-br-none"
-                        : "bg-gray-300 text-gray-800 rounded-bl-none"
+                        ? "justify-end"
+                        : "justify-start"
                     }`}
                   >
-                    <div>{message.content}</div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {format(message.timestamp)}
+                    <div
+                      className={`p-4 rounded-lg max-w-xs text-sm shadow ${
+                        message.senderId === userId
+                          ? "bg-blue-500 text-white rounded-br-none"
+                          : "bg-gray-300 text-gray-800 rounded-bl-none"
+                      }`}
+                    >
+                      <div>{message.content}</div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {format(message.timestamp)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           ))
         ) : (
@@ -118,26 +155,31 @@ const ChatRoom = () => {
         )}
       </div>
 
-      <div className="border-t py-4 px-6 flex items-center space-x-4 bg-white">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          className="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Type a message..."
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleSendMessage();
-            }
-          }}
-        />
-        <button
-          onClick={handleSendMessage}
-          className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-        >
-          Send
-        </button>
-      </div>
+      {/* Input Field and Send Button - Only Rendered When a Chat is Selected */}
+      {selectedChatId && (
+        <div className="border-t py-4 px-6 flex items-center space-x-4 bg-white">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Type a message..."
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleSendMessage();
+              }
+            }}
+            disabled={loading} // Optionally disable input while loading
+          />
+          <button
+            onClick={handleSendMessage}
+            className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+            disabled={loading || !newMessage.trim()} // Optionally disable button while loading or input is empty
+          >
+            Send
+          </button>
+        </div>
+      )}
     </div>
   );
 };

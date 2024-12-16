@@ -7,6 +7,7 @@ import languageReducer from "../features/languages/languageActions";
 import chatReducer from "../features/chat/chatSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Defaults to localStorage for web
+import socketMiddleware from "../middleware/socketMiddleware";
 
 const persistConfig = {
   key: "auth",
@@ -36,6 +37,8 @@ const store = configureStore({
     favorites: favoriteReducer,
     chats: chatReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(socketMiddleware),
 });
 
 const persistor = persistStore(store);

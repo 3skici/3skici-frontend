@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChats, selectChat } from "../features/chat/chatSlice";
+import { fetchChats, selectChat } from "../../features/chat/chatSlice";
 import { format } from "timeago.js";
 
 const MyChats = () => {
@@ -52,6 +52,9 @@ const MyChats = () => {
                 key={conversation._id}
                 onClick={() => handleChatClick(conversation._id)} // Set the selected chat ID
                 className="flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition duration-200 ease-in-out"
+                role="button"
+                tabIndex={0}
+                aria-label={`Open chat with ${displayName}`}
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
@@ -78,6 +81,19 @@ const MyChats = () => {
                   <p className="text-xs text-gray-500 truncate max-w-xs">
                     {lastMessageTimestamp}
                   </p>
+                  {conversation.status && (
+                    <span
+                      className={`ml-2 text-xs rounded-full px-2 py-1 ${
+                        conversation.status === "sent"
+                          ? "bg-gray-500 text-white"
+                          : conversation.status === "delivered"
+                          ? "bg-blue-500 text-white"
+                          : "bg-green-500 text-white"
+                      }`}
+                    >
+                      {conversation.status}
+                    </span>
+                  )}
                 </div>
               </div>
             );

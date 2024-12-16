@@ -24,11 +24,11 @@ import Sitemap from "./pages/Sitemap";
 import ErrorPage from "./pages/ErrorPage";
 import UserSettings from "./pages/UserSettings";
 import CategoryList from "./components/categories/CategoryList";
-import ChatPage from "./chat/ChatPage";
+import ChatPage from "./components/chat/ChatPage";
 import ProductSmallCard from "./components/products/ProductSmallCard";
 import ProductDetails from "./components/products/ProductDetails";
-import ChatRoom from "./chat/ChatRoom";
-import ChattingPage from "./chat/ChattingWithSeller";
+import ChatRoom from "./components/chat/ChatRoom";
+import ChattingPage from "./components/chat/ChattingWithSeller";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
 function App() {
