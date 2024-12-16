@@ -4,22 +4,22 @@ import { format } from "timeago.js";
 import {
   fetchChatContent,
   initializeSocketListeners,
-  sendMessage,
 } from "../../features/chat/chatSlice";
 import socket from "../../utils/socket";
+
+const TYPING_INTERVAL = 3000; // in ms - how long after user stops typing to emit stopTyping
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.user?._id);
-
-  const { selectedChatId, selectedChat, loading, error } = useSelector(
-    (state) => state.chats
-  );
+  const { selectedChatId, selectedChat, loading, error, typingUsers } =
+    useSelector((state) => state.chats);
 
   const [newMessage, setNewMessage] = useState("");
+  const [typingTimeoutId, setTypingTimeoutId] = useState(null);
 
-  const chatContainerRef = useRef(null); // Ref for the scrollable chat container
+  const chatContainerRef = useRef(null);
 
   // Function to scroll to the bottom of the chat
   const scrollToBottom = () => {
@@ -35,8 +35,9 @@ const ChatRoom = () => {
 
     // Cleanup on unmount
     return () => {
-      // Optionally, remove all listeners
       socket.off("newMessage");
+      socket.off("typing");
+      socket.off("stopTyping");
     };
   }, [dispatch]);
 
@@ -49,7 +50,6 @@ const ChatRoom = () => {
       socket.emit("joinChat", selectedChatId);
     }
 
-    // Cleanup: Leaving the conversation room when component unmounts or selectedChatId change
     return () => {
       if (selectedChatId) {
         socket.emit("leaveChat", selectedChatId);
@@ -70,21 +70,39 @@ const ChatRoom = () => {
 
   const handleSendMessage = useCallback(() => {
     if (newMessage.trim() && selectedChatId) {
-      // Prepare the message data
       const messageData = {
         chatId: selectedChatId,
         content: newMessage,
       };
 
-      // Emit the 'sendMessage' event via Sock.IO
+      // Emit the 'sendMessage' event via Socket.IO only
       socket.emit("sendMessage", messageData);
 
-      dispatch(
-        sendMessage({ chatId: selectedChatId, message: newMessage, token })
-      );
+      // Stop typing since user just sent a message
+      socket.emit("stopTyping", { chatId: selectedChatId, userId });
+
       setNewMessage("");
     }
-  }, [dispatch, newMessage, selectedChatId, token]);
+  }, [newMessage, selectedChatId, userId]);
+
+  // Handle typing indicator logic
+  const handleTyping = (text) => {
+    setNewMessage(text);
+
+    if (!selectedChatId) return;
+    // If user starts typing, emit "typing"
+    socket.emit("typing", { chatId: selectedChatId, userId });
+
+    // Clear previous timeout if any
+    if (typingTimeoutId) clearTimeout(typingTimeoutId);
+
+    // Set a new timeout to emit "stopTyping" after user stops typing for a while
+    const timeoutId = setTimeout(() => {
+      socket.emit("stopTyping", { chatId: selectedChatId, userId });
+    }, TYPING_INTERVAL);
+
+    setTypingTimeoutId(timeoutId);
+  };
 
   // Sort messages by timestamp
   const sortedMessages = selectedChat?.messages
@@ -108,8 +126,9 @@ const ChatRoom = () => {
       <div className="bg-blue-600 text-white py-4 px-6 rounded-t-lg">
         <h2 className="text-lg font-semibold">Chat Room</h2>
       </div>
+
       <div
-        ref={chatContainerRef} // Attach ref to the scrollable container
+        ref={chatContainerRef}
         className="flex-1 overflow-y-auto px-4 py-6 bg-gray-100 space-y-4"
       >
         {loading && (
@@ -153,6 +172,15 @@ const ChatRoom = () => {
             Select a chat to view messages
           </div>
         )}
+
+        {/* Typing Indicator */}
+        {selectedChatId && typingUsers.length > 0 && (
+          <div className="text-gray-500 text-sm font-italic">
+            {typingUsers.length === 1
+              ? "Someone is typing..."
+              : "Multiple people are typing..."}
+          </div>
+        )}
       </div>
 
       {/* Input Field and Send Button - Only Rendered When a Chat is Selected */}
@@ -161,7 +189,7 @@ const ChatRoom = () => {
           <input
             type="text"
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onChange={(e) => handleTyping(e.target.value)}
             className="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Type a message..."
             onKeyPress={(e) => {
@@ -169,12 +197,12 @@ const ChatRoom = () => {
                 handleSendMessage();
               }
             }}
-            disabled={loading} // Optionally disable input while loading
+            disabled={loading}
           />
           <button
             onClick={handleSendMessage}
             className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-            disabled={loading || !newMessage.trim()} // Optionally disable button while loading or input is empty
+            disabled={loading || !newMessage.trim()}
           >
             Send
           </button>

@@ -2,6 +2,7 @@
 import { io } from "socket.io-client";
 // import { store } from "../redux/store";
 import { receiveMessage } from "../features/chat/chatSlice";
+
 // Replace with your actual server URL
 const SOCKET_SERVER_URL =
   process.env.REACT_APP_SOCKET_SERVER_URL || "http://localhost:3000";
@@ -17,6 +18,11 @@ const socket = io(SOCKET_SERVER_URL, {
 // Listen for connection errors
 socket.on("connect_error", (err) => {
   console.error("Socket connection error:", err.message);
+});
+
+// Listen for incoming messages and dispatch to Redux store
+socket.on("newMessage", (message) => {
+  // store.dispatch(receiveMessage(message));
 });
 
 export default socket;
