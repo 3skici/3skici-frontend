@@ -14,12 +14,11 @@ const ChatRoom = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.user?._id);
-  const { selectedChatId, selectedChat, loading, error, typingUsers } =
+  const { selectedChatId, selectedChat, loading, error, isTyping } =
     useSelector((state) => state.chats);
 
   const [newMessage, setNewMessage] = useState("");
   const [typingTimeoutId, setTypingTimeoutId] = useState(null);
-
   const chatContainerRef = useRef(null);
 
   // Function to scroll to the bottom of the chat
@@ -91,7 +90,7 @@ const ChatRoom = () => {
     setNewMessage(text);
 
     if (!selectedChatId) return;
-    // If user starts typing, emit "typing"
+
     socket.emit("typing", { chatId: selectedChatId, userId });
 
     // Clear previous timeout if any
@@ -175,11 +174,9 @@ const ChatRoom = () => {
         )}
 
         {/* Typing Indicator */}
-        {selectedChatId && typingUsers.length > 0 && (
-          <div className="text-gray-500 text-sm font-italic">
-            {typingUsers.length === 1
-              ? "Someone is typing..."
-              : "Multiple people are typing..."}
+        {selectedChatId && isTyping && (
+          <div className="text-gray-500 text-sm italic text-center mb-4">
+            The user is typing...
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 // src/components/MyChats.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats, selectChat } from "../../features/chat/chatSlice";
@@ -11,24 +11,54 @@ const MyChats = () => {
   const userId = useSelector((state) => state.auth.user?._id); // Current user's ID
   const { chats, loading } = useSelector((state) => state.chats); // Access Redux chat state
 
+  const [skeletonCount, setSkeletonCount] = useState(3); // Default count
+
+  // Determine the number of skeletons based on screen height
+  useEffect(() => {
+    const calculateSkeletonCount = () => {
+      const viewportHeight = window.innerHeight; // Screen height
+      const skeletonHeight = 80; // Approximate height of each skeleton component in pixels
+      const count = Math.floor(viewportHeight / skeletonHeight); // Calculate number of skeletons
+      setSkeletonCount(count);
+    };
+
+    calculateSkeletonCount(); // Initial calculation
+    window.addEventListener("resize", calculateSkeletonCount); // Recalculate on window resize
+    return () => window.removeEventListener("resize", calculateSkeletonCount);
+  }, []);
+
   useEffect(() => {
     if (token) {
-      dispatch(fetchChats()); // Dispatch to fetch chats, token is already in the Redux state
+      dispatch(fetchChats());
     }
   }, [dispatch, token]);
 
   const handleChatClick = (chatId) => {
-    dispatch(selectChat(chatId)); // Dispatch to select a chat directly
+    dispatch(selectChat(chatId));
   };
+
+  // Loading Skeleton Component
+  const LoadingSkeleton = () => (
+    <div className="relative flex w-full animate-pulse gap-2 p-4 mx-auto">
+      <div className="h-12 w-12 rounded-full bg-slate-400"></div>
+      <div className="flex-1">
+        <div className="mb-1 h-5 w-3/5 rounded-lg bg-slate-400"></div>
+        <div className="h-5 w-[90%] rounded-lg bg-slate-400"></div>
+      </div>
+      <div className="absolute bottom-5 right-0 h-4 w-4 rounded-full bg-slate-400"></div>
+    </div>
+  );
 
   return (
     <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto">
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto">
-        {loading && (
-          <p className="text-center py-4 text-gray-600">Loading...</p>
-        )}
-        {chats && chats.length > 0 ? (
+        {loading ? (
+          // Render Loading Skeletons based on screen height
+          Array.from({ length: skeletonCount }).map((_, index) => (
+            <LoadingSkeleton key={index} />
+          ))
+        ) : chats && chats.length > 0 ? (
           chats.map((conversation) => {
             // Identify the recipient (other participant)
             const recipient = conversation.participants.find(

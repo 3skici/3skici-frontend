@@ -75,15 +75,21 @@ export const initializeSocketListeners = () => (dispatch, getState) => {
   // Handle typing events
   socket.on("typing", ({ chatId, userId }) => {
     const state = getState();
-    if (state.chats.selectedChatId === chatId) {
-      dispatch(setTypingUser(userId));
+    if (
+      state.chats.selectedChatId === chatId &&
+      state.auth.user?._id !== userId
+    ) {
+      dispatch(setTyping(true));
     }
   });
 
   socket.on("stopTyping", ({ chatId, userId }) => {
     const state = getState();
-    if (state.chats.selectedChatId === chatId) {
-      dispatch(removeTypingUser(userId));
+    if (
+      state.chats.selectedChatId === chatId &&
+      state.auth.user?._id !== userId
+    ) {
+      dispatch(setTyping(false));
     }
   });
 };
@@ -96,34 +102,29 @@ const chatSlice = createSlice({
     selectedChat: { messages: [] },
     loading: false,
     error: null,
-    typingUsers: [], // Track which users are currently typing in the selected chat
+    isTyping: false, // Simplified: boolean flag for the other user's typing status
   },
   reducers: {
     selectChat: (state, action) => {
       state.selectedChatId = action.payload;
       state.selectedChat = { messages: [] };
       state.error = null;
-      state.typingUsers = [];
+      state.isTyping = false;
     },
     clearChat: (state) => {
       state.selectedChatId = null;
       state.selectedChat = { messages: [] };
       state.error = null;
-      state.typingUsers = [];
+      state.isTyping = false;
     },
     receiveMessage: (state, action) => {
       const message = action.payload;
       state.selectedChat.messages.push(message);
     },
-    setTypingUser: (state, action) => {
+    setTyping: (state, action) => {
       const userId = action.payload;
-      if (!state.typingUsers.includes(userId)) {
-        state.typingUsers.push(userId);
-      }
-    },
-    removeTypingUser: (state, action) => {
-      const userId = action.payload;
-      state.typingUsers = state.typingUsers.filter((id) => id !== userId);
+
+      state.isTyping = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -155,12 +156,7 @@ const chatSlice = createSlice({
   },
 });
 
-export const {
-  selectChat,
-  clearChat,
-  receiveMessage,
-  setTypingUser,
-  removeTypingUser,
-} = chatSlice.actions;
+export const { selectChat, clearChat, receiveMessage, setTyping } =
+  chatSlice.actions;
 
 export default chatSlice.reducer;
