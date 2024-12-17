@@ -31,9 +31,20 @@ import ChatRoom from "./components/chat/ChatRoom";
 import ChattingPage from "./components/chat/ChattingWithSeller";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import i18n from "./i18n";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 function App() {
+  const { i18n } = useTranslation();
+  const currentLanguage = useSelector((state) => state.language.language); // Adjust based on your state structure
+
+  useEffect(() => {
+    // Set the direction based on the current language
+    const isRTL = i18n.dir() === "rtl";
+    document.documentElement.dir = isRTL ? "rtl" : "ltr";
+  }, [i18n.language]);
+
   return (
     <Layout>
       <Routes>
