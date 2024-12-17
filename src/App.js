@@ -31,6 +31,8 @@ import ChatRoom from "./components/chat/ChatRoom";
 import ChattingPage from "./components/chat/ChattingWithSeller";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <Layout>

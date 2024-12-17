@@ -17,6 +17,9 @@ import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { Link } from "react-router-dom";
 import ProductSmallCard from "./ProductSmallCard";
 
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer for notifications
+import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
+
 const AddProductPage = () => {
   const currentLanguage = i18n.language;
   const login = getPathWithLanguage("/login", currentLanguage);
@@ -28,20 +31,15 @@ const AddProductPage = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState(""); // Default country code
   const [selectedCountry, setSelectedCountry] = useState(""); // Default country
   const [message, setMessage] = useState(null); // State to track success/error messages
-  const [isModalOpen, setIsModelOpen] = useState(!user);
 
-  const closeModal = () => setIsModelOpen(false);
-
-  useEffect(
-    () => {
-      if (!user) {
-        setIsModelOpen(true);
-      }
-      dispatch(fetchCategories());
-    },
-    [dispatch],
-    [user]
-  );
+  useEffect(() => {
+    if (!user) {
+      toast.warn(
+        "You need to log in to add a product. Please log in or sign up to continue."
+      );
+    }
+    dispatch(fetchCategories());
+  }, [dispatch, user]);
 
   const [product, setProduct] = useState({
     name: "",
@@ -134,6 +132,10 @@ const AddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      toast.error("You must log in before adding a product.");
+      return;
+    }
     // Validate phone number before submitting
     const phoneNumber = `${selectedCountryCode}${product.contactInfo.phone.trim()}`;
     try {
@@ -184,6 +186,7 @@ const AddProductPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("An error occurred while adding the product.");
     }
     setUserProducts([...userProducts, product]);
     setProduct({
@@ -246,30 +249,7 @@ const AddProductPage = () => {
 
   return (
     <div className="flex flex-col w-full h-full p-6">
-      <Modal
-        isOpen={isModalOpen}
-        title="Login Required"
-        type="warning"
-        onClose={closeModal}
-      >
-        <p>
-          You need to log in to add a product. Please log in or sign up to
-          continue.
-        </p>
-        <div className="flex justify-end mt-4">
-          <button 
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          >
-            <Link
-              to={login}
-              className=" text-white  font-semibold  transition duration-200"
-            >
-              Login
-            </Link>
-          </button>
-        </div>
-      </Modal>
-
+      <ToastContainer /> {/* Include ToastContainer to show notifications */}
       <div className="flex flex-row w-full mb-6 h-1/2">
         {/* Right Side Form */}
         <div className="w-1/2 p-4">
@@ -544,7 +524,6 @@ const AddProductPage = () => {
           </div>
         </div>
       </div>
-
       {/* User Products Section */}
       <div className="w-full  overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Products</h2>

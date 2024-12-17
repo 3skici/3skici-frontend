@@ -8,7 +8,8 @@ import i18n from "i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { useTranslation } from "react-i18next";
-
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer for notifications
+import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 const Navbar = () => {
   const { t } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
@@ -20,7 +21,7 @@ const Navbar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.token !== null);
-
+  const token = useSelector((state) => state.auth.token);
   // Modify path to include the language prefix
   const getPathWithLanguage = (path, langCode) => {
     let segments = path.split("/");
@@ -95,6 +96,17 @@ const Navbar = () => {
     navigate(getPathWithLanguage("/fav", currentLanguage)); // Navigate to the favorites page
   };
 
+  // Handle selling product link click
+  const handleSellingProductClick = (e) => {
+    if (!token) {
+      e.preventDefault();
+      // If no token is present
+      toast.error("You need to log in to sell a product.");
+    } else {
+      navigate(getPathWithLanguage("/selling-product", currentLanguage)); // Otherwise, navigate to selling-product page
+    }
+  };
+
   return (
     <nav className="bg-gray-900 text-white p-6 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
@@ -119,6 +131,7 @@ const Navbar = () => {
         >
           <Link
             to={getPathWithLanguage("/selling-product", currentLanguage)}
+            onClick={handleSellingProductClick} // Attach the handler here
             className="hover:text-yellow-400 py-2 lg:py-0"
           >
             {t("sell_product")}
@@ -155,9 +168,7 @@ const Navbar = () => {
                   <IoMdArrowDropdown className="text-xl" />
                 </button>
                 {profileDropdown && (
-                  <div
-                    className="absolute z-50 right-8 mt-1  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200"
-                  >
+                  <div className="absolute z-50 right-8 mt-1  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200">
                     <div className="overflow-auto max-h-60">
                       {/* Profile Link */}
                       <Link
@@ -245,6 +256,8 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {/* ToastContainer to display toast notifications */}
+      <ToastContainer />
     </nav>
   );
 };

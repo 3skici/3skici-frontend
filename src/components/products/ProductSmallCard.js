@@ -11,6 +11,8 @@ import {
   removeFavorite,
 } from "../../features/products/favoriteSlice";
 import { selectCategories } from "../../features/categories/categoriesSlice";
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 
 const ProductSmallCard = ({ product }) => {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ const ProductSmallCard = ({ product }) => {
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
     if (!userId) {
-      return;
+      return toast.error("You need to log in to add favorites.");
     }
 
     if (isFavorited) {
@@ -114,6 +116,8 @@ const ProductSmallCard = ({ product }) => {
             : "0.00"}
         </p>
       </div>
+      {/* ToastContainer for displaying the toast notifications */}
+      <ToastContainer />
     </div>
   );
 };
