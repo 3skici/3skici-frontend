@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCopy, FaTags } from "react-icons/fa";
 import { format } from "timeago.js";
 import { Link, useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { selectCategories } from "../../features/categories/categoriesSlice";
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
+import {
+  addOrUpdateChat,
+  selectChat,
+  setChatMessages,
+} from "../../features/chat/chatSlice";
 
 const Product = ({ suggestedProducts = [] }) => {
   const product = useSelector((state) => state.products.selectedProduct);
@@ -14,25 +21,68 @@ const Product = ({ suggestedProducts = [] }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const productId = product.customId || product._id || "N/A"; // Fallback to _id
   const categories = useSelector(selectCategories);
-
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
   const handleFavoriteClick = () => setIsFavorited((prev) => !prev);
-
+  const navigate = useNavigate();
   const postedTime = format(new Date(product.createdAt));
 
   const currentLanguage = i18n.language;
-  const chat = getPathWithLanguage(
-    `/chat/${product.seller._id}/${product.customId}`,
-    currentLanguage
-  );
-  const login = getPathWithLanguage(`/login`, currentLanguage);
-  const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+  const chatRoom = getPathWithLanguage(`/chat `, currentLanguage);
+  const user = useSelector((state) => state.auth.user?._id);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChatClick = () => {
-    if (user) {
-      navigate(chat);
-    } else {
-      navigate(login); // Redirect to login page if the user isn't logged in
+  const handleChatClick = async (e) => {
+    e.stopPropagation();
+    if (!token) {
+      e.preventDefault();
+      return toast.error("You need to log in to chat with the seller.");
+    }
+    if (token) {
+      setIsLoading(true);
+      try {
+        // Initiate chat session with API
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/chat/initiate`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              participants: [user, product.seller._id],
+              productId: product.customId,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          const { chat, messages } = data;
+          const chatId = chat?._id;
+          // Update Redux store:
+          // 1. Add or update the retrieved chat
+          dispatch(addOrUpdateChat(chat));
+          // 2. Set the selected chat to the newly retrieved/created one
+          dispatch(selectChat(chatId));
+
+          // 3. Set the messages for that chat
+          dispatch(setChatMessages({ chatId, messages }));
+
+          setIsLoading(false);
+          navigate(chatRoom);
+        } else {
+          e.preventDefault();
+          // If the backend returned a "Cannot create a chat with yourself" error
+          toast.error(data.message || "An error occurred");
+          setIsLoading(false);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        // Handle error (e.g., show a message)
+      }
     }
   };
 
@@ -95,12 +145,13 @@ const Product = ({ suggestedProducts = [] }) => {
           <button className="bg-blue-500 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 mb-62">
             Report this product
           </button>
-          <button
+
+          <Link
             onClick={handleChatClick}
             className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors"
           >
-            <Link to={chat}>Chat with seller</Link>
-          </button>
+            {user ? "Chat with seller" : "Please log in to chat"}
+          </Link>
         </div>
       </div>
       {/* Product Info */}
@@ -269,6 +320,9 @@ const Product = ({ suggestedProducts = [] }) => {
           )}
         </div>
       </div>
+
+      {/* ToastContainer for displaying the toast notifications */}
+      <ToastContainer />
     </div>
   );
 };

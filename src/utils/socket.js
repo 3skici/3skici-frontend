@@ -1,7 +1,7 @@
 // src/utils/socket.js
 import { io } from "socket.io-client";
 // import { store } from "../redux/store";
-import { receiveMessage } from "../features/chat/chatSlice";
+import { receiveMessage, setTyping } from "../features/chat/chatSlice";
 
 // Replace with your actual server URL
 const SOCKET_SERVER_URL =
@@ -15,14 +15,23 @@ const socket = io(SOCKET_SERVER_URL, {
   transports: ["websocket"],
 });
 
-// Listen for connection errors
-socket.on("connect_error", (err) => {
-  console.error("Socket connection error:", err.message);
-});
+// Initialize Socket Events
+export const setupSocketListeners = (dispatch) => {
+  socket.on("connect", () => console.log("Connected to socket server."));
 
-// Listen for incoming messages and dispatch to Redux store
-socket.on("newMessage", (message) => {
-  // store.dispatch(receiveMessage(message));
-});
+  socket.on("newMessage", (message) => {
+    dispatch(receiveMessage(message));
+  });
+
+  socket.on("typing", ({ chatId, userId }) => {
+    dispatch(setTyping({ chatId, userId, typing: true }));
+  });
+
+  socket.on("stopTyping", ({ chatId, userId }) => {
+    dispatch(setTyping({ chatId, userId, typing: false }));
+  });
+
+  socket.on("errorMessage", (error) => console.error("Socket Error:", error));
+};
 
 export default socket;

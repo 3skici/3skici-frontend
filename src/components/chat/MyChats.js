@@ -9,7 +9,7 @@ const MyChats = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token); // Token from Redux state
   const userId = useSelector((state) => state.auth.user?._id); // Current user's ID
-  const { chats, loading } = useSelector((state) => state.chats); // Access Redux chat state
+  const { chats, loading } = useSelector((state) => state.chats);
 
   const [skeletonCount, setSkeletonCount] = useState(3); // Default count
 
@@ -80,7 +80,7 @@ const MyChats = () => {
             return (
               <div
                 key={conversation._id}
-                onClick={() => handleChatClick(conversation._id)} // Set the selected chat ID
+                onClick={() => handleChatClick(conversation._id)}
                 className="flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition duration-200 ease-in-out"
                 role="button"
                 tabIndex={0}

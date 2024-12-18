@@ -28,7 +28,6 @@ import ChatPage from "./components/chat/ChatPage";
 import ProductSmallCard from "./components/products/ProductSmallCard";
 import ProductDetails from "./components/products/ProductDetails";
 import ChatRoom from "./components/chat/ChatRoom";
-import ChattingPage from "./components/chat/ChattingWithSeller";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
 import i18n from "./i18n";
@@ -75,12 +74,8 @@ function App() {
         />
         <Route path="/:lang/sitemap" element={<Sitemap />} />
         <Route path="/:lang/user-settings" element={<UserSettings />} />
-        <Route
-          path="/:lang/chat/:sellerId/:productId"
-          element={<ChattingPage />}
-        />
         <Route path="/:lang/chat" element={<ChatPage />} />
-        <Route path="/:lang/chat-room" element={<ChatRoom />} />
+        <Route path="/:lang/chat-room/" element={<ChatRoom />} />
         <Route path="/:lang/card" element={<ProductSmallCard />} />
         <Route path="/:lang/product/:id" element={<ProductDetails />} />
         <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />

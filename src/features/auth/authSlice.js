@@ -23,8 +23,8 @@ export const login = createAsyncThunk(
       const data = await response.json();
       const { token, user } = data;
 
-       // Save token to localStorage
-       localStorage.setItem("token", token);
+      // Save token to localStorage
+      localStorage.setItem("token", token);
 
       return { token, user };
     } catch (error) {
@@ -51,7 +51,7 @@ export const loadUser = createAsyncThunk(
         {
           method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -87,6 +87,14 @@ const initialState = {
   error: null,
 };
 
+// Add a helper function to normalize the user object
+const normalizeUser = (user) => {
+  return {
+    ...user,
+    _id: user._id || user.id, // Normalize to always use _id
+  };
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -102,7 +110,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        state.user = action.payload.user;
+        state.user = normalizeUser(action.payload.user); // Normalize user
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
@@ -115,7 +123,7 @@ const authSlice = createSlice({
       .addCase(loadUser.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        state.user = action.payload.user;
+        state.user = normalizeUser(action.payload.user); // Normalize user
       })
       .addCase(loadUser.rejected, (state, action) => {
         state.status = "failed";

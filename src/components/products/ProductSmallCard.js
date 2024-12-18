@@ -91,30 +91,34 @@ const ProductSmallCard = ({ product }) => {
           </svg>
         </button>
       </div>
-
       {/* Product Info */}
       <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800 truncate mb-2">
-          {product.name || "No product name"}
-        </h2>
-
-        {/* Categories */}
-        <div className="mt-3">
-          <div className="flex items-center mb-2">
-            <FaTags className="text-gray-700 mr-2" />
-            <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-3 py-1 rounded">
-              {getCategoryNames(product.category)}
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-col">
+            <span
+              className="text-l font-bold truncate whitespace-nowrap overflow-hidden max-w-[120px]"
+              title={product.name || "No product name"}
+            >
+              {product.name || "No product name"}
             </span>
           </div>
+
+          {/* Price */}
+          <span class="font-bold  text-red-600">
+            <span>₺</span>
+            {product.price && product.price.amount != null
+              ? product.price.amount.toFixed(2)
+              : "0.00"}
+          </span>
         </div>
 
-        {/* Price */}
-        <p className="text-gray-800 font-semibold mt-3">
-          <span>₺</span>
-          {product.price && product.price.amount != null
-            ? product.price.amount.toFixed(2)
-            : "0.00"}
-        </p>
+        {/* Categories */}
+        <div className="flex items-center mb-2 mt-3">
+          <FaTags className="text-gray-700 mr-2" />
+          <span className="px-3 py-1 text-[12px] bg-[#d9dfe3] max-w-max rounded font-semibold text-[#7281a3]">
+            {getCategoryNames(product.category)}
+          </span>
+        </div>
       </div>
       {/* ToastContainer for displaying the toast notifications */}
       <ToastContainer />

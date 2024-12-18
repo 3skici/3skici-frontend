@@ -120,11 +120,27 @@ const chatSlice = createSlice({
     receiveMessage: (state, action) => {
       const message = action.payload;
       state.selectedChat.messages.push(message);
+      state.chats = state.chats.map((chat) =>
+        chat._id === message.chatId ? { ...chat, updatedAt: new Date() } : chat
+      );
     },
     setTyping: (state, action) => {
-      const userId = action.payload;
-
       state.isTyping = action.payload;
+    },
+    addOrUpdateChat: (state, action) => {
+      const newChat = action.payload;
+      const index = state.chats.findIndex((c) => c._id === newChat._id);
+      if (index === -1) {
+        state.chats.push(newChat);
+      } else {
+        state.chats[index] = { ...state.chats[index], ...newChat };
+      }
+    },
+    setChatMessages: (state, action) => {
+      const { chatId, messages } = action.payload;
+      if (state.selectedChatId === chatId) {
+        state.selectedChat.messages = messages;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -156,7 +172,13 @@ const chatSlice = createSlice({
   },
 });
 
-export const { selectChat, clearChat, receiveMessage, setTyping } =
-  chatSlice.actions;
+export const {
+  selectChat,
+  clearChat,
+  receiveMessage,
+  setTyping,
+  addOrUpdateChat,
+  setChatMessages,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;
