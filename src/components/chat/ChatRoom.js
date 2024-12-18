@@ -139,26 +139,31 @@ const ChatRoom = () => {
         {Object.keys(groupedMessages).length > 0 ? (
           Object.entries(groupedMessages).map(([date, messages]) => (
             <div key={date} className="mb-6">
-              <div className="text-center text-gray-500 my-4">{date}</div>
+              <div className="flex justify-center my-4">
+                <div className="bg-gray-200 text-gray-500 py-2 px-6 rounded-xl text-sm font-medium">
+                  {date}
+                </div>
+              </div>
+
               <div className="space-y-4">
                 {messages.map((message) => (
                   <div
                     key={message._id}
-                    className={`flex mb-4 ${
+                    className={`relative flex mb-4 ${
                       message.senderId === userId
                         ? "justify-end"
                         : "justify-start"
                     }`}
                   >
                     <div
-                      className={`p-4 rounded-lg max-w-xs text-sm shadow ${
+                      className={`text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl max-w-xs text-sm ${
                         message.senderId === userId
-                          ? "bg-blue-500 text-white rounded-br-none"
+                          ? "bg-sky-200 text-black rounded-br-none"
                           : "bg-gray-300 text-gray-800 rounded-bl-none"
                       }`}
                     >
                       <div>{message.content}</div>
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="text-xs text-gray-500 mt-2 text-right">
                         {format(message.timestamp)}
                       </div>
                     </div>
@@ -183,12 +188,12 @@ const ChatRoom = () => {
 
       {/* Input Field and Send Button - Only Rendered When a Chat is Selected */}
       {selectedChatId && (
-        <div className="border-t py-4 px-6 flex items-center space-x-4 bg-white">
+        <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => handleTyping(e.target.value)}
-            className="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 p-2 h-10 rounded-lg border rounded-xl border-gray-300 focus:outline-none focus:border-indigo-300 pl-4 mr-4"
             placeholder="Type a message..."
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -197,12 +202,29 @@ const ChatRoom = () => {
             }}
             disabled={loading}
           />
+
           <button
             onClick={handleSendMessage}
-            className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 focus:outline-none"
             disabled={loading || !newMessage.trim()}
+            class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
           >
-            Send
+            <span>Send</span>
+            <span class="ml-2">
+              <svg
+                class="w-4 h-4 transform rotate-45 -mt-px"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                ></path>
+              </svg>
+            </span>
           </button>
         </div>
       )}
