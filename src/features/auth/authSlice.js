@@ -89,6 +89,7 @@ const initialState = {
 
 // Add a helper function to normalize the user object
 const normalizeUser = (user) => {
+  if (!user) return null;
   return {
     ...user,
     _id: user._id || user.id, // Normalize to always use _id
@@ -110,7 +111,11 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        state.user = normalizeUser(action.payload.user); // Normalize user
+        if (action.payload.user) {
+          state.user = normalizeUser(action.payload.user);
+        } else {
+          state.user = null;
+        }
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
@@ -123,7 +128,11 @@ const authSlice = createSlice({
       .addCase(loadUser.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        state.user = normalizeUser(action.payload.user); // Normalize user
+        if (action.payload.user) {
+          state.user = normalizeUser(action.payload.user);
+        } else {
+          state.user = null;
+        }
       })
       .addCase(loadUser.rejected, (state, action) => {
         state.status = "failed";

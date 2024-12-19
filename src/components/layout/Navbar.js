@@ -181,17 +181,21 @@ const Navbar = () => {
                       {/* User Dashboard Link */}
                       <Link
                         to={getPathWithLanguage(
-                          "/user-dashboard",
+                          "/notifications",
                           currentLanguage
                         )}
                         className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
                       >
-                        {t("user_dashboard")}
+                        {/* {t("user_dashboard")} */}
+                        Notifications
                       </Link>
 
                       {/* Manage Products Link */}
                       <Link
-                        to={getPathWithLanguage("/products", currentLanguage)}
+                        to={getPathWithLanguage(
+                          "/product-management",
+                          currentLanguage
+                        )}
                         className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
                       >
                         {t("manage_products")}

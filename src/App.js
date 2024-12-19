@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./components/layout/Login";
 import Signup from "./components/layout/Signup";
-import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import Category from "./pages/Category";
@@ -11,7 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ProductsManagement from "./pages/ProductsManagement";
 import EditProduct from "./pages/EditProduct";
 import AboutUs from "./pages/About";
-import Products from "./components/products/Product";
+import Products from "./components/products/ProductManagement";
 import ProductSearchAndFilter from "./components/filter&search/ProductSearchAndFilter";
 import Report from "./components/report/Report";
 import SellingProduct from "./components/products/SellingProduct";
@@ -30,7 +29,9 @@ import ProductDetails from "./components/products/ProductDetails";
 import ChatRoom from "./components/chat/ChatRoom";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
-import i18n from "./i18n";
+// Import React Toastify components and styles
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -46,6 +47,8 @@ function App() {
 
   return (
     <Layout>
+      {/* ToastContainer to render toast notifications */}
+      <ToastContainer />
       <Routes>
         {/* Default route redirects to English version */}
         <Route path="/" element={<Navigate to={`/en`} replace />} />
@@ -53,7 +56,10 @@ function App() {
         {/* Language-specific routes */}
         <Route path="/:lang" element={<Home />} />
         <Route path="/:lang/about-us" element={<AboutUs />} />
-        <Route path="/:lang/products" element={<ProductsManagement />} />
+        <Route
+          path="/:lang/product-management"
+          element={<ProductsManagement />}
+        />
         <Route path="/:lang/browse-products" element={<Products />} />
         <Route path="/:lang/selling-product" element={<SellingProduct />} />
         <Route path="/:lang/edit-product/:id" element={<EditProduct />} />
@@ -62,7 +68,6 @@ function App() {
         <Route path="/:lang/categories" element={<CategoryList />} />
         <Route path="/:lang/signup" element={<Signup />} />
         <Route path="/:lang/profile" element={<Profile />} />
-        <Route path="/:lang/user-dashboard" element={<UserDashboard />} />
         <Route path="/:lang/admin" element={<AdminDashboard />} />
         <Route path="/:lang/forgot-password" element={<ForgotPassword />} />
         <Route path="/:lang/faq" element={<FAQ />} />

@@ -9,9 +9,7 @@ import {
 } from "../../features/categories/categoriesSlice";
 import countryData from "country-telephone-data"; // Import data for countries
 import Flag from "react-world-flags"; // To show flags
-import { parsePhoneNumber } from "libphonenumber-js"; // Import phone number parsing library
-import ProductCard from "./ProductCard";
-import Modal from "../ommon/Modal";
+import { parsePhoneNumber } from "libphonenumber-js";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { Link } from "react-router-dom";
