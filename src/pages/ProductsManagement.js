@@ -131,7 +131,7 @@ const ProductsManagement = () => {
                 <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead className="bg-gray-50 dark:bg-gray-800">
-                      <tr>
+                      <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th
                           scope="col"
                           className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -186,7 +186,10 @@ const ProductsManagement = () => {
                           : "";
 
                         return (
-                          <tr key={product._id}>
+                          <tr
+                            key={product._id}
+                            className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                          >
                             <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                               <div className="inline-flex items-center gap-x-3">
                                 <span>{product.name}</span>
