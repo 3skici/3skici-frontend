@@ -8,28 +8,20 @@ import {
   fetchCategories,
 } from "../../features/categories/categoriesSlice";
 import countryData from "country-telephone-data"; // Import data for countries
-import Flag from "react-world-flags"; // To show flags
-import { parsePhoneNumber } from "libphonenumber-js";
-import i18n from "../../i18n";
-import { getPathWithLanguage } from "../../utils/pathHelpers";
-import { Link } from "react-router-dom";
+import Flag from "react-world-flags";
 import ProductSmallCard from "./ProductSmallCard";
-
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer for notifications
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 
 const AddProductPage = () => {
-  const currentLanguage = i18n.language;
-  const login = getPathWithLanguage("/login", currentLanguage);
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const seller = user?._id;
-  const [selectedCountryCode, setSelectedCountryCode] = useState(""); // Default country code
-  const [selectedCountry, setSelectedCountry] = useState(""); // Default country
-  const [message, setMessage] = useState(null); // State to track success/error messages
-
+  const [selectedCountryCode, setSelectedCountryCode] = useState(
+    countryData.allCountries[228]?.dialCode || ""
+  );
   useEffect(() => {
     if (!user) {
       toast.warn(
@@ -60,7 +52,6 @@ const AddProductPage = () => {
     images: [],
   });
   const [userProducts, setUserProducts] = useState([]);
-  console.log("user product", userProducts);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -124,10 +115,6 @@ const AddProductPage = () => {
     setProduct({ ...product, images: imageUrls });
   };
 
-  const handleFavoriteChange = () => {
-    setProduct({ ...product, favorite: !product.favorite });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -135,17 +122,29 @@ const AddProductPage = () => {
       return;
     }
     // Validate phone number before submitting
-    const phoneNumber = `${selectedCountryCode}${product.contactInfo.phone.trim()}`;
+    const sellerPhoneNumber = `+${selectedCountryCode}${product.contactInfo.phone.trim()}`;
+    console.log("this is phone number:", sellerPhoneNumber);
+    if (!sellerPhoneNumber || !product.contactInfo.phone.trim()) {
+      toast.error("Phone number can not be empty!!");
+      return;
+    }
+
+    // Ensure the phone number contains only digits
+    const phoneRegex = /^[0-9]+$/;
+    if (!phoneRegex.test(sellerPhoneNumber.replace(/^\+/, ""))) {
+      toast.error("Phone number can only contain numbers.");
+      return;
+    }
+
+    // Optional: Check the length of the phone number based on the country code
+    // Example: Check for common phone number lengths (this could vary for each country)
+    const phoneLength = sellerPhoneNumber.length;
+    if (phoneLength < 10 || phoneLength > 15) {
+      toast.error("Phone number is too short or too long.");
+      return;
+    }
+
     try {
-      // Use libphonenumber-js to parse and validate the phone number
-      const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
-      if (!parsedPhoneNumber.isValid()) {
-        setMessage({
-          type: "error",
-          text: "Please enter a valid phone number.",
-        });
-        return;
-      }
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/product/add`,
         {
@@ -166,21 +165,19 @@ const AddProductPage = () => {
             location: product.location,
             contactInfo: {
               ...product.contactInfo,
-              phone: parsedPhoneNumber.format("E.164"), // Format phone number correctly
+              phone: sellerPhoneNumber,
             },
           }),
         }
       );
+      console.log("this is the respose of post fetch: ", response);
       if (response.ok) {
         const newProduct = await response.json();
         setUserProducts([...userProducts, newProduct]);
-        setMessage({ type: "success", text: "Product created successfully." });
+        toast.success("Product created successfully!");
       } else {
         const errorResponse = await response.json();
-        setMessage({
-          type: "error",
-          text: errorResponse.message || "Failed to add product.",
-        });
+        toast.error(errorResponse.message || "Failed to add product.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -208,15 +205,6 @@ const AddProductPage = () => {
       favorite: false,
       images: [],
     });
-  };
-
-  const handleCountryChange = (selectedOption) => {
-    setSelectedCountryCode(`+${selectedOption.value}`);
-    setSelectedCountry(selectedOption.flag);
-    setProduct((prev) => ({
-      ...prev,
-      location: { ...prev.location, country: selectedOption.value },
-    }));
   };
 
   // Create options from country data
@@ -251,17 +239,6 @@ const AddProductPage = () => {
       <div className="flex flex-row w-full mb-6 h-1/2">
         {/* Right Side Form */}
         <div className="w-1/2 p-4">
-          {message && (
-            <div
-              className={`p-4 mb-4 ${
-                message.type === "error"
-                  ? "bg-red-500 text-white"
-                  : "bg-green-500 text-white"
-              }`}
-            >
-              {message.text}
-            </div>
-          )}
           <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
             <input
               type="text"
@@ -287,6 +264,7 @@ const AddProductPage = () => {
               <option value="used">Used</option>
               <option value="new">New</option>
               <option value="like new">Like New</option>
+              <option value="like new">Damaged</option>
             </select>
             <input
               type="text"
@@ -335,11 +313,13 @@ const AddProductPage = () => {
                 {/* Country Code Dropdown */}
                 <Select
                   options={countryOptions}
-                  onChange={handleCountryChange}
-                  defaultValue={countryOptions[0]}
+                  defaultValue={countryOptions[228]}
                   value={countryOptions.find(
                     (option) => option.value === selectedCountryCode
                   )}
+                  onChange={(selectedOption) => {
+                    setSelectedCountryCode(selectedOption.value); // Update selectedCountryCode
+                  }}
                 />
                 {/* Phone Number Input */}
                 <input
@@ -407,14 +387,7 @@ const AddProductPage = () => {
               <option value="not available">Not Available</option>
               <option value="sold">Sold</option>
             </select>
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={product.favorite}
-                onChange={handleFavoriteChange}
-              />
-              <span>Mark as Favorite</span>
-            </label>
+
             <button
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded"
@@ -526,8 +499,8 @@ const AddProductPage = () => {
       <div className="w-full  overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">Your Products</h2>
         <div className="grid grid-cols-4 gap-4">
-          {userProducts.map((product) => (
-            <ProductSmallCard key={product._id} product={product} />
+          {userProducts.map((product, index) => (
+            <ProductSmallCard key={product._id || index} product={product} />
           ))}
         </div>
       </div>
