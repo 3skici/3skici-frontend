@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const currentLanguage = i18n.language;
@@ -43,6 +44,7 @@ const Signup = () => {
       navigate(login); // Redirect to login page after successful signup
     } catch (err) {
       setError(err.message || "Error signing up");
+      toast.error(err.message || "Error signing up"); // Display error as toast
     }
   };
 
@@ -54,7 +56,6 @@ const Signup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
@@ -147,7 +148,8 @@ const Signup = () => {
           {/* info about terms  */}
           {!acceptTerms && (
             <p className="text-sm text-red-500">
-              You must agree the Terms and Conditions to proceed with the registration.
+              You must agree the Terms and Conditions to proceed with the
+              registration.
             </p>
           )}
           <button

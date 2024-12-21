@@ -214,7 +214,7 @@ const AddProductPage = () => {
       <div style={{ display: "flex", alignItems: "center" }}>
         <Flag
           code={country.iso2}
-          style={{ width: "20px", height: "15px", marginRight: "5px" }}
+          style={{ width: "20px", height: "2rem", marginRight: "5px" }}
         />
         +{country.dialCode}
       </div>
@@ -308,41 +308,62 @@ const AddProductPage = () => {
             />
             {/* Phone number */}
             <div>
-              <label htmlFor="phone">Phone Number:</label>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <label htmlFor="phone">Phone number</label>
+              <div className="relative mt-2 max-w-xs text-gray-500">
                 {/* Country Code Dropdown */}
-                <Select
-                  options={countryOptions}
-                  defaultValue={countryOptions[228]}
-                  value={countryOptions.find(
-                    (option) => option.value === selectedCountryCode
-                  )}
-                  onChange={(selectedOption) => {
-                    setSelectedCountryCode(selectedOption.value); // Update selectedCountryCode
-                  }}
-                />
+                <div className="absolute inset-y-0 my-auto h-6 flex items-center border-r ">
+                  <Select
+                    options={countryOptions}
+                    defaultValue={countryOptions[228]} // Default value for selected country
+                    value={countryOptions.find(
+                      (option) => option.value === selectedCountryCode
+                    )}
+                    onChange={(selectedOption) => {
+                      setSelectedCountryCode(selectedOption.value); // Update selected country code
+                    }}
+                    className="text-sm bg-transparent outline-none"
+                  />
+                </div>
+
                 {/* Phone Number Input */}
                 <input
                   type="tel"
                   id="phone"
-                  placeholder="Enter phone number"
+                  placeholder="+1 (555) 000-000"
                   name="contactInfo.phone"
                   value={product.contactInfo.phone}
                   onChange={(e) => handleInputChange(e)}
                   maxLength={17} // Limit input length to match the full format
-                  style={{ padding: "10px", fontSize: "16px", width: "300px" }}
-                  className="p-2 border border-gray-300 rounded"
+                  className="w-full pl-[8rem] pr-3 py-2 appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
               </div>
             </div>
-            <input
-              type="email"
-              name="contactInfo.email"
-              value={product.contactInfo.email}
-              onChange={handleInputChange}
-              placeholder="Email Address"
-              className="p-2 border border-gray-300 rounded"
-            />
+
+            {/* email */}
+            <div className="relative max-w-xs">
+              <svg
+                className="w-6 h-6 text-gray-400 absolute left-3 inset-y-0 my-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                />
+              </svg>
+              <input
+                value={product.contactInfo.email}
+                onChange={handleInputChange}
+                type="email"
+                name="contactInfo.email"
+                placeholder="Enter your email"
+                className="w-full pl-12 pr-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+            </div>
             {loading ? (
               <div className="text-center text-gray-700">
                 Loading categories...

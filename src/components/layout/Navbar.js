@@ -108,18 +108,18 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white p-6 shadow-md">
+    <nav className="bg-light-coffee text-dark-purple-blue p-6 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
-          className="text-2xl font-bold hover:text-yellow-400"
+          className="text-2xl text-dark-purple-blue font-bold hover:text-yellow-400"
         >
           3skici
         </Link>
         <div className="lg:hidden">
           <button
             onClick={toggleMobileMenu}
-            className="text-white focus:outline-none"
+            className="text-dark-purple-blue focus:outline-none"
           >
             {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
@@ -132,7 +132,7 @@ const Navbar = () => {
           <Link
             to={getPathWithLanguage("/selling-product", currentLanguage)}
             onClick={handleSellingProductClick} // Attach the handler here
-            className="hover:text-yellow-400 py-2 lg:py-0"
+            className=" font-nunito font-bold hover:text-blue-400 py-2 lg:py-0"
           >
             {t("sell_product")}
           </Link>
@@ -142,29 +142,11 @@ const Navbar = () => {
               <>
                 <Link
                   to={getPathWithLanguage("/chat", currentLanguage)}
-                  className="text-xl text-white hover:text-yellow-400 focus:outline-none"
+                  className="text-xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
                 >
                   <BsChatDots />
                 </Link>
-                <button
-                  className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
-                  aria-label="show notifications"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
+
                 <button
                   onClick={toggleFavorite}
                   className={`text-xl ${

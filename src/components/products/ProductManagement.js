@@ -8,6 +8,7 @@ import {
 } from "../../features/categories/categoriesSlice";
 import ProductSmallCard from "./ProductSmallCard";
 import FilterPanel from "./FilterPanel";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,20 @@ const Products = () => {
       dispatch(fetchCategories());
     }
   }, [status, dispatch]);
+
+  // Show error toast if products fail to load
+  useEffect(() => {
+    if (status === "failed") {
+      toast.error(`Error loading products: ${error}`);
+    }
+  }, [status, error]);
+
+  // Show success toast when products are loaded
+  useEffect(() => {
+    if (status === "succeeded") {
+      toast.success("Products loaded successfully!");
+    }
+  }, [status]);
 
   // Calculate product count per category
   const categoriesWithCount = useMemo(() => {

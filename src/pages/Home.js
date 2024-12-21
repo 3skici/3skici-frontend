@@ -35,9 +35,9 @@ const Home = () => {
   }, [status, dispatch]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex bg-off-white flex-col min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
+      <div className="text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center gap-4 mt-8">
             <Link
@@ -56,7 +56,7 @@ const Home = () => {
         </div>
       </div>
 
-      <section className="bg-gray-100">
+      <section>
         <div className="container mx-auto">
           <CategoryList />
         </div>

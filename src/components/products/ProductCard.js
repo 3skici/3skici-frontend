@@ -20,6 +20,7 @@ import Report from "../report/Report";
 import { useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
+import { toast } from "react-toastify";
 
 const ProductCard = memo(({ product }) => {
   const currentLanguage = i18n.language;
@@ -40,6 +41,7 @@ const ProductCard = memo(({ product }) => {
     navigator.clipboard.writeText(productId);
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
+    toast.success("Product ID copied!"); // Show success toast for copying ID
   };
 
   // status cases
@@ -52,15 +54,17 @@ const ProductCard = memo(({ product }) => {
   // favorite function
   const handleToggleFavorite = async (productId) => {
     if (!userId) {
-      alert("You must be logged in to add to favorites. ");
+      toast.error("You must be logged in to add to favorites."); // Show error toast if user is not logged in
       return;
     }
     setIsUpdating(true);
     try {
       if (isFavorite) {
         await dispatch(removeFavorite({ userId, productId }));
+        toast.info("Product removed from favorites."); // Show info toast when removed from favorites
       } else {
         await dispatch(addFavorite({ userId, productId }));
+        toast.success("Product added to favorites!"); // Show success toast when added to favorites
       }
     } finally {
       setIsUpdating(false);
@@ -86,6 +90,7 @@ const ProductCard = memo(({ product }) => {
   const handleReport = () => {
     // Handle report action here, e.g., navigate to the report page
     navigate(report);
+    toast.info("Redirecting to report page..."); // Show info toast for report navigation
   };
   return (
     <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white relative">

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories,
   selectCategories,
   selectLoading as selectCategoriesLoading,
-} from '../../features/categories/categoriesSlice';
+} from "../../features/categories/categoriesSlice";
 import {
   fetchProducts,
   fetchProductsByCategory,
   selectProducts,
   selectLoading as selectProductsLoading,
-} from '../../features/products/productsSlice';
-import Categories from './Categories'; 
-import ProductSmallCard from '../products/ProductSmallCard';
+} from "../../features/products/productsSlice";
+import Categories from "./Categories";
+import ProductSmallCard from "../products/ProductSmallCard";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const CategoryList = () => {
   useEffect(() => {
     // Fetch categories and all products when component mounts
     dispatch(fetchCategories());
-    dispatch(fetchProducts()); 
+    dispatch(fetchProducts());
   }, [dispatch]);
 
   const handleCategorySelect = (category) => {
@@ -43,7 +43,7 @@ const CategoryList = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-2">
+    <div className="bg-off-white min-h-screen py-2">
       <div className="container mx-auto px-4">
         {/* Categories Component */}
         <Categories
@@ -56,7 +56,9 @@ const CategoryList = () => {
         {/* Selected Category Description */}
         {selectedCategory && (
           <div className="text-center">
-            <h2 className="text-l font-bold text-gray-800 mb-4">{selectedCategory.name}</h2>
+            <h2 className="text-l font-bold text-gray-800 mb-4">
+              {selectedCategory.name}
+            </h2>
             {/* <p className="text-gray-600">{selectedCategory.description}</p> */}
           </div>
         )}
@@ -77,8 +79,8 @@ const CategoryList = () => {
           ) : (
             <div className="text-center text-gray-600 mt-4">
               {selectedCategory
-                ? 'No products available in this category.'
-                : 'No products available.'}
+                ? "No products available in this category."
+                : "No products available."}
             </div>
           )}
         </div>

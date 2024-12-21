@@ -5,8 +5,17 @@ module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {
+      fontFamily: {
+        nunito: ["Nunito", "sans-serif"],
+      },
       colors: {
-        bg: "gray-900",
+        // Core Colors
+        "light-coffee": "#F3f4f6 ", //secondary color - for nav
+        "dark-purple-blue": "#060318", // nav links
+
+        // Background Colors
+        "off-white": "#FAFAFA", // for all elements and pages bg
+        "light-frost": "#F8FAFC", //cards bg
       },
     },
   },

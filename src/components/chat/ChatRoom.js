@@ -104,6 +104,13 @@ const ChatRoom = () => {
     setTypingTimeoutId(timeoutId);
   };
 
+  // Show error toast if there's an error
+  useEffect(() => {
+    if (error) {
+      toast.error(error); // Display the error as a toast notification
+    }
+  }, [error]);
+
   // Sort messages by timestamp
   const sortedMessages = selectedChat?.messages
     ? selectedChat.messages
@@ -134,7 +141,6 @@ const ChatRoom = () => {
         {loading && (
           <p className="text-center text-gray-600">Loading chat content...</p>
         )}
-        {error && <p className="text-red-500 text-center">{error}</p>}
 
         {Object.keys(groupedMessages).length > 0 ? (
           Object.entries(groupedMessages).map(([date, messages]) => (

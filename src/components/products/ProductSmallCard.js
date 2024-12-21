@@ -58,7 +58,7 @@ const ProductSmallCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden m-3 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <div className="bg-light-frost rounded-lg shadow-lg overflow-hidden m-3 hover:shadow-xl transition-shadow duration-300 ease-in-out">
       {/* Product Image and Favorite Icon */}
       <div className="relative cursor-pointer" onClick={handleProductClick}>
         <img
