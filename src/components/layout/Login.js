@@ -87,7 +87,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-pale-gold text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             disabled={status === "loading"} // Disable button during loading
           >
             {status === "loading" ? "Logging in..." : "Login"}

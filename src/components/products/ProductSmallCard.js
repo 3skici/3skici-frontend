@@ -58,7 +58,7 @@ const ProductSmallCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-light-frost rounded-lg shadow-lg overflow-hidden m-3 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <div className="bg-card-bg rounded-lg shadow-lg overflow-hidden m-3 hover:shadow-xl transition-shadow duration-300 ease-in-out">
       {/* Product Image and Favorite Icon */}
       <div className="relative cursor-pointer" onClick={handleProductClick}>
         <img
@@ -93,10 +93,10 @@ const ProductSmallCard = ({ product }) => {
       </div>
       {/* Product Info */}
       <div className="p-4">
-        <div class="flex flex-row justify-between">
-          <div class="flex flex-col">
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col">
             <span
-              className="text-l font-bold truncate whitespace-nowrap overflow-hidden max-w-[120px]"
+              className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden max-w-[120px]"
               title={product.name || "No product name"}
             >
               {product.name || "No product name"}
@@ -104,7 +104,7 @@ const ProductSmallCard = ({ product }) => {
           </div>
 
           {/* Price */}
-          <span class="font-bold  text-red-600">
+          <span className="font-bold  text-red-600">
             <span>₺</span>
             {product.price && product.price.amount != null
               ? product.price.amount.toFixed(2)

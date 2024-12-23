@@ -35,7 +35,7 @@ const Home = () => {
   }, [status, dispatch]);
 
   return (
-    <div className="flex bg-off-white flex-col min-h-screen">
+    <div className="flex bg-light-beige flex-col min-h-screen">
       {/* Hero Section */}
       <div className="text-white py-16">
         <div className="container mx-auto px-4 text-center">

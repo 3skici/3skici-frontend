@@ -16,7 +16,7 @@ const ChatRoom = () => {
   const userId = useSelector((state) => state.auth.user?._id);
   const { selectedChatId, selectedChat, loading, error, isTyping } =
     useSelector((state) => state.chats);
-
+  console.log("selectedChat: ", selectedChat);
   const [newMessage, setNewMessage] = useState("");
   const [typingTimeoutId, setTypingTimeoutId] = useState(null);
   const chatContainerRef = useRef(null);
@@ -32,13 +32,6 @@ const ChatRoom = () => {
   // Initialize Socket.IO listeners once the component mounts
   useEffect(() => {
     dispatch(initializeSocketListeners());
-
-    // Cleanup on unmount
-    return () => {
-      socket.off("newMessage");
-      socket.off("typing");
-      socket.off("stopTyping");
-    };
   }, [dispatch]);
 
   // Fetch chat content when selectedChatId or token changes
@@ -120,7 +113,7 @@ const ChatRoom = () => {
 
   // Group messages by date
   const groupedMessages = sortedMessages.reduce((groups, message) => {
-    const dateKey = new Date(message.timestamp).toLocaleDateString();
+    const dateKey = new Date(message.createdAt).toLocaleDateString();
     if (!groups[dateKey]) {
       groups[dateKey] = [];
     }
@@ -170,7 +163,7 @@ const ChatRoom = () => {
                     >
                       <div>{message.content}</div>
                       <div className="text-xs text-gray-500 mt-2 text-right">
-                        {format(message.timestamp)}
+                        {format(message.createdAt)}
                       </div>
                     </div>
                   </div>
@@ -212,12 +205,12 @@ const ChatRoom = () => {
           <button
             onClick={handleSendMessage}
             disabled={loading || !newMessage.trim()}
-            class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+            className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
           >
             <span>Send</span>
-            <span class="ml-2">
+            <span className="ml-2">
               <svg
-                class="w-4 h-4 transform rotate-45 -mt-px"
+                className="w-4 h-4 transform rotate-45 -mt-px"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

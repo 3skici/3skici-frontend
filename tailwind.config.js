@@ -9,13 +9,15 @@ module.exports = {
         nunito: ["Nunito", "sans-serif"],
       },
       colors: {
-        // Core Colors
-        "light-coffee": "#F3f4f6 ", //secondary color - for nav
-        "dark-purple-blue": "#060318", // nav links
+        // Primary Color
+        "light-beige": "#F5F1EA", // for bg
 
-        // Background Colors
-        "off-white": "#FAFAFA", // for all elements and pages bg
-        "light-frost": "#F8FAFC", //cards bg
+        // Secondary Color
+        "card-bg": "#FFFFFF", //cards bg
+
+        // Accent Color
+        "light-coffee": "#F7F7F7", // nav
+        "dark-blue": "#3B3B3B", // nav links
       },
     },
   },

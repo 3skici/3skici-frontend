@@ -70,11 +70,9 @@ const MyChats = () => {
 
             // Access the last message content and timestamp
             const lastMessageContent =
-              conversation.lastMessage?.text ||
-              conversation.lastMessage?.content ||
-              "No message yet";
+              conversation.lastMessage?.content || "No message yet";
             const lastMessageTimestamp = conversation.lastMessage
-              ? format(conversation.lastMessage.timestamp)
+              ? format(conversation.lastMessage.createdAt)
               : "";
 
             return (

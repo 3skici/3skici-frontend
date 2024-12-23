@@ -108,7 +108,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-light-coffee text-dark-purple-blue p-6 shadow-md">
+    <nav className="bg-light-beige text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
@@ -132,7 +132,7 @@ const Navbar = () => {
           <Link
             to={getPathWithLanguage("/selling-product", currentLanguage)}
             onClick={handleSellingProductClick} // Attach the handler here
-            className=" font-nunito font-bold hover:text-blue-400 py-2 lg:py-0"
+            className=" font-nunito text-xl font-bold hover:text-blue-400 py-2 lg:py-0"
           >
             {t("sell_product")}
           </Link>
@@ -142,14 +142,14 @@ const Navbar = () => {
               <>
                 <Link
                   to={getPathWithLanguage("/chat", currentLanguage)}
-                  className="text-xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
+                  className="text-2xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
                 >
                   <BsChatDots />
                 </Link>
 
                 <button
                   onClick={toggleFavorite}
-                  className={`text-xl ${
+                  className={`text-2xl ${
                     isFavorite ? "text-red-500" : "text-white"
                   } hover:text-red-400 focus:outline-none`}
                 >
