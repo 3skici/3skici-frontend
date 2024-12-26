@@ -108,7 +108,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-light-beige text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
+    <nav className="bg-light-nav text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
@@ -150,7 +150,7 @@ const Navbar = () => {
                 <button
                   onClick={toggleFavorite}
                   className={`text-2xl ${
-                    isFavorite ? "text-red-500" : "text-white"
+                    isFavorite ? "text-red-500" : "text-green-600"
                   } hover:text-red-400 focus:outline-none`}
                 >
                   <FaHeart />

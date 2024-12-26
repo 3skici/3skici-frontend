@@ -10,13 +10,14 @@ module.exports = {
       },
       colors: {
         // Primary Color
-        "light-beige": "#F5F1EA", // for bg
+        "light-beige": "#F2F9FF", // for bg
 
         // Secondary Color
         "card-bg": "#FFFFFF", //cards bg
 
         // Accent Color
-        "light-coffee": "#F7F7F7", // nav
+        "light-nav": "#E4F1FF", // nav
+        "light-footer": "#D0E4FF",
         "dark-blue": "#3B3B3B", // nav links
       },
     },

@@ -5,6 +5,7 @@ import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
 import ProductCard from "../products/ProductCard";
 import { format } from "timeago.js";
+import { toast } from "react-toastify";
 
 const Report = () => {
   const token = useSelector((state) => state.auth.token);
@@ -99,8 +100,7 @@ const Report = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      alert("You need to be logged in to submit a report!");
-      navigate(login);
+      toast.error("You need to be logged in to submit a report!");
       return;
     }
 
@@ -116,7 +116,7 @@ const Report = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert(result.message);
+        toast.success(result.message);
 
         // Re-fetch user reports after submitting a new one
         const updatedReportsResponse = await fetch(

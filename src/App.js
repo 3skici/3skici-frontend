@@ -39,11 +39,11 @@ function App() {
   const { i18n } = useTranslation();
   const currentLanguage = useSelector((state) => state.language.language); // Adjust based on your state structure
 
-  useEffect(() => {
-    // Set the direction based on the current language
-    const isRTL = i18n.dir() === "rtl";
-    document.documentElement.dir = isRTL ? "rtl" : "ltr";
-  }, [i18n.language]);
+  // useEffect(() => {
+  //   // Set the direction based on the current language
+  //   const isRTL = i18n.dir() === "rtl";
+  //   document.documentElement.dir = isRTL ? "rtl" : "ltr";
+  // }, [i18n.language]);
 
   return (
     <Layout>
