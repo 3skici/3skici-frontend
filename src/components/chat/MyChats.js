@@ -33,8 +33,8 @@ const MyChats = () => {
     }
   }, [dispatch, token]);
 
-  const handleChatClick = (chatId) => {
-    dispatch(selectChat(chatId));
+  const handleChatClick = (chatKey) => {
+    dispatch(selectChat(chatKey));
   };
 
   // Loading Skeleton Component
@@ -77,8 +77,8 @@ const MyChats = () => {
 
             return (
               <div
-                key={conversation._id}
-                onClick={() => handleChatClick(conversation._id)}
+                key={conversation.chatKey}
+                onClick={() => handleChatClick(conversation.chatKey)}
                 className="flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition duration-200 ease-in-out"
                 role="button"
                 tabIndex={0}
@@ -128,7 +128,7 @@ const MyChats = () => {
           })
         ) : (
           <div className="text-gray-500 text-center py-10">
-            No messages yet.
+            You do not have any chat.
           </div>
         )}
       </div>

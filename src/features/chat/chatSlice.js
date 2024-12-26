@@ -35,11 +35,11 @@ export const fetchChats = createAsyncThunk(
 // Thunk to fetch specific chat content (messages)
 export const fetchChatContent = createAsyncThunk(
   "chats/fetchChatContent",
-  async (chatId, { getState, rejectWithValue }) => {
+  async (chatKey, { getState, rejectWithValue }) => {
     const { token } = getState().auth;
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/message/${chatId}`,
+        `${process.env.REACT_APP_API_URL}/message/${chatKey}`,
         {
           method: "GET",
           headers: {
@@ -52,8 +52,13 @@ export const fetchChatContent = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Failed to fetch chat messages");
       }
+      const data = await response.json();
 
-      return response.json();
+      // Ensure product is included in each message
+      return data.map((message) => ({
+        ...message,
+        product: message.product || null,
+      }));
     } catch (error) {
       return rejectWithValue("Failed to fetch chat messages");
     }
@@ -66,27 +71,27 @@ export const initializeSocketListeners = () => (dispatch, getState) => {
   socket.on("newMessage", (message) => {
     const state = getState();
     // Only add message if it's for the currently selected chat
-    if (state.chats.selectedChatId === message.chatId) {
+    if (state.chats.selectedChatKey === message.chatKey) {
       dispatch(receiveMessage(message));
     }
     // Optionally update the chat list (e.g., move the chat to the top)
   });
 
   // Handle typing events
-  socket.on("typing", ({ chatId, userId }) => {
+  socket.on("typing", ({ chatKey, userId }) => {
     const state = getState();
     if (
-      state.chats.selectedChatId === chatId &&
+      state.chats.selectedChatKey === chatKey &&
       state.auth.user?._id !== userId
     ) {
       dispatch(setTyping(true));
     }
   });
 
-  socket.on("stopTyping", ({ chatId, userId }) => {
+  socket.on("stopTyping", ({ chatKey, userId }) => {
     const state = getState();
     if (
-      state.chats.selectedChatId === chatId &&
+      state.chats.selectedChatKey === chatKey &&
       state.auth.user?._id !== userId
     ) {
       dispatch(setTyping(false));
@@ -98,7 +103,7 @@ const chatSlice = createSlice({
   name: "chats",
   initialState: {
     chats: [],
-    selectedChatId: null,
+    selectedChatKey: null,
     selectedChat: { messages: [] },
     loading: false,
     error: null,
@@ -106,22 +111,36 @@ const chatSlice = createSlice({
   },
   reducers: {
     selectChat: (state, action) => {
-      state.selectedChatId = action.payload;
+      state.selectedChatKey = action.payload;
       state.selectedChat = { messages: [] };
       state.error = null;
       state.isTyping = false;
     },
     clearChat: (state) => {
-      state.selectedChatId = null;
+      state.selectedChatKey = null;
       state.selectedChat = { messages: [] };
       state.error = null;
       state.isTyping = false;
     },
     receiveMessage: (state, action) => {
       const message = action.payload;
-      state.selectedChat.messages.push(message);
+
+      // Add the message to the selected chat
+      if (state.selectedChatKey === message.chatKey) {
+        state.selectedChat.messages.push(message);
+      }
+
+      // Update the chat list to move this chat to the top
       state.chats = state.chats.map((chat) =>
-        chat._id === message.chatId ? { ...chat, updatedAt: new Date() } : chat
+        chat.chatKey === message.chatKey
+          ? {
+              ...chat,
+              updatedAt: new Date(),
+              products: Array.from(
+                new Set([...(chat.products || []), message.product?._id])
+              ),
+            }
+          : chat
       );
     },
     setTyping: (state, action) => {
@@ -129,7 +148,7 @@ const chatSlice = createSlice({
     },
     addOrUpdateChat: (state, action) => {
       const newChat = action.payload;
-      const index = state.chats.findIndex((c) => c._id === newChat._id);
+      const index = state.chats.findIndex((c) => c.chatKey === newChat.chatKey);
       if (index === -1) {
         state.chats.push(newChat);
       } else {
@@ -137,8 +156,8 @@ const chatSlice = createSlice({
       }
     },
     setChatMessages: (state, action) => {
-      const { chatId, messages } = action.payload;
-      if (state.selectedChatId === chatId) {
+      const { chatKey, messages } = action.payload;
+      if (state.selectedChatKey === chatKey) {
         state.selectedChat.messages = messages;
       }
     },

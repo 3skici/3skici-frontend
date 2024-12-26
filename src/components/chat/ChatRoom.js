@@ -14,12 +14,47 @@ const ChatRoom = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const userId = useSelector((state) => state.auth.user?._id);
-  const { selectedChatId, selectedChat, loading, error, isTyping } =
+
+  const { selectedChatKey, selectedChat, loading, error, isTyping } =
     useSelector((state) => state.chats);
-  console.log("selectedChat: ", selectedChat);
   const [newMessage, setNewMessage] = useState("");
   const [typingTimeoutId, setTypingTimeoutId] = useState(null);
   const chatContainerRef = useRef(null);
+
+  // 1) Fetch chat content by chatKey when it changes
+  useEffect(() => {
+    if (selectedChatKey && token) {
+      // fetchChatContent now expects chatKey instead of an _id
+      dispatch(fetchChatContent(selectedChatKey));
+
+      // Join the conversation room via Socket.IO using chatKey
+      socket.emit("joinChat", selectedChatKey);
+    }
+
+    return () => {
+      if (selectedChatKey) {
+        socket.emit("leaveChat", selectedChatKey);
+      }
+    };
+  }, [dispatch, selectedChatKey, token]);
+
+  // 2) Initialize Socket.IO listeners once
+  useEffect(() => {
+    dispatch(initializeSocketListeners());
+
+    return () => {
+      socket.off("newMessage");
+      socket.off("typing");
+      socket.off("stopTyping");
+    };
+  }, [dispatch]);
+
+  // 3) Scroll to bottom whenever messages change
+  useEffect(() => {
+    if (selectedChat?.messages?.length > 0) {
+      scrollToBottom();
+    }
+  }, [selectedChat]);
 
   // Function to scroll to the bottom of the chat
   const scrollToBottom = () => {
@@ -29,69 +64,45 @@ const ChatRoom = () => {
     }
   };
 
-  // Initialize Socket.IO listeners once the component mounts
-  useEffect(() => {
-    dispatch(initializeSocketListeners());
-  }, [dispatch]);
-
-  // Fetch chat content when selectedChatId or token changes
-  useEffect(() => {
-    if (selectedChatId && token) {
-      dispatch(fetchChatContent(selectedChatId));
-
-      // Join the conversation room via Socket.IO
-      socket.emit("joinChat", selectedChatId);
-    }
-
-    return () => {
-      if (selectedChatId) {
-        socket.emit("leaveChat", selectedChatId);
-      }
-    };
-  }, [dispatch, selectedChatId, token]);
-
-  // Scroll to bottom whenever messages change
-  useEffect(() => {
-    if (
-      selectedChat &&
-      selectedChat.messages &&
-      selectedChat.messages.length > 0
-    ) {
-      scrollToBottom();
-    }
-  }, [selectedChat]);
-
+  // 4) Handle sending a message
   const handleSendMessage = useCallback(() => {
-    if (newMessage.trim() && selectedChatId) {
+    if (newMessage.trim() && selectedChatKey) {
+      // build message data
       const messageData = {
-        chatId: selectedChatId,
+        chatKey: selectedChatKey,
         content: newMessage,
       };
+
+      // Include productId if available in the selected chat's messages
+      const product = selectedChat.messages?.[0]?.product;
+      if (product?._id) {
+        messageData.productId = product._id;
+      }
 
       // Emit the 'sendMessage' event via Socket.IO only
       socket.emit("sendMessage", messageData);
 
       // Stop typing since user just sent a message
-      socket.emit("stopTyping", { chatId: selectedChatId, userId });
+      socket.emit("stopTyping", { chatKey: selectedChatKey, userId });
 
       setNewMessage("");
     }
-  }, [newMessage, selectedChatId, userId]);
+  }, [newMessage, selectedChatKey, userId, selectedChat]);
 
   // Handle typing indicator logic
   const handleTyping = (text) => {
     setNewMessage(text);
 
-    if (!selectedChatId) return;
-
-    socket.emit("typing", { chatId: selectedChatId, userId });
+    if (!selectedChatKey) return;
+    // Emit "typing"
+    socket.emit("typing", { chatKey: selectedChatKey, userId });
 
     // Clear previous timeout if any
     if (typingTimeoutId) clearTimeout(typingTimeoutId);
 
-    // Set a new timeout to emit "stopTyping" after user stops typing for a while
+    // Set a new timeout to emit "stopTyping" if no activity
     const timeoutId = setTimeout(() => {
-      socket.emit("stopTyping", { chatId: selectedChatId, userId });
+      socket.emit("stopTyping", { chatKey: selectedChatKey, userId });
     }, TYPING_INTERVAL);
 
     setTypingTimeoutId(timeoutId);
@@ -104,11 +115,14 @@ const ChatRoom = () => {
     }
   }, [error]);
 
-  // Sort messages by timestamp
+  // A set to keep track of displayed product IDs
+  const shownProducts = new Set();
+
+  // Sort messages by createdAt
   const sortedMessages = selectedChat?.messages
-    ? selectedChat.messages
-        .slice()
-        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+    ? [...selectedChat.messages].sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      )
     : [];
 
   // Group messages by date
@@ -120,6 +134,8 @@ const ChatRoom = () => {
     groups[dateKey].push(message);
     return groups;
   }, {});
+
+  let lastProductId = null;
 
   return (
     <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden h-[80vh]">
@@ -145,29 +161,60 @@ const ChatRoom = () => {
               </div>
 
               <div className="space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message._id}
-                    className={`relative flex mb-4 ${
-                      message.senderId === userId
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
-                  >
-                    <div
-                      className={`text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl max-w-xs text-sm ${
-                        message.senderId === userId
-                          ? "bg-sky-200 text-black rounded-br-none"
-                          : "bg-gray-300 text-gray-800 rounded-bl-none"
-                      }`}
-                    >
-                      <div>{message.content}</div>
-                      <div className="text-xs text-gray-500 mt-2 text-right">
-                        {format(message.createdAt)}
+                {/* Keep track of the last displayed product */}
+                {messages.map((message, idx) => {
+                  // Check for senderId before rendering the message
+                  const isCurrentUser = message.senderId?._id === userId;
+                  const senderName = message.senderId?.name || "Unknown User";
+
+                  // Check if this is the first occurrence of the product
+                  const shouldDisplayProduct =
+                    message.product && message.product._id !== lastProductId;
+
+                  // Update lastProductId if a new product is displayed
+                  if (shouldDisplayProduct) {
+                    lastProductId = message.product._id;
+                  }
+                  return (
+                    <div key={message._id}>
+                      {/* Render Product Info if it's a new product */}
+                      {shouldDisplayProduct && (
+                        <div className="p-4 bg-gray-200 rounded-md mb-4">
+                          <h4 className="font-semibold text-lg">
+                            Product: {message.product.name}
+                          </h4>
+                          <p className="text-sm text-gray-600">
+                            Price: ₺{message.product.price.amount}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Product ID: {message.product.customId}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Render the Message */}
+                      <div
+                        key={message._id}
+                        className={`relative flex mb-4 ${
+                          isCurrentUser ? "justify-end" : "justify-start"
+                        }`}
+                      >
+                        <div
+                          className={`text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl max-w-xs text-sm ${
+                            isCurrentUser
+                              ? "bg-sky-200 text-black rounded-br-none"
+                              : "bg-gray-300 text-gray-800 rounded-bl-none"
+                          }`}
+                        >
+                          <div>{message.content}</div>
+                          <div className="text-xs text-gray-500 mt-2 text-right">
+                            {format(message.createdAt)}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                }, null)}
               </div>
             </div>
           ))
@@ -176,17 +223,10 @@ const ChatRoom = () => {
             Select a chat to view messages
           </div>
         )}
-
-        {/* Typing Indicator */}
-        {selectedChatId && isTyping && (
-          <div className="text-gray-500 text-sm italic text-center mb-4">
-            The user is typing...
-          </div>
-        )}
       </div>
 
       {/* Input Field and Send Button - Only Rendered When a Chat is Selected */}
-      {selectedChatId && (
+      {selectedChatKey && (
         <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
           <input
             type="text"

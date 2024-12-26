@@ -58,10 +58,11 @@ const Product = ({ suggestedProducts = [] }) => {
         );
 
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           const { chat, messages } = data;
+
           const chatId = chat?._id;
+
           // Update Redux store:
           // 1. Add or update the retrieved chat
           dispatch(addOrUpdateChat(chat));
