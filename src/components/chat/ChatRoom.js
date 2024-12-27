@@ -120,9 +120,9 @@ const ChatRoom = () => {
 
   // Sort messages by createdAt
   const sortedMessages = selectedChat?.messages
-    ? [...selectedChat.messages].sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      )
+    ? selectedChat.messages
+        .slice()
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
     : [];
 
   // Group messages by date
@@ -138,7 +138,7 @@ const ChatRoom = () => {
   let lastProductId = null;
 
   return (
-    <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden h-[80vh]">
+    <div className="flex flex-col bg-gray-100 shadow-lg rounded-lg overflow-hidden h-[80vh]">
       <div className="bg-blue-600 text-white py-4 px-6 rounded-t-lg">
         <h2 className="text-lg font-semibold">Chat Room</h2>
       </div>
@@ -225,9 +225,24 @@ const ChatRoom = () => {
         )}
       </div>
 
+      {/* Typing Indicator */}
+      {selectedChatKey && isTyping && (
+        <div className="max-w-md mx-auto bg-transparent p-6">
+          <div
+            id="typing-indicator"
+            className={`flex items-center mb-4 ${isTyping ? "" : "hidden"}`}
+          >
+            <span className="animate-pulse mr-1 w-2 h-2 rounded-full bg-gray-400"></span>
+            <span className="animate-pulse mr-1 w-2 h-2 rounded-full bg-gray-400 delay-100"></span>
+            <span className="animate-pulse w-2 h-2 rounded-full bg-gray-400 delay-200"></span>
+            <span className="ml-2 text-sm text-gray-500">is typing...</span>
+          </div>
+        </div>
+      )}
+
       {/* Input Field and Send Button - Only Rendered When a Chat is Selected */}
       {selectedChatKey && (
-        <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+        <div className="flex flex-row items-center h-16 rounded-xl bg-gray-00 w-full px-4">
           <input
             type="text"
             value={newMessage}
