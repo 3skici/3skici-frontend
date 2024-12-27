@@ -10,6 +10,7 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
   const { favorites, loading, error } = useSelector((state) => state.favorites);
+  console.log("this is favorites: ", favorites);
 
   useEffect(() => {
     if (userId) {
@@ -53,7 +54,11 @@ const Favorites = () => {
             {favorites.map((product) => (
               <div key={product._id} className="relative group">
                 {/* Product Card */}
-                <ProductSmallCard product={product} />
+                <ProductSmallCard
+                  key={product._id}
+                  product={product}
+                  isFetchedFromParent={true}
+                />
               </div>
             ))}
           </div>

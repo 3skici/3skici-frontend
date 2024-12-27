@@ -12,6 +12,7 @@ import { fetchFavorites } from "../features/products/favoriteSlice";
 import ProductSmallCard from "../components/products/ProductSmallCard";
 import Crossbar from "../components/crossbar/Crossbar";
 import CategoryList from "../components/categories/CategoryList";
+import HeroSection from "../components/layout/HeroSection";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -37,25 +38,9 @@ const Home = () => {
   return (
     <div className="flex bg-light-beige flex-col min-h-screen">
       {/* Hero Section */}
-      <div className="text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex justify-center gap-4 mt-8">
-            <Link
-              to={sellProduct}
-              className="bg-yellow-400 text-gray-900 px-8 py-3 rounded-md font-semibold hover:bg-yellow-500 transition duration-200"
-            >
-              Start Selling
-            </Link>
-            <Link
-              to={browseProduct}
-              className="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-blue-700 transition duration-200"
-            >
-              Browse Products
-            </Link>
-          </div>
-        </div>
+      <div>
+        <HeroSection />
       </div>
-
       <section>
         <div className="container mx-auto">
           <CategoryList />

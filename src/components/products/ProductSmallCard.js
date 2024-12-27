@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
@@ -8,13 +8,14 @@ import { FaTags } from "react-icons/fa";
 import { setSelectedProduct } from "../../features/products/productsSlice";
 import {
   addFavorite,
+  fetchFavorites,
   removeFavorite,
 } from "../../features/products/favoriteSlice";
 import { selectCategories } from "../../features/categories/categoriesSlice";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 
-const ProductSmallCard = ({ product }) => {
+const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentLanguage = i18n.language;
@@ -28,6 +29,13 @@ const ProductSmallCard = ({ product }) => {
   const favorites = useSelector((state) => state.favorites.favorites);
 
   const isFavorited = favorites.some((fav) => fav._id === product._id);
+
+  // Fetch favorites only if not fetched from the parent
+  useEffect(() => {
+    if (!isFetchedFromParent && userId) {
+      dispatch(fetchFavorites(userId));
+    }
+  }, [dispatch, userId]);
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
