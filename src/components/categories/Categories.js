@@ -15,7 +15,7 @@ const Categories = ({
 
   return (
     <div className="mb-6 p-4">
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-14">
         {categories.map((category) => (
           <div className="flex flex-col justify-center items-center">
             <button

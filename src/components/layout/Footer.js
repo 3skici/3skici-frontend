@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Left Column: 3skici Section */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">3skici</h3>
+            <h3 className="text-2xl text-gray-900 font-bold mb-4">3skici</h3>
             <ul className="space-y-2">
               <Link
                 to={about}
@@ -59,7 +59,9 @@ const Footer = () => {
 
           {/* Middle Column: Help & Support */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Help & Support</h3>
+            <h3 className="font-semibold text-gray-900 text-xl mb-4">
+              Help & Support
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -98,7 +100,9 @@ const Footer = () => {
 
           {/* Right Column: Regular Visited Links */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-gray-900 text-xl mb-4">
+              Quick Links
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link

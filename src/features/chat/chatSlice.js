@@ -70,7 +70,6 @@ export const initializeSocketListeners = () => (dispatch, getState) => {
   // Handle incoming messages
   socket.on("newMessage", (message) => {
     const state = getState();
-    // Only add message if it's for the currently selected chat
     if (state.chats.selectedChatKey === message.chatKey) {
       dispatch(receiveMessage(message));
     }

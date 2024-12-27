@@ -248,13 +248,17 @@ const AddProductPage = () => {
               placeholder="Product Name"
               className="p-2 border border-gray-300 rounded"
             />
-            <textarea
-              name="description"
-              value={product.description}
-              onChange={handleInputChange}
-              placeholder="Description"
-              className="p-2 border border-gray-300 rounded"
-            />
+
+            <div>
+              <label className="font-medium">Description</label>
+              <textarea
+                name="description"
+                value={product.description}
+                onChange={handleInputChange}
+                placeholder="Description"
+                className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              ></textarea>
+            </div>
             <select
               name="condition"
               value={product.condition}
@@ -266,14 +270,21 @@ const AddProductPage = () => {
               <option value="like new">Like New</option>
               <option value="like new">Damaged</option>
             </select>
-            <input
-              type="text"
-              name="price"
-              value={product.price}
-              onChange={handleInputChange}
-              placeholder="Price"
-              className="p-2 border border-gray-300 rounded"
-            />
+            <div className="relative mt-2 max-w-xs text-gray-500">
+              <div className="absolute inset-y-0 left-3 flex items-center">
+                <select className="text-sm bg-transparent outline-none rounded-lg h-full">
+                  <option>TL</option>
+                </select>
+              </div>
+              <input
+                name="price"
+                value={product.price}
+                onChange={handleInputChange}
+                type="number"
+                placeholder="₺0.00"
+                className="w-full pl-[4.5rem] pr-3 py-2 appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+            </div>
             <input
               type="text"
               name="location.country"

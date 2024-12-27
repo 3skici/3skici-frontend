@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Signup = () => {
+  const { t } = useTranslation();
   const currentLanguage = i18n.language;
   const login = getPathWithLanguage("/login", currentLanguage);
   const terms = getPathWithLanguage("/terms-and-conditions", currentLanguage);
@@ -55,14 +57,14 @@ const Signup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">{t("sign_up")}</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Username
+              {t("username")}
             </label>
             <input
               type="text"
@@ -79,7 +81,7 @@ const Signup = () => {
               htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
-              Name
+              {t("name")}
             </label>
             <input
               type="text"
@@ -96,7 +98,7 @@ const Signup = () => {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              {t("email")}
             </label>
             <input
               type="email"
@@ -113,7 +115,7 @@ const Signup = () => {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Password
+              {t("password")}
             </label>
             <input
               type="password"
@@ -136,9 +138,9 @@ const Signup = () => {
                 className="form-checkbox h-4 w-4 text-blue-600"
               />
               <span className="ml-2 text-sm text-gray-700">
-                I agree to the{" "}
-                <Link to={terms} className="text-blue-500 hover:underline">
-                  Terms and Conditions
+                {t("i_agree_to_the")}
+                <Link to={terms} className="text-blue-500 hover:underline m-1">
+                  {t("terms_and_conditions")}
                 </Link>
                 .
               </span>
@@ -148,8 +150,9 @@ const Signup = () => {
           {/* info about terms  */}
           {!acceptTerms && (
             <p className="text-sm text-red-500">
-              You must agree the Terms and Conditions to proceed with the
-              registration.
+              {t(
+                "you_must_agree_the_terms_and_conditions_to_proceed_with_the_registration"
+              )}
             </p>
           )}
           <button
@@ -157,13 +160,13 @@ const Signup = () => {
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             disabled={!acceptTerms}
           >
-            Sign Up
+            {t("sign_up")}
           </button>
         </form>
         <p className="text-center text-sm text-gray-600 mt-4">
-          Already registered?{" "}
-          <Link to={login} className="text-blue-500 hover:underline">
-            Login
+          {t("already_registered_login")}
+          <Link to={login} className="text-blue-500 hover:underline m-1">
+            {t("login")}
           </Link>
           .
         </p>

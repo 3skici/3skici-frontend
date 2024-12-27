@@ -17,11 +17,6 @@ const Favorites = () => {
     }
   }, [userId, dispatch]);
 
-  // Handle share action
-  const handleShareFavorite = (productName) => {
-    alert(`Sharing ${productName}`);
-  };
-
   // Show error toast if there is an error in fetching favorites
   useEffect(() => {
     if (error) {
@@ -43,7 +38,7 @@ const Favorites = () => {
         {/* Page Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-gray-800 flex justify-center items-center space-x-3">
-            <FaHeart className="text-red-500" />
+            <FaHeart className="fill-favBg" />
             <span>Your Favorites</span>
           </h1>
           <p className="text-gray-600 mt-2">
@@ -64,7 +59,7 @@ const Favorites = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center mt-16">
-            <FaHeart className="text-red-400 mb-4" size={48} />
+            <FaHeart className="text-favBg mb-4" size={48} />
             <p className="text-gray-500 text-lg text-center max-w-md">
               You haven't added any favorites yet. Start exploring our products
               and add some of them to your favorites list by clicking the heart

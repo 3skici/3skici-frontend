@@ -13,12 +13,14 @@ module.exports = {
         "light-beige": "#F2F9FF", // for bg
 
         // Secondary Color
-        "card-bg": "#FFFFFF", //cards bg
+        "card-bg": "#D1E9F6", //cards bg
 
         // Accent Color
         "light-nav": "#E4F1FF", // nav
         "light-footer": "#D0E4FF",
-        "dark-blue": "#3B3B3B", // nav links
+        "dark-blue": "#3B3B3B",
+        "fav-bg": "#5CB338",
+        "fav-hov": "#4E9C2D",
       },
     },
   },

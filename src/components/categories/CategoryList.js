@@ -46,13 +46,14 @@ const CategoryList = () => {
     <div className="bg-off-white min-h-screen py-2">
       <div className="container mx-auto px-4">
         {/* Categories Component */}
-        <Categories
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-          loading={categoriesLoading}
-        />
-
+        <div className="flex justify-center items-center">
+          <Categories
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategorySelect={handleCategorySelect}
+            loading={categoriesLoading}
+          />
+        </div>
         {/* Selected Category Description */}
         {selectedCategory && (
           <div className="text-center">
