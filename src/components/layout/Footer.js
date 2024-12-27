@@ -43,7 +43,7 @@ const Footer = () => {
                   to={sitemap}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  Sitemap
+                  {t("sitemap")}
                 </Link>
               </li>
               <li>
@@ -51,7 +51,7 @@ const Footer = () => {
                   to={sustainability}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  Sustainability
+                  {t("sustainability")}
                 </Link>
               </li>
             </ul>
@@ -60,7 +60,7 @@ const Footer = () => {
           {/* Middle Column: Help & Support */}
           <div>
             <h3 className="font-semibold text-gray-900 text-xl mb-4">
-              Help & Support
+              {t("help_and_support")}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -68,7 +68,7 @@ const Footer = () => {
                   to={privacy}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  Privacy Policy
+                  {t("privacy_policy")}
                 </Link>
               </li>
               <li>
@@ -76,7 +76,7 @@ const Footer = () => {
                   to={terms}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  Terms & Conditions
+                  {t("terms_and_conditions")}
                 </Link>
               </li>
               <li>
@@ -84,7 +84,7 @@ const Footer = () => {
                   to={faq}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  FAQ
+                  {t("faq")}
                 </Link>
               </li>
               <li>
@@ -92,7 +92,7 @@ const Footer = () => {
                   to={contact}
                   className="text-gray-900 hover:text-yellow-400 transition duration-200"
                 >
-                  Contact Us
+                  {t("contact_us_text")}
                 </Link>
               </li>
             </ul>
@@ -117,7 +117,7 @@ const Footer = () => {
                   to={getPathWithLanguage("/filter", currentLanguage)}
                   className=" text-gray-900 hover:text-yellow-400 py-2 lg:py-0"
                 >
-                  Advance Search
+                  {t("advance_search")}
                 </Link>
               </li>
               <li>
@@ -125,7 +125,7 @@ const Footer = () => {
                   to={getPathWithLanguage("/report", currentLanguage)}
                   className=" text-gray-900 hover:text-yellow-400 py-2 lg:py-0"
                 >
-                  Report Product
+                  {t("report_product")}
                 </Link>
               </li>
             </ul>
@@ -162,7 +162,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="text-center text-gray-500 mt-8">
-          &copy; {new Date().getFullYear()} 3skici. All rights reserved.
+          &copy; {new Date().getFullYear()} {t("copyright_notice")}.
         </div>
       </div>
     </footer>

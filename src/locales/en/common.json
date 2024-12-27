@@ -1,5 +1,18 @@
 {
-    "welcome": "Welcome to our website!",
-    "about_us": "About Us"
-  }
-  
+  "about_us": "About Us",
+  "sitemap": "Sitemap",
+  "sustainability": "Sustainability",
+  "help_and_support": "Help & Support",
+  "privacy_policy": "Privacy Policy",
+  "terms_and_conditions": "Terms & Conditions",
+  "faq": "FAQ",
+  "contact_us_text": "Contact Us",
+  "quick_links": "Quick Links",
+  "categories": "Categories",
+  "advance_search": "Advance Search",
+  "report_product": "Report Product",
+  "facebook": "Facebook",
+  "twitter": "Twitter",
+  "instagram": "Instagram",
+  "copyright_notice": "© 2024 3skici. All rights reserved."
+}

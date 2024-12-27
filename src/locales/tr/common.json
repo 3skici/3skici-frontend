@@ -1,5 +1,18 @@
 {
-    "welcome": "Web sitemize hoş geldiniz!",
-    "about_us": "Hakkımızda"
-  }
-  
+  "about_us": "Hakkımızda",
+  "sitemap": "Site Haritası",
+  "sustainability": "Sürdürülebilirlik",
+  "help_and_support": "Yardım & Destek",
+  "privacy_policy": "Gizlilik Politikası",
+  "terms_and_conditions": "Şartlar ve Koşullar",
+  "faq": "SSS",
+  "contact_us_text": "Bize Ulaşın",
+  "quick_links": "Hızlı Bağlantılar",
+  "categories": "Kategoriler",
+  "advance_search": "İleri Arama",
+  "report_product": "Ürün Bildir",
+  "facebook": "Facebook",
+  "twitter": "Twitter",
+  "instagram": "Instagram",
+  "copyright_notice": "© 2024 3skici. Tüm hakları saklıdır."
+}

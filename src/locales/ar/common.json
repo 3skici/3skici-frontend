@@ -1,5 +1,18 @@
 {
-    "welcome": "مرحبًا بكم في موقعنا!",
-    "about_us": "معلومات عنا"
-  }
-  
+  "about_us": "معلومات عنا",
+  "sitemap": "خريطة الموقع",
+  "sustainability": "الاستدامة",
+  "help_and_support": "الدعم والمساعدة",
+  "privacy_policy": "سياسة الخصوصية",
+  "terms_and_conditions": "الشروط والأحكام",
+  "faq": "الأسئلة المتكررة",
+  "contact_us_text": "اتصل بنا",
+  "quick_links": "روابط سريعة",
+  "categories": "الفئات",
+  "advance_search": "البحث المتقدم",
+  "report_product": "الإبلاغ عن منتج",
+  "facebook": "فيسبوك",
+  "twitter": "تويتر",
+  "instagram": "إنستغرام",
+  "copyright_notice": "3skici جميع الحقوق محفوظة"
+}
