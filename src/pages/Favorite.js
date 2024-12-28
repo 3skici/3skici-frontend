@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFavorites } from "../features/products/favoriteSlice"; // Adjust import path
 import ProductSmallCard from "../components/products/ProductSmallCard";
-import { FaShareSquare, FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 
@@ -10,13 +9,6 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
   const { favorites, loading, error } = useSelector((state) => state.favorites);
-  console.log("this is favorites: ", favorites);
-
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchFavorites(userId));
-    }
-  }, [userId, dispatch]);
 
   // Show error toast if there is an error in fetching favorites
   useEffect(() => {

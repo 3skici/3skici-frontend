@@ -8,7 +8,6 @@ import { getPathWithLanguage } from "../utils/pathHelpers";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/products/productsSlice";
 import { fetchCategories } from "../features/categories/categoriesSlice";
-import { fetchFavorites } from "../features/products/favoriteSlice";
 import ProductSmallCard from "../components/products/ProductSmallCard";
 import Crossbar from "../components/crossbar/Crossbar";
 import CategoryList from "../components/categories/CategoryList";

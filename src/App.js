@@ -34,16 +34,20 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFavorites } from "./features/products/favoriteSlice";
 function App() {
-  const { i18n } = useTranslation();
-  const currentLanguage = useSelector((state) => state.language.language); // Adjust based on your state structure
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.user?._id);
+  const hasFetchedFavorites = useSelector(
+    (state) => state.favorites.hasFetched
+  );
 
-  // useEffect(() => {
-  //   // Set the direction based on the current language
-  //   const isRTL = i18n.dir() === "rtl";
-  //   document.documentElement.dir = isRTL ? "rtl" : "ltr";
-  // }, [i18n.language]);
+  useEffect(() => {
+    if (userId && !hasFetchedFavorites) {
+      dispatch(fetchFavorites(userId));
+    }
+  }, [userId, hasFetchedFavorites, dispatch]);
 
   return (
     <Layout>

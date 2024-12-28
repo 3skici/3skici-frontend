@@ -5,6 +5,7 @@ const initialState = {
   favorites: [],
   loading: false,
   error: null,
+  hasFetched: false,
 };
 
 // Thunks (asynchronous actions) using `fetch`
@@ -103,18 +104,17 @@ const favoriteSlice = createSlice({
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.loading = false;
         state.favorites = action.payload;
+        state.hasFetched = true;
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.hasFetched = true;
       })
-      // In your favoriteSlice file, update addFavorite and removeFavorite extraReducers:
       .addCase(addFavorite.fulfilled, (state, action) => {
-        // action.payload should be the entire updated favorites array
         state.favorites = action.payload;
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        // action.payload should be the entire updated favorites array after removal
         state.favorites = action.payload;
       });
   },

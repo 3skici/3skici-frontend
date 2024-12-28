@@ -12,7 +12,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
-  fetchFavorites,
   removeFavorite,
 } from "../../features/products/favoriteSlice";
 import { selectCategories } from "../../features/categories/categoriesSlice";
@@ -60,10 +59,10 @@ const ProductCard = memo(({ product }) => {
     setIsUpdating(true);
     try {
       if (isFavorite) {
-        await dispatch(removeFavorite({ userId, productId }));
+        await dispatch(removeFavorite({ userId, productId: product._id }));
         toast.info("Product removed from favorites."); // Show info toast when removed from favorites
       } else {
-        await dispatch(addFavorite({ userId, productId }));
+        await dispatch(addFavorite({ userId, productId: product._id }));
         toast.success("Product added to favorites!"); // Show success toast when added to favorites
       }
     } finally {
@@ -81,10 +80,6 @@ const ProductCard = memo(({ product }) => {
         .join(", ") || "Not categorized"
     );
   };
-
-  useEffect(() => {
-    dispatch(fetchFavorites());
-  }, [dispatch]);
 
   // handle report button
   const handleReport = () => {

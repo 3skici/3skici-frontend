@@ -8,7 +8,6 @@ import { FaTags } from "react-icons/fa";
 import { setSelectedProduct } from "../../features/products/productsSlice";
 import {
   addFavorite,
-  fetchFavorites,
   removeFavorite,
 } from "../../features/products/favoriteSlice";
 import { selectCategories } from "../../features/categories/categoriesSlice";
@@ -27,15 +26,8 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
 
   const userId = useSelector((state) => state.auth.user?._id);
   const favorites = useSelector((state) => state.favorites.favorites);
-
+  const hasFetchedFavorites = useSelector((state) => state.hasFetched);
   const isFavorited = favorites.some((fav) => fav._id === product._id);
-
-  // Fetch favorites only if not fetched from the parent
-  useEffect(() => {
-    if (!isFetchedFromParent && userId) {
-      dispatch(fetchFavorites(userId));
-    }
-  }, [dispatch, userId]);
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
