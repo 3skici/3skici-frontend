@@ -80,6 +80,43 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   return;
 });
 
+// Async thunk for updating user profile
+export const updateUserProfile = createAsyncThunk(
+  "auth/updateUserProfile",
+  async (userData, { rejectWithValue, getState }) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.user?._id;
+
+    if (!token || !userId) {
+      return rejectWithValue("User not authenticated");
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/user/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error.message || "Failed to update profile");
+      }
+
+      const updatedUser = await response.json();
+      return updatedUser; // Return the updated user object
+    } catch (error) {
+      return rejectWithValue(error.message || "Failed to update profile");
+    }
+  }
+);
+
 const initialState = {
   token: localStorage.getItem("token") || null,
   user: null,
@@ -98,7 +135,12 @@ const normalizeUser = (user) => {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    token: localStorage.getItem("token") || null,
+    user: null,
+    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+    error: null,
+  },
   reducers: {
     // You can add synchronous reducers if needed
   },
@@ -146,6 +188,19 @@ const authSlice = createSlice({
         state.user = null;
         state.status = "idle";
         state.error = null;
+      })
+      // Handle profile update actions
+      .addCase(updateUserProfile.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload; // Update the user data
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

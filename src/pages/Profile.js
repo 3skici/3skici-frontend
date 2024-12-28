@@ -2,13 +2,28 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { updateUserProfile } from "../features/auth/authSlice";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { user, status } = useSelector((state) => state.auth);
+  const { user, status, error } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
+  const [formData, setFormData] = useState({
+    name: user.name || "",
+    username: user.username || "",
+    email: user.email || "",
+    phone: user.phone || "",
+  });
+  const [avatar, setAvatar] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const formRef = useRef(null);
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatar(file); // Set the avatar file for upload
+    }
+  };
 
   // Handle click outside the form to close the popup
   const handleClickOutside = (e) => {
@@ -28,6 +43,43 @@ const ProfilePage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isFormOpen]);
+
+  useEffect(() => {
+    if (status === "failed" && error) {
+      toast.error(error);
+    }
+  }, [status, error]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    console.log("Submitting form data:", formData);
+    e.preventDefault();
+
+    const dataToSend = new FormData();
+
+    //append form data
+    for (let key in formData) {
+      dataToSend.append(key, formData[key]);
+    }
+    if (avatar) {
+      dataToSend.append("avatar", avatar);
+    }
+
+    const result = await dispatch(updateUserProfile(formData)); // Handle result of dispatc
+    if (result.meta.requestStatus === "fulfilled") {
+      toast.success("Profile updated successfully!");
+    } else {
+      toast.error("Failed to update profile. Please try again.");
+    }
+    setIsFormOpen(false);
+  };
 
   if (status === "loading") {
     return <p>Loading. . .</p>;
@@ -91,7 +143,7 @@ const ProfilePage = () => {
               className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96 md:w-1/2 lg:w-1/3 min-h-[300px] max-w-lg"
             >
               <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
                     htmlFor="name"
@@ -102,8 +154,26 @@ const ProfilePage = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
                     className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-                    defaultValue={user?.name}
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
+                    value={formData.username}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-4">
@@ -116,8 +186,10 @@ const ProfilePage = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-                    defaultValue={user?.email}
                   />
                 </div>
                 <div className="mb-4">
@@ -130,22 +202,24 @@ const ProfilePage = () => {
                   <input
                     type="text"
                     id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-                    defaultValue={user?.phone}
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="pic"
+                    htmlFor="avatar"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Profile Picture
                   </label>
                   <input
                     type="file"
-                    id="pic"
+                    id="avatar"
+                    onChange={handleAvatarChange}
                     className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-                    disabled
                   />
                 </div>
                 <div className="flex justify-between mt-4">
