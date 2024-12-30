@@ -13,7 +13,7 @@ module.exports = {
         "light-beige": "#F2F9FF", // for bg
 
         // Secondary Color
-        "card-bg": "#D1E9F6", //cards bg
+        "card-bg": "#FFF", //cards bg
 
         // Accent Color
         "light-nav": "#E4F1FF", // nav

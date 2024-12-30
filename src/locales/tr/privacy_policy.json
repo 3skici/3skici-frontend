@@ -1,0 +1,47 @@
+{
+    "privacy_title": "Gizlilik Politikası",
+    "effective_date": "Yürürlük Tarihi",
+    "privacy_edited_date": "2024.12.30",
+    "privacy_policy_introduction": "3skici olarak kullanıcılarımızın gizliliğine değer veriyoruz ve onlarla şeffaf ve güvenilir bir ilişki sürdürmeyi taahhüt ediyoruz. Bu Gizlilik Politikası, platformumuzu ziyaret ettiğinizde veya kullandığınızda kişisel bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar.",
+    "privacy_agreement": "3skici’ye erişerek veya kullanarak, bilgilerinizi bu Gizlilik Politikası'na uygun olarak toplamamıza ve kullanmamıza izin vermiş olursunuz. Lütfen dikkatlice okuyunuz.",
+    "sections": {
+        "information_we_collect": {
+            "title": "1. Topladığımız Bilgiler",
+            "description": "Platformumuzu ve hizmetlerimizi sunmak ve iyileştirmek için birkaç tür bilgi topluyoruz. Topladığımız bilgiler şunlardır:",
+            "categories": {
+                "personal_information": "Kişisel Bilgiler: Satıcı veya alıcı olarak kaydolduğunuzda, adınız, e-posta adresiniz, telefon numaranız ve hesabınızı oluşturmak veya diğer kullanıcılarla iletişim kurmak için sağladığınız diğer iletişim bilgilerini toplarız.",
+                "transaction_information": "İşlem Bilgileri: Platformdaki işlemlerinizle ilgili ürün detayları, ödeme yöntemleri ve işlem geçmişi gibi bilgileri toplayabiliriz. 3skici'nin ödemeleri doğrudan işlememediğini ve ödemelerin alıcılar ile satıcılar arasında gerçekleştirildiğini lütfen unutmayın.",
+                "usage_data": "Kullanım Verileri: IP adresiniz, tarayıcı türünüz, cihaz bilgileriniz, ziyaret edilen sayfalar, sayfalarda harcanan süre ve diğer tanısal veriler gibi platformla nasıl etkileşimde bulunduğunuz hakkında bilgi toplarız. Bu, kullanıcı davranışını anlamamıza ve hizmetlerimizi geliştirmemize yardımcı olur.",
+                "cookies": "Çerezler: 3skici, gezinme deneyiminizi geliştirmek için çerezleri kullanır. Çerezler, tercihlerinizin tanınmasını ve platformdaki deneyiminizin kişiselleştirilmesini sağlayan cihazınıza kaydedilen küçük dosyalardır. Çerez ayarlarını tarayıcınızdan yönetebilirsiniz."
+            }
+        },
+        "how_we_use_your_information": {
+            "title": "2. Bilgilerinizi Nasıl Kullanıyoruz?",
+            "description": "Topladığımız bilgiler aşağıdaki amaçlarla kullanılmaktadır:",
+            "purposes": {
+                "provide_improve_services": "Hizmetlerimizi Sağlamak ve Geliştirmek: Hesabınızı oluşturmak ve yönetmek, işlemleri gerçekleştirmek ve listelemeleriniz veya sorularınızla ilgili sizinle iletişim kurmak için kişisel bilgilerinizi kullanırız. Ayrıca kullanım verilerini analiz ederek platformun işlevselliğini ve kullanıcı deneyimini geliştiririz.",
+                "facilitate_communication": "İletişimi Kolaylaştırmak: Hesabınız, işlemleriniz veya hizmetlerimizdeki değişikliklerle ilgili önemli bildirimleri size göndermek için iletişim bilgilerinizi kullanırız. Ayrıca, alıcılar ve satıcılar arasında iletişim kolaylaştırılır.",
+                "marketing_promotions": "Pazarlama ve Promosyon Amaçları: Onayınızla, 3skici ile ilgili güncellemeler, bültenler ve promosyon teklifleri gönderebiliriz. Bu tür iletişimleri e-postalardaki abonelikten çıkma bağlantısını takip ederek veya hesap ayarlarınızı güncelleyerek dilediğiniz zaman devre dışı bırakabilirsiniz.",
+                "ensure_compliance": "Uyumu Sağlamak: Platform politikalarımıza uyumu sağlamak ve dolandırıcılık veya yasa dışı faaliyetleri önlemek için bilgilerinizi kullanabiliriz."
+            }
+        },
+        "how_we_protect_your_information": {
+            "title": "3. Bilgilerinizi Nasıl Koruyoruz?",
+            "description": "Kişisel verilerinizi korumayı taahhüt ediyoruz ve koruma için çeşitli güvenlik önlemleri uyguluyoruz:",
+            "protection_methods": {
+                "encryption": "Şifreleme: Parolalar gibi hassas bilgileri yetkisiz erişimden korumak için şifreleme teknolojileri kullanıyoruz.",
+                "access_control": "Erişim Kontrolü: Yalnızca yetkili personelin kişisel verilerinize erişimi vardır ve erişim, ihtiyaç temeline göre sıkı güvenlik protokolleri ile sınırlandırılır.",
+                "secure_payment_processing": "Güvenli Ödeme İşleme: 3skici doğrudan ödemeleri gerçekleştirmez, kullanıcıların işlemlerini tamamlarken güvenli ve güvenilir üçüncü taraf ödeme sistemlerini kullanmalarını öneririz."
+            },
+            "note_on_security": "Elektronik iletim veya depolamanın hiçbir yönteminin tamamen güvenli olmadığını unutmayın. Verilerinizin mutlak güvenliğini garanti edemeyiz."
+        },
+        "sharing_your_information": {
+            "title": "4. Bilgilerinizi Paylaşma",
+            "description": "Kişisel bilgilerinizi üçüncü taraflara satmıyoruz, takas etmiyoruz veya kiralamıyoruz. Ancak, aşağıdaki durumlarda bilgilerinizi paylaşabiliriz:",
+            "sharing_cases": {
+                "with_service_providers": "Hizmet Sağlayıcılarla: Platformu işletmemize ve hizmetlerimizi sunmamıza yardımcı olan güvenilir üçüncü taraf hizmet sağlayıcılarla bilgilerinizi paylaşabiliriz. Bu sağlayıcılar, bilgilerinizi gizli tutmakla yükümlüdür ve başka bir amaçla kullanmalarına izin verilmez.",
+                "for_legal_compliance": "Yasal Uyumluluk İçin: Yasaların gerektirdiği durumlarda kişisel bilgilerinizi ifşa edebiliriz."
+            }
+        }
+    }
+}

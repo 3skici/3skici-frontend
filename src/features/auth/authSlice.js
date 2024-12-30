@@ -83,7 +83,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 // Async thunk for updating user profile
 export const updateUserProfile = createAsyncThunk(
   "auth/updateUserProfile",
-  async (userData, { rejectWithValue, getState }) => {
+  async (formData, { rejectWithValue, getState }) => {
     const token = getState().auth.token;
     const userId = getState().auth.user?._id;
 
@@ -97,10 +97,9 @@ export const updateUserProfile = createAsyncThunk(
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(userData),
+          body: formData,
         }
       );
 

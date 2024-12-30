@@ -108,7 +108,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-light-nav text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
+    <nav className="bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
@@ -262,6 +262,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
       {/* ToastContainer to display toast notifications */}
       <ToastContainer />
     </nav>

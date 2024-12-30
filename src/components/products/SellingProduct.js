@@ -18,6 +18,7 @@ const AddProductPage = () => {
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const token = useSelector((state) => state.auth.token);
   const seller = user?._id;
   const [selectedCountryCode, setSelectedCountryCode] = useState(
     countryData.allCountries[228]?.dialCode || ""
@@ -36,7 +37,10 @@ const AddProductPage = () => {
     description: "",
     condition: "used",
     seller: seller,
-    price: "",
+    price: {
+      amount: "",
+      currency: "TL",
+    },
     location: {
       country: "",
       city: "",
@@ -50,6 +54,7 @@ const AddProductPage = () => {
     categories: [],
     favorite: false,
     images: [],
+    imagesFiles: [],
   });
   const [userProducts, setUserProducts] = useState([]);
 
@@ -78,8 +83,16 @@ const AddProductPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "price") {
-      setProduct({ ...product, [name]: parseFloat(value) });
+    if (name === "price.amount") {
+      setProduct({
+        ...product,
+        price: { ...product.price, amount: parseFloat(value) },
+      });
+    } else if (name === "price.currency") {
+      setProduct({
+        ...product,
+        price: { ...product.price, currency: value },
+      });
     } else if (name.startsWith("location.")) {
       const key = name.split(".")[1];
       setProduct({
@@ -112,7 +125,7 @@ const AddProductPage = () => {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setProduct({ ...product, images: imageUrls });
+    setProduct({ ...product, images: imageUrls, imagesFiles: files });
   };
 
   const handleSubmit = async (e) => {
@@ -145,34 +158,49 @@ const AddProductPage = () => {
     }
 
     try {
+      // Create a FormData object
+      const formData = new FormData();
+      formData.append("name", product.name);
+      formData.append("description", product.description);
+      formData.append("condition", product.condition);
+      formData.append("price.amount", product.price.amount);
+      formData.append("price.currency", product.price.currency);
+      formData.append("seller", seller);
+      formData.append("contactInfo.phone", sellerPhoneNumber);
+      formData.append("contactInfo.email", product.contactInfo.email);
+      formData.append("availability", product.availability);
+
+      // append categories as an array
+      product.categories.forEach((category) =>
+        formData.append("categories", category)
+      );
+
+      // Append location fields
+      formData.append("location.country", product.location.country);
+      formData.append("location.city", product.location.city);
+      formData.append("location.street", product.location.street);
+      formData.append("location.zipCode", product.location.zipCode);
+
+      // append files
+      if (product.imagesFiles && product.imagesFiles.length > 0) {
+        product.imagesFiles.forEach((file) => {
+          formData.append("files", file);
+        });
+      }
+
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/product/add`,
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            name: product.name,
-            description: product.description,
-            condition: product.condition,
-            price: {
-              amount: parseFloat(product.price),
-            },
-            seller: seller,
-            category: product.categories,
-            images: product.images,
-            location: product.location,
-            contactInfo: {
-              ...product.contactInfo,
-              phone: sellerPhoneNumber,
-            },
-          }),
+          body: formData,
         }
       );
       console.log("this is the respose of post fetch: ", response);
       if (response.ok) {
-        const newProduct = await response.json();
+        const { data: newProduct } = await response.json();
         setUserProducts([...userProducts, newProduct]);
         toast.success("Product created successfully!");
       } else {
@@ -183,13 +211,15 @@ const AddProductPage = () => {
       console.error("Error:", error);
       toast.error("An error occurred while adding the product.");
     }
-    setUserProducts([...userProducts, product]);
     setProduct({
       name: "",
       description: "",
       condition: "used",
       seller: seller,
-      price: "",
+      price: {
+        amount: "",
+        currency: "TL",
+      },
       location: {
         country: "",
         city: "",
@@ -204,6 +234,7 @@ const AddProductPage = () => {
       availability: "available",
       favorite: false,
       images: [],
+      imagesFiles: [],
     });
   };
 
@@ -232,6 +263,13 @@ const AddProductPage = () => {
     }
     return phoneNumber; // Return as-is if it doesn't match the expected pattern
   };
+
+  // Cleanup object URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      product.images.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [product.images]);
 
   return (
     <div className="flex flex-col w-full h-full p-6">
@@ -272,17 +310,25 @@ const AddProductPage = () => {
             </select>
             <div className="relative mt-2 max-w-xs text-gray-500">
               <div className="absolute inset-y-0 left-3 flex items-center">
-                <select className="text-sm bg-transparent outline-none rounded-lg h-full">
-                  <option>TL</option>
+                <select
+                  name="price.currency"
+                  value={product.price.currency}
+                  onChange={handleInputChange}
+                  className="text-sm bg-transparent outline-none rounded-lg h-full"
+                >
+                  <option value="USD">USD</option>
+                  <option value="TL">TL</option>
                 </select>
               </div>
               <input
-                name="price"
-                value={product.price}
+                name="price.amount"
+                value={product.price.amount}
                 onChange={handleInputChange}
                 type="number"
-                placeholder="₺0.00"
+                placeholder="0.00"
                 className="w-full pl-[4.5rem] pr-3 py-2 appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                min="0"
+                step="0.01"
               />
             </div>
             <input
@@ -498,8 +544,9 @@ const AddProductPage = () => {
                 {product.name || "Product Name"}
               </h2>
               <p className="text-gray-900 text-2xl font-bold mb-4">
-                <span>₺</span>
-                {product.price || "0.00"}
+                {/* <span>₺</span> */}
+                <span>{product.price.currency}</span>
+                {product.price.amount || "0.00"}
               </p>
               <p className="text-gray-700 mb-2 truncate">
                 {product.description || "No description available"}

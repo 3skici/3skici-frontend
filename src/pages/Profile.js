@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { updateUserProfile } from "../features/auth/authSlice";
+import { getImageUrl } from "../utils/imgagesHelper";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user, status, error } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
   const [formData, setFormData] = useState({
-    name: user.name || "",
-    username: user.username || "",
-    email: user.email || "",
-    phone: user.phone || "",
+    name: user?.name || "",
+    username: user?.username || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
   });
   const [avatar, setAvatar] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -21,6 +22,18 @@ const ProfilePage = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select a valid image file.");
+        return;
+      }
+
+      // Validate file size (e.g., max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        toast.error("File size exceeds 5MB.");
+        return;
+      }
       setAvatar(file); // Set the avatar file for upload
     }
   };
@@ -59,7 +72,6 @@ const ProfilePage = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Submitting form data:", formData);
     e.preventDefault();
 
     const dataToSend = new FormData();
@@ -72,7 +84,7 @@ const ProfilePage = () => {
       dataToSend.append("avatar", avatar);
     }
 
-    const result = await dispatch(updateUserProfile(formData)); // Handle result of dispatc
+    const result = await dispatch(updateUserProfile(dataToSend)); // Handle result of dispatc
     if (result.meta.requestStatus === "fulfilled") {
       toast.success("Profile updated successfully!");
     } else {
@@ -91,6 +103,14 @@ const ProfilePage = () => {
     );
   }
 
+  // Construct the full image URL if the avatar is provided
+  const avatarUrl = user?.avatar
+    ? `${process.env.REACT_APP_API_URL.replace(
+        /\/+$/,
+        ""
+      )}/${user.avatar.replace(/^\/+/, "")}`
+    : null;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
@@ -102,7 +122,12 @@ const ProfilePage = () => {
         </button>
 
         <div className="flex flex-col items-center space-y-4">
-          <FaUserCircle className="text-gray-600 text-9xl" />
+          {/* Check if avatar exists, if not, fallback to FaUserCircle */}
+          <img
+            src={getImageUrl(user?.avatar)} // Display user avatar
+            alt="User Avatar"
+            className="rounded-full w-32 h-32 object-cover" // Style for avatar image
+          />
           <h1 className="text-2xl font-bold text-gray-800">{user?.name}</h1>
           <p className="text-gray-500">@{user?.username}</p>
         </div>
@@ -218,9 +243,47 @@ const ProfilePage = () => {
                   <input
                     type="file"
                     id="avatar"
-                    onChange={handleAvatarChange}
+                    name="avatar"
+                    accept="image/*" // Optional: Restrict to image files
+                    onChange={handleAvatarChange} // Add the onChange handler
                     className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
                   />
+                  {avatar && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      Selected file: {avatar.name}
+                    </p>
+                  )}
+                  {avatar && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        Selected file: {avatar.name}
+                      </p>
+                      <img
+                        src={URL.createObjectURL(avatar)}
+                        alt="Avatar Preview"
+                        className="w-16 h-16 rounded-full object-cover mt-2"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div>
+                  {user.avatars && user.avatars.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                        Previous Avatars
+                      </h3>
+                      <div className="flex space-x-4">
+                        {user.avatars.map((avatarPath, index) => (
+                          <img
+                            key={index}
+                            src={avatarUrl}
+                            alt={`Previous Avatar ${index + 1}`}
+                            className="w-16 h-16 rounded-full object-cover"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-between mt-4">
                   <button

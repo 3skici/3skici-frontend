@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCopy, FaTags } from "react-icons/fa";
 import { format } from "timeago.js";
@@ -14,6 +17,7 @@ import {
   selectChat,
   setChatMessages,
 } from "../../features/chat/chatSlice";
+import { getImageUrl } from "../../utils/imgagesHelper";
 
 const Product = ({ suggestedProducts = [] }) => {
   const product = useSelector((state) => state.products.selectedProduct);
@@ -111,11 +115,39 @@ const Product = ({ suggestedProducts = [] }) => {
       <div className="relative md:w-1/3">
         {/* cursor image */}
         <div>
-          <img
-            src={product?.images?.[0] || "https://via.placeholder.com/150"}
-            alt={product?.name || "No product name"}
-            className="w-full h-full object-cover"
-          />
+          {/* Product Images Carousel */}
+          <div>
+            {product.images && product.images.length > 0 ? (
+              <Slider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={1}
+                slidesToScroll={1}
+              >
+                {product.images.map((imagePath, index) => (
+                  <div key={index}>
+                    <img
+                      src={getImageUrl(imagePath)}
+                      alt={`${product.name} ${index + 1}`}
+                      className="w-full h-56 object-cover rounded"
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/150";
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </Slider>
+            ) : (
+              <img
+                src="https://via.placeholder.com/150"
+                alt="No product image"
+                className="w-full h-56 object-cover rounded"
+              />
+            )}
+          </div>
+
           <button
             onClick={handleFavoriteClick}
             className={`absolute top-2 right-2 bg-white p-2 rounded-full shadow-md transition-colors ${
@@ -148,10 +180,15 @@ const Product = ({ suggestedProducts = [] }) => {
           </button>
 
           <Link
+            to={token ? chatRoom : "#"}
             onClick={handleChatClick}
             className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors"
           >
-            {user ? "Chat with seller" : "Please log in to chat"}
+            {isLoading
+              ? "Loading..."
+              : user
+              ? "Chat with seller"
+              : "Please log in to chat"}
           </Link>
         </div>
       </div>
