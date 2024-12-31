@@ -130,7 +130,7 @@ const Product = ({ suggestedProducts = [] }) => {
                     <img
                       src={getImageUrl(imagePath)}
                       alt={`${product.name} ${index + 1}`}
-                      className="w-full h-56 object-cover rounded"
+                      className="w-full h-80 object-cover rounded"
                       onError={(e) => {
                         e.target.src = "https://via.placeholder.com/150";
                       }}

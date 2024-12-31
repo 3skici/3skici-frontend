@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=3005 react-scripts start",
+    "proxy": "http://localhost:5000",
     "build": "npm run generate-sitemap && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

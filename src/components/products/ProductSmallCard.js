@@ -13,8 +13,10 @@ import {
 import { selectCategories } from "../../features/categories/categoriesSlice";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
+import { getImageUrl } from "../../utils/imgagesHelper";
 
 const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
+  console.log("this is product", product.images);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentLanguage = i18n.language;
@@ -62,7 +64,9 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
       {/* Product Image and Favorite Icon */}
       <div className="relative cursor-pointer" onClick={handleProductClick}>
         <img
-          src={product.imageUrl || "https://via.placeholder.com/150"}
+          src={
+            getImageUrl(product.images[0]) || "https://via.placeholder.com/150"
+          }
           alt={product.name || "No product name"}
           className="w-full h-48 object-cover"
         />
