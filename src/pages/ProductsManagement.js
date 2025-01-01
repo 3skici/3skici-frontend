@@ -10,8 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../components/common/pagination/Pagination";
+import { getPathWithLanguage } from "../utils/pathHelpers";
+import i18n from "../i18n";
 
 const ProductsManagement = () => {
+  const currentLanguage = i18n.language;
+
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,7 +64,9 @@ const ProductsManagement = () => {
   };
 
   const handleEdit = (productId) => {
-    navigate(`/edit-product/${productId}`);
+    navigate(
+      getPathWithLanguage(`/edit-product/${productId}`, currentLanguage)
+    );
   };
 
   const handleAddProduct = () => {
@@ -238,7 +244,7 @@ const ProductsManagement = () => {
                               <div className="flex items-center gap-x-6">
                                 <button
                                   className="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none flex items-center"
-                                  onClick={() => handleEdit(product._id)}
+                                  onClick={() => handleEdit(product.customId)}
                                 >
                                   <FaEdit className="mr-1" /> Edit
                                 </button>

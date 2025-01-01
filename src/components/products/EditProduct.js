@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   selectCategories,
   selectLoading,
   selectError,
   fetchCategories,
-} from '../features/categories/categoriesSlice';
-import { updateProduct } from '../features/products/productsSlice'; 
+} from "../../features/categories/categoriesSlice";
+import { updateProduct } from "../../features/products/productsSlice";
 const EditProduct = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -17,23 +17,25 @@ const EditProduct = () => {
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
-  const productToEdit = products ? products.find((product) => product._id === productId) : null;
+  const productToEdit = products
+    ? products.find((product) => product._id === productId)
+    : null;
 
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
-    condition: 'used',
+    name: "",
+    description: "",
+    price: "",
+    condition: "used",
     categories: [],
   });
 
   useEffect(() => {
     if (productToEdit) {
       setFormData({
-        name: productToEdit.name || '',
-        description: productToEdit.description || '',
-        price: productToEdit.price || '',
-        condition: productToEdit.condition || 'used',
+        name: productToEdit.name || "",
+        description: productToEdit.description || "",
+        price: productToEdit.price || "",
+        condition: productToEdit.condition || "used",
         categories: productToEdit.categories || [],
       });
     }
@@ -45,7 +47,7 @@ const EditProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    if (name === 'categories') {
+    if (name === "categories") {
       setFormData((prevData) => {
         const updatedCategories = checked
           ? [...prevData.categories, value]
@@ -60,7 +62,7 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!productToEdit) {
-      console.error('Product to edit not found.');
+      console.error("Product to edit not found.");
       return;
     }
     const updatedData = Object.keys(formData).reduce((acc, key) => {
@@ -74,14 +76,14 @@ const EditProduct = () => {
       dispatch(updateProduct({ id: productId, updatedData }))
         .unwrap()
         .then(() => {
-          navigate('/:lang/products'); // Redirect to products page after successful edit
+          navigate("/:lang/products"); // Redirect to products page after successful edit
         })
         .catch((error) => {
-          console.error('Failed to update product: ', error);
+          console.error("Failed to update product: ", error);
         });
     } else {
-      navigate('/:lang/products'); // No changes made, navigate back
-      console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+      navigate("/:lang/products"); // No changes made, navigate back
+      console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
     }
   };
 
@@ -96,7 +98,9 @@ const EditProduct = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Product Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Product Name
+            </label>
             <input
               type="text"
               name="name"
@@ -106,7 +110,9 @@ const EditProduct = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Description
+            </label>
             <textarea
               name="description"
               value={formData.description}
@@ -115,7 +121,9 @@ const EditProduct = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Price
+            </label>
             <input
               type="number"
               name="price"
@@ -125,7 +133,9 @@ const EditProduct = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Condition</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Condition
+            </label>
             <select
               name="condition"
               value={formData.condition}
@@ -139,10 +149,14 @@ const EditProduct = () => {
             </select>
           </div>
           {loading ? (
-            <div className="text-center text-gray-700">Loading categories...</div>
+            <div className="text-center text-gray-700">
+              Loading categories...
+            </div>
           ) : (
             <div>
-              <label className="block text-sm font-medium text-gray-700">Categories</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Categories
+              </label>
               <div className="grid grid-cols-2 gap-4">
                 {categories.map((category) => (
                   <div key={category._id} className="flex items-center">

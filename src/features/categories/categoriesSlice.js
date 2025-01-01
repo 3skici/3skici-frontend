@@ -1,16 +1,23 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/category/all`);
-    const data = await response.json();
-    return data; // Return data to use in extraReducers
-  } catch (error) {
-    throw Error("Error fetching categories: " + error.message);
+export const fetchCategories = createAsyncThunk(
+  "categories/fetchCategories",
+  async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/category/all`
+      );
+      const data = await response.json();
+      return data; // Return data to use in extraReducers
+    } catch (error) {
+      throw Error("Error fetching categories: " + error.message);
+    }
   }
-});
+);
+
+// state
 const categoriesSlice = createSlice({
-  name: 'categories',
+  name: "categories",
   initialState: { categories: [], loading: false, error: null },
   reducers: {},
   extraReducers: (builder) => {
@@ -27,7 +34,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       });
-  }
+  },
 });
 
 export const { action, reducer } = categoriesSlice;
@@ -36,6 +43,5 @@ export const { action, reducer } = categoriesSlice;
 export const selectCategories = (state) => state.categories.categories;
 export const selectLoading = (state) => state.categories.loading;
 export const selectError = (state) => state.categories.error;
-
 
 export default reducer;

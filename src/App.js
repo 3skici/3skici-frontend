@@ -8,7 +8,7 @@ import Category from "./pages/Category";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import ProductsManagement from "./pages/ProductsManagement";
-import EditProduct from "./pages/EditProduct";
+import EditProduct from "./components/products/EditProduct";
 import AboutUs from "./pages/About";
 import Products from "./components/products/ProductManagement";
 import ProductSearchAndFilter from "./components/filter&search/ProductSearchAndFilter";

@@ -129,13 +129,15 @@ const Navbar = () => {
             mobileMenuOpen ? "flex" : "hidden"
           } lg:flex`}
         >
-          <Link
-            to={getPathWithLanguage("/selling-product", currentLanguage)}
-            onClick={handleSellingProductClick} // Attach the handler here
-            className=" font-nunito text-xl font-bold hover:text-blue-400 py-2 lg:py-0"
-          >
-            {t("sell_product")}
-          </Link>
+          <div className="rounded-full bg-blue-300 p-3">
+            <Link
+              to={getPathWithLanguage("/selling-product", currentLanguage)}
+              onClick={handleSellingProductClick} // Attach the handler here
+              className=" font-nunito  text-xl font-bold hover:text-blue-900 py-2 lg:py-0"
+            >
+              {t("sell_product")}
+            </Link>
+          </div>
 
           <div className="flex items-center space-x-8">
             {isLoggedIn && (
