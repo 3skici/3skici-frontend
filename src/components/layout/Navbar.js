@@ -108,18 +108,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
+    <nav className="h-[56px] sm:h-[64px] md:h-[80px] lg:h-[100px] xl:h-[120px] bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
-          className="text-2xl text-dark-purple-blue font-bold hover:text-yellow-400"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-dark-purple-blue font-bold hover:text-yellow-400"
         >
-          3skici
+          <span>3</span>
+          <span>skici</span>
         </Link>
         <div className="lg:hidden">
           <button
             onClick={toggleMobileMenu}
-            className="text-dark-purple-blue focus:outline-none"
+            className="text-2xl sm:text-3xl md:text-4xl focus:outline-none"
           >
             {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
@@ -129,31 +130,31 @@ const Navbar = () => {
             mobileMenuOpen ? "flex" : "hidden"
           } lg:flex`}
         >
-          <div className="rounded-full bg-blue-300 p-3">
+          <div className="rounded p-3">
             <Link
               to={getPathWithLanguage("/selling-product", currentLanguage)}
               onClick={handleSellingProductClick} // Attach the handler here
-              className=" font-nunito  text-xl font-bold hover:text-blue-900 py-2 lg:py-0"
+              className=" font-nunito  text-l font-semibold px-4 py-2 border rounded hover:bg-gray-100"
             >
               {t("sell_product")}
             </Link>
           </div>
 
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6 sm:space-x-8">
             {isLoggedIn && (
               <>
                 <Link
                   to={getPathWithLanguage("/chat", currentLanguage)}
-                  className="text-2xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
+                  className="text-2xl sm:text-3xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
                 >
                   <BsChatDots />
                 </Link>
 
                 <button
                   onClick={toggleFavorite}
-                  className={`text-2xl ${
-                    isFavorite ? "text-red-500" : "text-green-600"
-                  } hover:text-red-400 focus:outline-none`}
+                  className={`text-2xl sm:text-3xl ${
+                    isFavorite ? "text-green-500" : "text-green-600"
+                  } hover:text-green-400 focus:outline-none`}
                 >
                   <FaHeart />
                 </button>
@@ -163,16 +164,16 @@ const Navbar = () => {
               <div className="relative py-2 lg:py-0 dropdown">
                 <button
                   onClick={toggleProfileDropdown}
-                  className="flex items-center hover:text-yellow-400 focus:outline-none"
+                  className="flex items-center text-lg sm:text-xl hover:text-green-400 focus:outline-none"
                   aria-expanded={profileDropdown}
                   aria-haspopup="true"
                 >
-                  <FaUserCircle className="mr-1 text-xl" />
-                  <IoMdArrowDropdown className="text-xl" />
+                  <FaUserCircle className="mr-1 text-xl sm:text-2xl" />
+                  <IoMdArrowDropdown className="text-xl sm:text-2xl" />
                 </button>
 
                 {profileDropdown && (
-                  <div className="absolute z-50 right-8 mt-1  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200">
+                  <div className="absolute z-50 right-8  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200">
                     <div className="overflow-auto max-h-60">
                       {/* Profile Link */}
                       <Link
@@ -230,22 +231,22 @@ const Navbar = () => {
             ) : (
               <Link
                 to={getPathWithLanguage("/login", currentLanguage)}
-                className="px-4 py-2 hover:bg-gray-700 rounded flex items-center lg:py-0"
+                className="px-4 py-2 border rounded hover:bg-gray-100 flex items-center text-lg sm:text-xl"
               >
                 <FiLogIn className="mr-1" /> {t("navbar:login")}
               </Link>
             )}
           </div>
           {/* Language Switcher Dropdown */}
-          <div className="relative py-2 lg:py-0 dropdown">
+          <div className="relative dropdown">
             <button
               onClick={toggleLanguageDropdown}
               className="flex items-center hover:text-yellow-400 focus:outline-none"
             >
-              <span className="mr-1">
+              <span className="mr-1 text-l sm:text-xl md:text-3xl">
                 {languages.find((lang) => lang.code === currentLanguage)?.icon}
               </span>
-              <IoMdArrowDropdown />
+              <IoMdArrowDropdown className="text-2xl" />
             </button>
             {languageDropdownOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-900 text-black rounded-md shadow-lg">

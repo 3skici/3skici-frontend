@@ -36,6 +36,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavorites } from "./features/products/favoriteSlice";
+import Test from "./pages/Test";
 function App() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
@@ -56,6 +57,7 @@ function App() {
       <Routes>
         {/* Default route redirects to English version */}
         <Route path="/" element={<Navigate to={`/en`} replace />} />
+        <Route path="/:lang/test" element={<Test />} />
 
         {/* Language-specific routes */}
         <Route path="/:lang" element={<Home />} />
