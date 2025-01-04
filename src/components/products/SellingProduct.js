@@ -124,8 +124,28 @@ const AddProductPage = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setProduct({ ...product, images: imageUrls, imagesFiles: files });
+    const newFiles = files.filter(
+      (file) =>
+        !product.imagesFiles.some(
+          (existingFile) =>
+            existingFile.name === file.name && existingFile.size === file.size
+        )
+    );
+
+    if (newFiles.length > 0) {
+      const newImagePreviews = newFiles.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+
+      setProduct({
+        ...product,
+        imagesFiles: [...product.imagesFiles, ...newFiles],
+        images: [...product.images, ...newImagePreviews],
+      });
+    } else {
+      toast.warn("Duplicate images are not allowed.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -489,6 +509,19 @@ const AddProductPage = () => {
               onChange={handleImageChange}
               className="p-2 border border-gray-300 rounded"
             />
+            <div>
+              {product.images.map((image, index) => (
+                <div key={index}>
+                  <img
+                    src={image.preview}
+                    alt={`Preview ${index}`}
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* availability */}
             <select
               name="availability"
               value={product.availability}
