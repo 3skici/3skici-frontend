@@ -14,6 +14,7 @@ import { selectCategories } from "../../features/categories/categoriesSlice";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 import { getImageUrl } from "../../utils/imgagesHelper";
+import { format } from "timeago.js";
 
 const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
   console.log("this is product", product.images);
@@ -98,9 +99,9 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
       {/* Product Info */}
       <div className="p-4">
         <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col max-w-[150px]">
             <span
-              className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden max-w-[120px]"
+              className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden"
               title={product.name || "No product name"}
             >
               {product.name || "No product name"}
@@ -108,22 +109,35 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
           </div>
 
           {/* Price */}
-          <span className="font-bold  text-red-600">
-            <span>₺</span>
+          <span className="font-bold text-red-600">
+            <span>{product.price.currency}</span>
             {product.price && product.price.amount != null
               ? product.price.amount.toFixed(2)
               : "0.00"}
           </span>
         </div>
 
-        {/* Categories */}
+        {/* description */}
         <div className="flex items-center mb-2 mt-3">
-          <FaTags className="text-gray-700 mr-2" />
-          <span className="px-3 py-1 text-[12px] bg-[#d9dfe3] max-w-max rounded font-semibold text-[#7281a3]">
-            {getCategoryNames(product.category)}
+          <span
+            className="py-1 text-s rounded font-semibold text-[#7281a3] truncate max-w-[180px]"
+            title={product.description}
+          >
+            {product.description}
           </span>
         </div>
+
+        {/* Card Footer */}
+        <div className="flex justify-between text-sm text-gray-500">
+          <div>
+            <span>{product.location.city}</span>
+          </div>
+          <div>
+            <span>{format(product.createdAt)}</span>
+          </div>
+        </div>
       </div>
+
       {/* ToastContainer for displaying the toast notifications */}
       <ToastContainer />
     </div>

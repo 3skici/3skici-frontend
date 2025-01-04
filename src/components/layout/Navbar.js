@@ -108,7 +108,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="h-[56px] sm:h-[64px] md:h-[80px] lg:h-[100px] xl:h-[120px] bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50">
+    <nav
+      dir="ltr"
+      className="h-[56px] sm:h-[64px] md:h-[80px] lg:h-[100px] xl:h-[120px] bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50"
+    >
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
@@ -193,17 +196,6 @@ const Navbar = () => {
                       >
                         {/* {t("user_dashboard")} */}
                         Notifications
-                      </Link>
-
-                      {/* Manage Products Link */}
-                      <Link
-                        to={getPathWithLanguage(
-                          "/product-management",
-                          currentLanguage
-                        )}
-                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
-                      >
-                        {t("manage_products")}
                       </Link>
 
                       {/* Settings Link */}

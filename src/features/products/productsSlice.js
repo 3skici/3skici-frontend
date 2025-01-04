@@ -1,34 +1,68 @@
 // productsSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Helper function to handle Fetch responses
 const handleFetchResponse = async (response) => {
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Server Error');
+    throw new Error(errorData.message || "Server Error");
   }
   return response.json();
 };
 
 // Async thunk to fetch all products
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
+  "products/fetchProducts",
   async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/product/all`);
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/product/all`
+    );
     const data = await handleFetchResponse(response);
     // Assuming the API returns { success: true, data: [...] }
     return data.data;
   }
 );
 
+// fetch user products
+export const fetchUserProducts = createAsyncThunk(
+  "products/fetchUserProducts",
+  async ({ userId, token }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/product/user-product/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      //  check if the response is successful
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
+      }
+
+      // parse the response data
+      const data = await response.json();
+      return data; //Return the data to be used by the reducer
+    } catch (error) {
+      // Handle any errors during the fetch
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Async thunk to delete a product
 export const deleteProduct = createAsyncThunk(
-  'products/deleteProduct',
+  "products/deleteProduct",
   async (productId) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/product/${productId}`,
       {
-        method: 'DELETE',
+        method: "DELETE",
       }
     );
     await handleFetchResponse(response);
@@ -38,14 +72,14 @@ export const deleteProduct = createAsyncThunk(
 
 // Async thunk to update a product
 export const updateProduct = createAsyncThunk(
-  'products/updateProduct',
+  "products/updateProduct",
   async ({ productId, updatedData }) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/product/${productId}`,
       {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedData),
       }
@@ -57,7 +91,7 @@ export const updateProduct = createAsyncThunk(
 
 // Fetch products by category
 export const fetchProductsByCategory = createAsyncThunk(
-  'products/fetchProductsByCategory',
+  "products/fetchProductsByCategory",
   async (categoryId) => {
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/product/bycategory/${categoryId}`
@@ -67,15 +101,14 @@ export const fetchProductsByCategory = createAsyncThunk(
   }
 );
 
-
 // Products slice
 const productsSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState: {
     items: [],
-    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
-    selectedProduct: null
+    selectedProduct: null,
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -89,42 +122,40 @@ const productsSlice = createSlice({
     builder
       // Handle fetchProducts lifecycle
       .addCase(fetchProducts.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.items = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       })
       // Handle deleteProduct lifecycle
       .addCase(deleteProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.items = state.items.filter(
-          (item) => item._id !== action.payload
-        );
+        state.status = "succeeded";
+        state.items = state.items.filter((item) => item._id !== action.payload);
       })
       .addCase(deleteProduct.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       })
       // Handle updateProduct lifecycle
       .addCase(updateProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.items = state.items.map((item) =>
           item._id === action.payload._id ? action.payload : item
         );
       })
       .addCase(updateProduct.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(fetchProductsByCategory.pending, (state) => {
@@ -138,13 +169,25 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(fetchUserProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload;
+      })
+      .addCase(fetchUserProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 // Selectors
 export const selectProducts = (state) => state.products.items;
-export const selectLoading = (state) => state.products.status === 'loading';
+export const selectLoading = (state) => state.products.status === "loading";
 export const selectError = (state) => state.products.error;
-export const { setSelectedProduct, clearSelectedProduct } = productsSlice.actions;
-
+export const { setSelectedProduct, clearSelectedProduct } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;

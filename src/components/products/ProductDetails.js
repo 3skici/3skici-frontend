@@ -175,10 +175,6 @@ const Product = ({ suggestedProducts = [] }) => {
         </div>
         {/* Contact and Chat Buttons */}
         <div className="flex justify-around mt-4 md:mt-6 p-2">
-          <button className="bg-blue-500 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 mb-62">
-            Report this product
-          </button>
-
           <Link
             to={token ? chatRoom : "#"}
             onClick={handleChatClick}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import image from "../../assets/images/shopping.jpg";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { toast } from "react-toastify";
@@ -55,10 +56,26 @@ const Signup = () => {
     setAcceptTerms(!acceptTerms);
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">{t("sign_up")}</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Left Section */}
+      <div className="relative flex-1">
+        <img
+          src={image}
+          alt="Background"
+          className="absolute inset-0 object-cover w-full h-full brightness-75"
+        />
+      </div>
+
+      {/* Right Section */}
+      <div className="flex flex-col items-center flex-1 bg-white px-6 py-2 sm:py-10">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 text-center">
+          {t("register")}
+        </h1>
+        <p className="text-gray-600 mb-6 text-center">
+          {t("register_message")}
+        </p>
+
+        <form onSubmit={handleSubmit} className="w-full max-w-md space-y-5">
           <div>
             <label
               htmlFor="username"
@@ -104,6 +121,7 @@ const Signup = () => {
               type="email"
               name="email"
               id="email"
+              // placeholder="user@3skici.com"
               value={formData.email}
               onChange={handleChange}
               required
@@ -129,7 +147,7 @@ const Signup = () => {
           </div>
 
           {/* terms and conditions  */}
-          <div className="mb-4">
+          <div className="mb-1">
             <label className="inline-flex items-center text-gray-700">
               <input
                 type="checkbox"
@@ -137,7 +155,7 @@ const Signup = () => {
                 onChange={handleCheckboxChange}
                 className="form-checkbox h-4 w-4 text-blue-600"
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="m-1 text-sm text-gray-700">
                 {t("i_agree_to_the")}
                 <Link to={terms} className="text-blue-500 hover:underline m-1">
                   {t("terms_and_conditions")}
@@ -146,7 +164,6 @@ const Signup = () => {
               </span>
             </label>
           </div>
-
           {/* info about terms  */}
           {!acceptTerms && (
             <p className="text-sm text-red-500">
@@ -163,7 +180,8 @@ const Signup = () => {
             {t("sign_up")}
           </button>
         </form>
-        <p className="text-center text-sm text-gray-600 mt-4">
+
+        <p className="text-center text-sm text-gray-600 mt-3">
           {t("already_registered_login")}
           <Link to={login} className="text-blue-500 hover:underline m-1">
             {t("login")}

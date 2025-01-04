@@ -7,7 +7,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Category from "./pages/Category";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
-import ProductsManagement from "./pages/ProductsManagement";
 import EditProduct from "./components/products/EditProduct";
 import AboutUs from "./pages/About";
 import Products from "./components/products/ProductManagement";
@@ -29,7 +28,6 @@ import ProductDetails from "./components/products/ProductDetails";
 import ChatRoom from "./components/chat/ChatRoom";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Sustainability from "./pages/Sustainability";
-// Import React Toastify components and styles
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -37,6 +35,9 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavorites } from "./features/products/favoriteSlice";
 import Test from "./pages/Test";
+import LocalizedFontWrapper from "./components/helpers/LocalizedFontWrapper";
+import Settings from "./components/layout/Settings";
+import EditProfile from "./components/profile/EditProfile";
 function App() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
@@ -54,55 +55,54 @@ function App() {
     <Layout>
       {/* ToastContainer to render toast notifications */}
       <ToastContainer />
-      <Routes>
-        {/* Default route redirects to English version */}
-        <Route path="/" element={<Navigate to={`/en`} replace />} />
-        <Route path="/:lang/test" element={<Test />} />
+      <LocalizedFontWrapper>
+        <Routes>
+          {/* Default route redirects to English version */}
+          <Route path="/" element={<Navigate to={`/en`} replace />} />
+          <Route path="/:lang/test" element={<Test />} />
 
-        {/* Language-specific routes */}
-        <Route path="/:lang" element={<Home />} />
-        <Route path="/:lang/about-us" element={<AboutUs />} />
-        <Route
-          path="/:lang/product-management"
-          element={<ProductsManagement />}
-        />
-        <Route path="/:lang/browse-products" element={<Products />} />
-        <Route path="/:lang/selling-product" element={<SellingProduct />} />
-        <Route path="/:lang/edit-product/:id" element={<EditProduct />} />
-        <Route path="/:lang/login" element={<Login />} />
-        <Route path="/:lang/cat" element={<Category />} />
-        <Route path="/:lang/categories" element={<CategoryList />} />
-        <Route path="/:lang/signup" element={<Signup />} />
-        <Route path="/:lang/profile" element={<Profile />} />
-        <Route path="/:lang/admin" element={<AdminDashboard />} />
-        <Route path="/:lang/forgot-password" element={<ForgotPassword />} />
-        <Route path="/:lang/faq" element={<FAQ />} />
-        <Route path="/:lang/fav" element={<FavoritesPage />} />
-        <Route path="/:lang/contact-us" element={<ContactUs />} />
-        <Route
-          path="/:lang/terms-and-conditions"
-          element={<TermsAndConditions />}
-        />
-        <Route path="/:lang/sitemap" element={<Sitemap />} />
-        <Route path="/:lang/user-settings" element={<UserSettings />} />
-        <Route path="/:lang/chat" element={<ChatPage />} />
-        <Route path="/:lang/chat-room/" element={<ChatRoom />} />
-        <Route path="/:lang/card" element={<ProductSmallCard />} />
-        <Route path="/:lang/product/:id" element={<ProductDetails />} />
-        <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
-        <Route
-          path="/:lang/3skici-and-sustainability"
-          element={<Sustainability />}
-        />
-        <Route
-          path="/:lang/reset-password/:token"
-          element={<ResetPassword />}
-        />
-        <Route path="/:lang/filter" element={<ProductSearchAndFilter />} />
-        <Route path="/:lang/report" element={<Report />} />
-        {/* Catch-all route for 404 pages */}
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          {/* Language-specific routes */}
+          <Route path="/:lang" element={<Home />} />
+          <Route path="/:lang/about-us" element={<AboutUs />} />
+          <Route path="/:lang/browse-products" element={<Products />} />
+          <Route path="/:lang/selling-product" element={<SellingProduct />} />
+          <Route path="/:lang/edit-product/:id" element={<EditProduct />} />
+          <Route path="/:lang/login" element={<Login />} />
+          <Route path="/:lang/cat" element={<Category />} />
+          <Route path="/:lang/categories" element={<CategoryList />} />
+          <Route path="/:lang/signup" element={<Signup />} />
+          <Route path="/:lang/profile" element={<Profile />} />
+          <Route path="/:lang/admin" element={<AdminDashboard />} />
+          <Route path="/:lang/forgot-password" element={<ForgotPassword />} />
+          <Route path="/:lang/faq" element={<FAQ />} />
+          <Route path="/:lang/fav" element={<FavoritesPage />} />
+          <Route path="/:lang/contact-us" element={<ContactUs />} />
+          <Route
+            path="/:lang/terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
+          <Route path="/:lang/sitemap" element={<Sitemap />} />
+          <Route path="/:lang/user-settings" element={<UserSettings />} />
+          <Route path="/:lang/chat" element={<ChatPage />} />
+          <Route path="/:lang/chat-room/" element={<ChatRoom />} />
+          <Route path="/:lang/card" element={<ProductSmallCard />} />
+          <Route path="/:lang/product/:id" element={<ProductDetails />} />
+          <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/:lang/settings" element={<Settings />} />
+          <Route
+            path="/:lang/3skici-and-sustainability"
+            element={<Sustainability />}
+          />
+          <Route
+            path="/:lang/reset-password/:token"
+            element={<ResetPassword />}
+          />
+          <Route path="/:lang/filter" element={<ProductSearchAndFilter />} />
+          <Route path="/:lang/report" element={<Report />} />
+          {/* Catch-all route for 404 pages */}
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </LocalizedFontWrapper>
     </Layout>
   );
 }

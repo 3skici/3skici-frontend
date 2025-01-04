@@ -6,17 +6,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        nunito: ["Nunito", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"], // For English
+        cairo: ["Cairo", "sans-serif"], // For Arabic
+        noto: ["Noto Sans", "sans-serif"], // For Turkish
       },
       colors: {
-        // Primary Color
-        "light-beige": "#F2F9FF", // for bg
-
-        // Secondary Color
-        "card-bg": "#FFF", //cards bg
-
-        // Accent Color
-        "light-nav": "#E4F1FF", // nav
+        "light-beige": "#F2F9FF",
+        "card-bg": "#FFF",
+        "light-nav": "#E4F1FF",
         "light-footer": "#D0E4FF",
         "dark-blue": "#3B3B3B",
         "fav-bg": "#5CB338",

@@ -47,6 +47,13 @@ CustomPathLanguageDetector.addDetector({
   },
 });
 
+// handle rtl
+const setHtmlDirection = (lng) => {
+  const dir = lng === "ar" ? "rtl" : "ltr";
+  document.documentElement.setAttribute("dir", dir);
+  document.documentElement.setAttribute("lang", lng);
+};
+
 // Initialize i18n
 i18n
   .use(CustomPathLanguageDetector) // Register custom language detector
@@ -100,6 +107,9 @@ i18n
     interpolation: {
       escapeValue: false, // React already handles escaping
     },
-  });
+  })
+  .then(() => setHtmlDirection(i18n.language));
+
+i18n.on("languageChanged", setHtmlDirection);
 
 export default i18n;
