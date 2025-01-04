@@ -1,13 +1,15 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Sustainability = () => {
+  const { t } = useTranslation();
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
-        Sustainability at 3skici
+        {t("sustainability_at_3skici")}
       </h1>
       <p className="mb-4 text-gray-700">
-        At 3skici, we believe that small actions can lead to big changes. Our platform was founded with sustainability at its core, driven by the urgent need to address the environmental challenges posed by modern consumerism. By fostering a culture of reuse, we aim to reduce waste, conserve resources, and inspire eco-conscious decision-making.
+        {t("commitment_statement")} 
       </p>
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">
         Why Sustainability Matters
