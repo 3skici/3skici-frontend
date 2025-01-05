@@ -1,9 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const TermsAndConditions = () => {
+  // calling translation files
+  const { t } = useTranslation();
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Terms and Conditions</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6">{t("terms_and_conditions")}</h1>
       <p className="text-gray-700 mb-6">
         By using the 3skici platform, you agree to comply with these Terms and Conditions. Please read them carefully before registering or posting products on the platform.
       </p>
