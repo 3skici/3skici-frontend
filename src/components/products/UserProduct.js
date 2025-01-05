@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserProducts } from "../../features/products/productsSlice";
+import {
+  deleteUserProduct,
+  fetchUserProducts,
+} from "../../features/products/productsSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const UserProduct = () => {
   const dispatch = useDispatch();
@@ -22,6 +26,15 @@ const UserProduct = () => {
         });
     }
   }, [dispatch, userId, token]);
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      await dispatch(deleteUserProduct(id)).unwrap();
+      toast.success("Product deleted successfully.");
+    } catch (error) {
+      toast.error("Failed to delete item.");
+    }
+  };
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -65,12 +78,12 @@ const UserProduct = () => {
                   </a>
                 </td>
                 <td className="px-6 py-4">
-                  <a
-                    href="#"
+                  <button
                     className="font-medium text-red-600 hover:underline"
+                    onClick={() => handleDeleteProduct(product._id)}
                   >
                     Delete
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}

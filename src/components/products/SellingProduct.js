@@ -124,13 +124,12 @@ const AddProductPage = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const newFiles = files.filter(
-      (file) =>
-        !product.imagesFiles.some(
-          (existingFile) =>
-            existingFile.name === file.name && existingFile.size === file.size
-        )
-    );
+    const newFiles = files.filter((file) => {
+      return !product.imagesFiles.some(
+        (existingFile) =>
+          existingFile.name === file.name && existingFile.size === file.size
+      );
+    });
 
     if (newFiles.length > 0) {
       const newImagePreviews = newFiles.map((file) => ({

@@ -56,20 +56,33 @@ export const fetchUserProducts = createAsyncThunk(
 );
 
 // Async thunk to delete a product
-export const deleteProduct = createAsyncThunk(
-  "products/deleteProduct",
-  async (productId) => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/product/${productId}`,
-      {
-        method: "DELETE",
+export const deleteUserProduct = createAsyncThunk(
+  "products/deleteUserProduct",
+  async (productId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/product/user-product/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete product");
       }
-    );
-    await handleFetchResponse(response);
-    return productId;
+
+      return productId; // Return the deleted product's ID
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
-
 // Async thunk to update a product
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
@@ -132,17 +145,20 @@ const productsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      // Handle deleteProduct lifecycle
-      .addCase(deleteProduct.pending, (state) => {
+      // Delete user product
+      .addCase(deleteUserProduct.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(deleteProduct.fulfilled, (state, action) => {
+      .addCase(deleteUserProduct.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = state.items.filter((item) => item._id !== action.payload);
+        // Filter out the deleted product by its ID
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload
+        );
       })
-      .addCase(deleteProduct.rejected, (state, action) => {
+      .addCase(deleteUserProduct.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       // Handle updateProduct lifecycle
       .addCase(updateProduct.pending, (state) => {

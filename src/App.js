@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./components/layout/Login";
 import Signup from "./components/layout/Signup";
-import AdminDashboard from "./pages/AdminDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import Category from "./pages/Category";
 import Profile from "./pages/Profile";
@@ -72,7 +71,6 @@ function App() {
           <Route path="/:lang/categories" element={<CategoryList />} />
           <Route path="/:lang/signup" element={<Signup />} />
           <Route path="/:lang/profile" element={<Profile />} />
-          <Route path="/:lang/admin" element={<AdminDashboard />} />
           <Route path="/:lang/forgot-password" element={<ForgotPassword />} />
           <Route path="/:lang/faq" element={<FAQ />} />
           <Route path="/:lang/fav" element={<FavoritesPage />} />
