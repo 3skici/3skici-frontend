@@ -65,7 +65,7 @@ const AddProductPage = () => {
     const fetchUserProducts = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/product/user/${seller}`
+          `${process.env.REACT_APP_API_URL}/product/user-product/${seller}`
         );
         if (response.ok) {
           const products = await response.json();
