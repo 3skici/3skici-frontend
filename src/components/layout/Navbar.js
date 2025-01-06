@@ -115,7 +115,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-dark-purple-blue font-bold hover:text-[#C02244]"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl   text-[#C02244] font-bold hover:text-[#C02244]"
         >
           <span>3</span>
           <span>skici</span>
