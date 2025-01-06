@@ -115,7 +115,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to={getPathWithLanguage("/", currentLanguage)}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-dark-purple-blue font-bold hover:text-yellow-400"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-dark-purple-blue font-bold hover:text-[#C02244]"
         >
           <span>3</span>
           <span>skici</span>
@@ -148,7 +148,7 @@ const Navbar = () => {
               <>
                 <Link
                   to={getPathWithLanguage("/chat", currentLanguage)}
-                  className="text-2xl sm:text-3xl text-dark-purple-blue hover:text-yellow-400 focus:outline-none"
+                  className="text-2xl sm:text-3xl text-dark-purple-blue hover:text-red-300 focus:outline-none"
                 >
                   <BsChatDots />
                 </Link>
@@ -156,8 +156,8 @@ const Navbar = () => {
                 <button
                   onClick={toggleFavorite}
                   className={`text-2xl sm:text-3xl ${
-                    isFavorite ? "text-green-500" : "text-green-600"
-                  } hover:text-green-400 focus:outline-none`}
+                    isFavorite ? "text-[#C02244]" : "text-[#C02244]"
+                  } hover:text-[#e08599] focus:outline-none`}
                 >
                   <FaHeart />
                 </button>
@@ -167,7 +167,7 @@ const Navbar = () => {
               <div className="relative py-2 lg:py-0 dropdown">
                 <button
                   onClick={toggleProfileDropdown}
-                  className="flex items-center text-lg sm:text-xl hover:text-green-400 focus:outline-none"
+                  className="flex items-center text-lg sm:text-xl hover:text-[#803e4c] focus:outline-none"
                   aria-expanded={profileDropdown}
                   aria-haspopup="true"
                 >
@@ -233,7 +233,7 @@ const Navbar = () => {
           <div className="relative dropdown">
             <button
               onClick={toggleLanguageDropdown}
-              className="flex items-center hover:text-yellow-400 focus:outline-none"
+              className="flex items-center hover:text-[#C02244] focus:outline-none"
             >
               <span className="mr-1 text-l sm:text-xl md:text-3xl">
                 {languages.find((lang) => lang.code === currentLanguage)?.icon}
