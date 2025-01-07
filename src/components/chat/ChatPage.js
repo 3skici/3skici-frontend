@@ -23,7 +23,7 @@ const ChatPage = () => {
     }
   }, [selectedChatId, dispatch]);
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row mt-28">
       {/* MyChats Component */}
       <div className="lg:w-1/3 bg-white shadow-lg rounded-lg overflow-hidden">
         <MyChats />
