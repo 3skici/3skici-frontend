@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import heroImage1 from "../../assets/images/hero.jpg";
 import heroImage2 from "../../assets/images/hero2.jpg";
 import heroImage3 from "../../assets/images/hero3.jpg";
+import heroImage4 from "../../assets/images/hero1.jpg";
 import HeroSearch from "./HeroSearch";
-// import SearchBar from "./SearchBar";
 
 const HeroSection = () => {
-  const [currentImage, setCurrentImage] = useState(heroImage1); // Default image
-  const images = [heroImage1, heroImage2, heroImage3]; // Array of images
-  const intervalTime = 2000; // Time in milliseconds for background change
+  const images = [heroImage2, heroImage1, heroImage3, heroImage4]; // Ensure all images are in the array
+  const intervalTime = 2500; // Time in milliseconds for background change
+
+  const [currentImage, setCurrentImage] = useState(images[0]); // Set initial image
 
   useEffect(() => {
     let currentIndex = 0;
@@ -18,8 +19,8 @@ const HeroSection = () => {
       setCurrentImage(images[currentIndex]);
     }, intervalTime);
 
-    return () => clearInterval(changeBackground);
-  }, [images]);
+    return () => clearInterval(changeBackground); // Cleanup interval on component unmount
+  }, []); // Removed images dependency to prevent unnecessary re-renders
 
   return (
     <div
