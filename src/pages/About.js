@@ -19,15 +19,17 @@ const AboutUs = () => {
 
           {/* Mission Section */}
           <section className="bg-gradient-to-r from-[#C02244] to-[#c34867] p-8 rounded-lg shadow-lg mt-12 text-white">
-            <h2 className="text-2xl font-semibold text-center">{t("our_mission")}</h2>
-            <p className="mt-4">
-              {t("mission_description")}
-            </p>
+            <h2 className="text-2xl font-semibold text-center">
+              {t("our_mission")}
+            </h2>
+            <p className="mt-4">{t("mission_description")}</p>
           </section>
 
           {/* Our Key Features Section */}
           <section className="py-12 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">{t("our_key_features")}</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              {t("our_key_features")}
+            </h2>
             <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
               {t("discover_features")}
             </p>
@@ -40,12 +42,21 @@ const AboutUs = () => {
                 { key: "enterprise_grade", icon: "🏢" },
                 { key: "support_24_7", icon: "🛠️" },
                 { key: "seamless_integration", icon: "🔗" },
-                { key: "accelerate_innovation", icon: "🚀" }
+                { key: "accelerate_innovation", icon: "🚀" },
               ].map((feature, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center border-t-4 border-[#C02244]">
-                  <div className="text-4xl mb-3 text-[#C02244]">{feature.icon}</div>
-                  <h3 className="text-xl font-semibold text-[#C02244]">{t(feature.key)}</h3>
-                  <p className="mt-2 text-gray-600">{t(feature.key + "_description")}</p>
+                <div
+                  key={index}
+                  className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center border-t-4 border-[#C02244]"
+                >
+                  <div className="text-4xl mb-3 text-[#C02244]">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-[#C02244]">
+                    {t(feature.key)}
+                  </h3>
+                  <p className="mt-2 text-gray-600">
+                    {t(feature.key + "_description")}
+                  </p>
                 </div>
               ))}
             </div>
@@ -53,16 +64,25 @@ const AboutUs = () => {
 
           {/* How It Works Section */}
           <section className="py-6">
-            <h2 className="text-2xl font-semibold text-[#C02244] text-center">{t("how_it_works")}</h2>
+            <h2 className="text-2xl font-semibold text-[#C02244] text-center">
+              {t("how_it_works")}
+            </h2>
             <div className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { key: "for_sellers" },
                 { key: "for_buyers" },
-                { key: "transaction_process" }
+                { key: "transaction_process" },
               ].map((item, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#C02244]">
-                  <h3 className="text-xl font-semibold text-[#C02244]">{t(item.key)}</h3>
-                  <p className="mt-2 text-gray-600">{t(item.key + "_description")}</p>
+                <div
+                  key={index}
+                  className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#C02244]"
+                >
+                  <h3 className="text-xl font-semibold text-[#C02244]">
+                    {t(item.key)}
+                  </h3>
+                  <p className="mt-2 text-gray-600">
+                    {t(item.key + "_description")}
+                  </p>
                 </div>
               ))}
             </div>
@@ -70,9 +90,15 @@ const AboutUs = () => {
 
           {/* Unique Features Section */}
           <section>
-            <h2 className="text-3xl text-center mt-8 font-extrabold text-gray-900">{t("our_key_features")}</h2>
+            <h2 className="text-3xl text-center mt-8 font-extrabold text-gray-900">
+              {t("our_key_features")}
+            </h2>
             <div className="mt-6 space-y-4 bg-gray-50 p-8 my-4 rounded-lg shadow-lg">
-              {["free_for_users", "direct_communication", "simple_accessible"].map((feature, index) => (
+              {[
+                "free_for_users",
+                "direct_communication",
+                "simple_accessible",
+              ].map((feature, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <span className="text-[#C02244] text-xl">✔</span>
                   <p className="text-gray-700">{t(feature)}</p>
@@ -83,15 +109,23 @@ const AboutUs = () => {
 
           {/* 3skici Numbers Section */}
           <section className="mx-auto py-12">
-            <h2 className="text-3xl font-bold text-[#C02244] mb-4 text-center">{t("3skici_numbers")}</h2>
+            <h2 className="text-3xl font-bold text-[#C02244] mb-4 text-center">
+              {t("3skici_numbers")}
+            </h2>
             <div className="flex flex-wrap justify-center gap-40 text-center">
               {[
-                { key: "active_users" },
-                { key: "items_for_sale" },
-                { key: "successful_transactions" }
+                { numbers: "890", key: "active_users" },
+                { numbers: "10000", key: "items_for_sale" },
+                { numbers: "1200", key: "successful_transactions" },
               ].map((stat, index) => (
-                <div key={index} className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]">
-                  <h3 className="text-2xl font-bold text-[#C02244]">{t(stat.key)}</h3>
+                <div
+                  key={index}
+                  className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]"
+                >
+                  <h3 className="text-2xl font-bold text-[#C02244]">
+                    {stat.numbers}
+                  </h3>
+                  <p> {t(stat.key)}</p>
                 </div>
               ))}
             </div>
@@ -99,7 +133,9 @@ const AboutUs = () => {
 
           {/* Report Fake or Inappropriate Products Section */}
           <section className="py-12 text-center">
-            <h2 className="text-2xl font-semibold text-gray-900">{t("report_fake_products")}</h2>
+            <h2 className="text-2xl font-semibold text-gray-900">
+              {t("report_fake_products")}
+            </h2>
             <p className="text-gray-700 bg-gray-50 p-8 rounded-lg shadow-lg text-lg py-12 mt-8">
               {t("report_fake_products_description")}
             </p>
@@ -107,7 +143,9 @@ const AboutUs = () => {
 
           {/* Call to Action Section */}
           <section className="text-center mt-12">
-            <h2 className="text-3xl font-bold text-[#C02244]">{t("join_community")}</h2>
+            <h2 className="text-3xl font-bold text-[#C02244]">
+              {t("join_community")}
+            </h2>
             <button className="mt-6 bg-[#C02244] text-white py-3 px-8 rounded-lg hover:bg-red-700 transition shadow-md">
               {t("start_shopping")}
             </button>
@@ -119,7 +157,6 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
-
 
 // import React from "react";
 

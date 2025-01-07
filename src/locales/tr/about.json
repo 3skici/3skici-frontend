@@ -37,9 +37,9 @@
     "simple_accessible": "✔ Basit ve Erişilebilir: Göz atmak ve satın almak için hesap açmaya gerek yoktur. Sadece satış yapmak ve bildirim yapmak için kayıt olmanız gerekir.",
 
     "3skici_numbers": "3skici İstatistikleri",
-    "active_users": "1.999 Aktif Kullanıcı",
-    "items_for_sale": "567 Satılık Ürün",
-    "successful_transactions": "890 Başarılı İşlem",
+    "active_users": "Aktif Kullanıcı",
+    "items_for_sale": "Satılık Ürün",
+    "successful_transactions": "Başarılı İşlem",
 
     "report_fake_products": "Sahte veya Uygunsuz Ürünleri Bildirin",
     "report_fake_products_description": "Eğer sahte veya uygunsuz görünen bir ürünle karşılaşırsanız, kolayca bildirim yapabilirsiniz. Ekibimiz, bildiriminizi inceleyerek tüm kullanıcılar için güvenli ve güvenilir bir ortamı sağlamak adına gerekli önlemleri alacaktır.",
