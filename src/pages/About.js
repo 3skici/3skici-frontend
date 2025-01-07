@@ -4,7 +4,7 @@ const AboutUs = () => {
   return (
     <div className="min-h-screen bg-[#fff1f4] text-gray-900">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="bg-white rounded-2xl shadow-2xl p-10">
+        <div className=" p-10">
           {/* Header Section */}
           <header className="text-center">
             <h1 className="text-4xl font-extrabold text-[#C02244]">
@@ -30,7 +30,7 @@ const AboutUs = () => {
           </section>
 
           {/* Our Key Features Section */}
-          <section className="py-16 text-center">
+          <section className="py-12 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900">
               Our Key Features
             </h2>
@@ -97,7 +97,7 @@ const AboutUs = () => {
             </div>
           </section>
           {/* How It Works Section */}
-          <section className="mt-12">
+          <section className="py-6">
             <h2 className="text-2xl font-semibold text-[#C02244] text-center">
               How It Works
             </h2>
@@ -130,11 +130,13 @@ const AboutUs = () => {
           </section>
 
           {/* Our Unique Features Section */}
-          <section className="bg-gray-50 p-8 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              Our Unique Features
+
+          <section className="">
+            <h2 className="text-3xl text-center mt-8 font-extrabold text-gray-900">
+              Our Key Features
             </h2>
-            <div className="mt-6 space-y-4">
+
+            <div className="mt-6 space-y-4 bg-gray-50 p-8 my-4 rounded-lg shadow-lg">
               {[
                 "Completely Free for Sellers and Buyers: No fees, no hidden charges. Everything is transparent and cost-free.",
                 "Direct Communication: Buyers can contact sellers directly through the product listings for smooth transactions.",
@@ -149,11 +151,11 @@ const AboutUs = () => {
           </section>
 
           {/* 3skici in Numbers Section */}
-          <section className="bg-white shadow rounded-lg p-8 border-l-4 border-[#C02244]">
-            <h2 className="text-3xl font-bold text-[#C02244] mb-4">
+          <section className="mx-auto py-12">
+            <h2 className="text-3xl font-bold text-[#C02244] mb-4 text-center ">
               3skici numbers
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="flex flex-wrap justify-center gap-40 text-center">
               {[
                 { number: "1,999", label: "Active Users" },
                 { number: "567", label: "Items for Sale" },
@@ -161,7 +163,7 @@ const AboutUs = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-gray-50 shadow-inner rounded-lg p-6 text-center"
+                  className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]"
                 >
                   <h3 className="text-2xl font-bold text-[#C02244]">
                     {stat.number}
@@ -173,11 +175,11 @@ const AboutUs = () => {
           </section>
 
           {/* Report Fake or Inappropriate Products Section */}
-          <section className="bg-gray-50 p-8 rounded-lg shadow-lg mt-12">
+          <section className="py-12 text-center">
             <h2 className="text-2xl font-semibold text-gray-900">
               Report Fake or Inappropriate Products
             </h2>
-            <p className="mt-4 text-gray-700">
+            <p className=" text-gray-700 bg-gray-50 p-8 rounded-lg shadow-lg text-lg py-12  mt-8">
               If you come across a product that seems fake or inappropriate, you
               can easily report it. Our team will review your report and take
               necessary actions to maintain a safe and trustworthy environment
