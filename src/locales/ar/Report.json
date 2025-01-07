@@ -1,0 +1,12 @@
+{
+    "report_product": "الإبلاغ عن المنتج",
+    "product_custom_id": "معرّف المنتج المخصص:",
+    "reason_for_report": "سبب الإبلاغ",
+    "select_reason": "اختر سببًا",
+    "priority_level": "مستوى الأولوية",
+    "low_priority": "منخفض",
+    "submit_report": "إرسال البلاغ",
+    "enter_product_id": "أدخل معرّف المنتج المخصص (مثل PROD-xxxx) لعرض المنتج",
+    "previous_reports": "التقارير السابقة",
+    "no_previous_reports": "لم يتم العثور على تقارير سابقة."
+  }

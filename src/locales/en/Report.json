@@ -1,0 +1,12 @@
+{
+    "report_product": "Report Product",
+    "product_custom_id": "Product Custom ID:",
+    "reason_for_report": "Reason for Report",
+    "select_reason": "Select a reason",
+    "priority_level": "Priority Level",
+    "low_priority": "Low",
+    "submit_report": "Submit Report",
+    "enter_product_id": "Enter a Product Custom ID (e.g., PROD-xxxx) to display the product",
+    "previous_reports": "Previous Reports",
+    "no_previous_reports": "No previous reports found."
+  }
