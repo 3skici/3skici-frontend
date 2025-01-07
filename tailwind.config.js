@@ -2,7 +2,9 @@
 const rtl = require("tailwindcss-rtl");
 
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: [
+    "./src/**/*.{html,js,jsx,ts,tsx}", // Add TS/TSX if using TypeScript
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -18,8 +20,14 @@ module.exports = {
         "dark-blue": "#3B3B3B",
         "fav-bg": "#5CB338",
         "fav-hov": "#4E9C2D",
+        "fiery-red": "#E62E2D",
       },
     },
   },
-  plugins: [rtl],
+  variants: {
+    extend: {
+      backgroundColor: ["hover"], // This is already the default, but fine to extend
+    },
+  },
+  plugins: [rtl], // Make sure this plugin is installed with npm or yarn
 };

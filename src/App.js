@@ -34,6 +34,7 @@ import { fetchFavorites } from "./features/products/favoriteSlice";
 import Test from "./pages/Test";
 import LocalizedFontWrapper from "./components/helpers/LocalizedFontWrapper";
 import Settings from "./components/layout/Settings";
+import FloatingMenu from "./components/layout/FloatingMenu";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
     <Layout>
       {/* ToastContainer to render toast notifications */}
       <ToastContainer />
+      <FloatingMenu />
       <LocalizedFontWrapper>
         <Routes>
           {/* Default route redirects to English version */}
