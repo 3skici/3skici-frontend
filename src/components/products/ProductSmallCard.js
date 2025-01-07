@@ -17,7 +17,6 @@ import { getImageUrl } from "../../utils/imgagesHelper";
 import { format } from "timeago.js";
 
 const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
-  console.log("this is product", product.images);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentLanguage = i18n.language;

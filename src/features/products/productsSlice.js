@@ -86,19 +86,29 @@ export const deleteUserProduct = createAsyncThunk(
 // Async thunk to update a product
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
-  async ({ productId, updatedData }) => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/product/${productId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
+  async ({ productId, updatedData }, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/product/${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete product");
       }
-    );
-    const data = await handleFetchResponse(response);
-    return data.data;
+      const data = await handleFetchResponse(response);
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 

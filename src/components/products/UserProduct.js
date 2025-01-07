@@ -7,8 +7,12 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import EditProduct from "./EditProduct";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
+import i18n from "../../i18n";
 
 const UserProduct = () => {
+  const currentLanguage = i18n.language;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
   const { user, token } = useSelector((state) => state.auth);
@@ -70,12 +74,15 @@ const UserProduct = () => {
                   {product.price.amount} {product.price.currency}
                 </td>
                 <td className="px-6 py-4">
-                  <a
-                    href="#"
+                  <Link
+                    to={getPathWithLanguage(
+                      `/test/${product.customId}`,
+                      currentLanguage
+                    )}
                     className="font-medium text-blue-600 hover:underline"
                   >
-                    Edit
-                  </a>
+                    edit
+                  </Link>
                 </td>
                 <td className="px-6 py-4">
                   <button

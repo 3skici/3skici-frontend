@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
@@ -9,11 +9,8 @@ import { toast } from "react-toastify";
 
 const Report = () => {
   const token = useSelector((state) => state.auth.token);
-  const currentLanguage = i18n.language;
-  const login = getPathWithLanguage("/login", currentLanguage);
-
-  const navigate = useNavigate();
-
+  const products = useSelector((state) => state.products.items);
+  console.log(products);
   const [formData, setFormData] = useState({
     customId: "",
     reportType: "",
@@ -21,9 +18,7 @@ const Report = () => {
     priority: "Low",
   });
 
-  const reportTime = format(new Date());
-
-  const [product, setProduct] = useState(null);
+  const dispatch = useDispatch();
   const [prevReports, setPrevReports] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -70,32 +65,8 @@ const Report = () => {
     fetchUserReports();
   }, [isLoggedIn, token]);
 
-  // Fetch product details whenever customId changes
-  useEffect(() => {
-    const { customId } = formData;
-    if (!customId) {
-      setProduct(null);
-      return;
-    }
-
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/product/${customId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch product details");
-        }
-        const data = await response.json();
-        setProduct(data.data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setProduct(null);
-      }
-    };
-
-    fetchProduct();
-  }, [formData.customId]);
+  // Get product from products state based on customId
+  const product = products.find((prod) => prod.customId === formData.customId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
