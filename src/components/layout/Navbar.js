@@ -22,22 +22,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.token !== null);
   const token = useSelector((state) => state.auth.token);
-
-  const [scrolling, setScrolling] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 400) {
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   // Modify path to include the language prefix
   const getPathWithLanguage = (path, langCode) => {
     let segments = path.split("/");
@@ -126,9 +110,7 @@ const Navbar = () => {
   return (
     <nav
       dir="ltr"
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolling ? "bg-white shadow-md" : "bg-transparent"
-      } h-[56px] sm:h-[64px] md:h-[80px] lg:h-[100px] xl:h-[120px] text-dark-purple-blue p-4`}
+      className="h-[56px] sm:h-[64px] md:h-[80px] lg:h-[100px] xl:h-[120px] bg-gray-50 text-dark-purple-blue p-8 shadow-md sticky top-0 z-50"
     >
       <div className="container mx-auto flex justify-between items-center">
         <Link
