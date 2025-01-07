@@ -1,0 +1,12 @@
+{
+    "report_product": "Ürünü Bildir",
+    "product_custom_id": "Ürün Özel Kimliği:",
+    "reason_for_report": "Bildirime Sebep",
+    "select_reason": "Bir sebep seçin",
+    "priority_level": "Öncelik Seviyesi",
+    "low_priority": "Düşük",
+    "submit_report": "Bildirimi Gönder",
+    "enter_product_id": "Ürünü görüntülemek için bir Ürün Özel Kimliği girin (örn. PROD-xxxx)",
+    "previous_reports": "Önceki Raporlar",
+    "no_previous_reports": "Önceki rapor bulunamadı."
+  }
