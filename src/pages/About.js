@@ -1,174 +1,97 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const AboutUs = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[#fff1f4] text-gray-900">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className=" p-10">
+        <div className="p-10">
           {/* Header Section */}
           <header className="text-center">
             <h1 className="text-4xl font-extrabold text-[#C02244]">
-              Welcome to 3skici
+              {t("welcome_to_3skici")}
             </h1>
             <p className="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
-              The platform dedicated to connecting sellers and buyers of
-              second-hand products seamlessly. Join us for a completely free,
-              simple, and transparent way to buy and sell pre-loved items.
+              {t("welcome_description")}
             </p>
           </header>
 
           {/* Mission Section */}
           <section className="bg-gradient-to-r from-[#C02244] to-[#c34867] p-8 rounded-lg shadow-lg mt-12 text-white">
-            <h2 className="text-2xl font-semibold text-center">Our Mission</h2>
+            <h2 className="text-2xl font-semibold text-center">{t("our_mission")}</h2>
             <p className="mt-4">
-              At 3skici, our mission is to empower people to make smarter, more
-              sustainable buying decisions by connecting them with others who
-              have what they need. We aim to simplify the process of buying and
-              selling second-hand goods, creating an accessible and enjoyable
-              experience for everyone.
+              {t("mission_description")}
             </p>
           </section>
 
           {/* Our Key Features Section */}
           <section className="py-12 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              Our Key Features
-            </h2>
+            <h2 className="text-3xl font-extrabold text-gray-900">{t("our_key_features")}</h2>
             <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-              Discover the powerful features that make our platform the best
-              choice for your business.
+              {t("discover_features")}
             </p>
             <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                {
-                  title: "Blazing Fast",
-                  desc: "Lightning-fast performance for a seamless experience.",
-                  icon: "⚡",
-                },
-                {
-                  title: "Highly Customizable",
-                  desc: "Tailor the platform to your unique needs.",
-                  icon: "⚙️",
-                },
-                {
-                  title: "Scalable Infrastructure",
-                  desc: "Robust infrastructure to handle your growing needs.",
-                  icon: "📈",
-                },
-                {
-                  title: "Secure and Reliable",
-                  desc: "Strong security measures for peace of mind.",
-                  icon: "🔒",
-                },
-                {
-                  title: "Enterprise-Grade",
-                  desc: "Built to handle large-scale business demands.",
-                  icon: "🏢",
-                },
-                {
-                  title: "24/7 Support",
-                  desc: "Dedicated support team available around the clock.",
-                  icon: "🛠️",
-                },
-                {
-                  title: "Seamless Integration",
-                  desc: "Easily integrates with your existing workflows.",
-                  icon: "🔗",
-                },
-                {
-                  title: "Accelerate Innovation",
-                  desc: "Drive innovation with our advanced solutions.",
-                  icon: "🚀",
-                },
+                { key: "blazing_fast", icon: "⚡" },
+                { key: "highly_customizable", icon: "⚙️" },
+                { key: "scalable_infrastructure", icon: "📈" },
+                { key: "secure_and_reliable", icon: "🔒" },
+                { key: "enterprise_grade", icon: "🏢" },
+                { key: "support_24_7", icon: "🛠️" },
+                { key: "seamless_integration", icon: "🔗" },
+                { key: "accelerate_innovation", icon: "🚀" }
               ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center border-t-4 border-[#C02244]"
-                >
-                  <div className="text-4xl mb-3 text-[#C02244]">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-[#C02244]">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-2 text-gray-600">{feature.desc}</p>
+                <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center flex flex-col items-center border-t-4 border-[#C02244]">
+                  <div className="text-4xl mb-3 text-[#C02244]">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold text-[#C02244]">{t(feature.key)}</h3>
+                  <p className="mt-2 text-gray-600">{t(feature.key + "_description")}</p>
                 </div>
               ))}
             </div>
           </section>
+
           {/* How It Works Section */}
           <section className="py-6">
-            <h2 className="text-2xl font-semibold text-[#C02244] text-center">
-              How It Works
-            </h2>
+            <h2 className="text-2xl font-semibold text-[#C02244] text-center">{t("how_it_works")}</h2>
             <div className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                {
-                  title: "For Sellers",
-                  desc: "Listing items is easy and completely free. Register, log in, and create your listing with clear descriptions and images.",
-                },
-                {
-                  title: "For Buyers",
-                  desc: "Browse items freely, contact sellers directly, and make informed purchases. No account required for browsing or buying!",
-                },
-                {
-                  title: "Transaction Process",
-                  desc: "Transactions are handled directly between buyers and sellers. Clear communication and verification are key to a successful purchase.",
-                },
+                { key: "for_sellers" },
+                { key: "for_buyers" },
+                { key: "transaction_process" }
               ].map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#C02244]"
-                >
-                  <h3 className="text-xl font-semibold text-[#C02244]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-gray-600">{item.desc}</p>
+                <div key={index} className="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#C02244]">
+                  <h3 className="text-xl font-semibold text-[#C02244]">{t(item.key)}</h3>
+                  <p className="mt-2 text-gray-600">{t(item.key + "_description")}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Our Unique Features Section */}
-
-          <section className="">
-            <h2 className="text-3xl text-center mt-8 font-extrabold text-gray-900">
-              Our Key Features
-            </h2>
-
+          {/* Unique Features Section */}
+          <section>
+            <h2 className="text-3xl text-center mt-8 font-extrabold text-gray-900">{t("our_key_features")}</h2>
             <div className="mt-6 space-y-4 bg-gray-50 p-8 my-4 rounded-lg shadow-lg">
-              {[
-                "Completely Free for Sellers and Buyers: No fees, no hidden charges. Everything is transparent and cost-free.",
-                "Direct Communication: Buyers can contact sellers directly through the product listings for smooth transactions.",
-                "Simple & Accessible: No account required for browsing and buying. Registration is only needed for selling and reporting issues.",
-              ].map((feature, index) => (
+              {["free_for_users", "direct_communication", "simple_accessible"].map((feature, index) => (
                 <div key={index} className="flex items-start space-x-4">
                   <span className="text-[#C02244] text-xl">✔</span>
-                  <p className="text-gray-700">{feature}</p>
+                  <p className="text-gray-700">{t(feature)}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* 3skici in Numbers Section */}
+          {/* 3skici Numbers Section */}
           <section className="mx-auto py-12">
-            <h2 className="text-3xl font-bold text-[#C02244] mb-4 text-center ">
-              3skici numbers
-            </h2>
+            <h2 className="text-3xl font-bold text-[#C02244] mb-4 text-center">{t("3skici_numbers")}</h2>
             <div className="flex flex-wrap justify-center gap-40 text-center">
               {[
-                { number: "1,999", label: "Active Users" },
-                { number: "567", label: "Items for Sale" },
-                { number: "890", label: "Successful Transactions" },
+                { key: "active_users" },
+                { key: "items_for_sale" },
+                { key: "successful_transactions" }
               ].map((stat, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]"
-                >
-                  <h3 className="text-2xl font-bold text-[#C02244]">
-                    {stat.number}
-                  </h3>
-                  <p className="text-gray-600">{stat.label}</p>
+                <div key={index} className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]">
+                  <h3 className="text-2xl font-bold text-[#C02244]">{t(stat.key)}</h3>
                 </div>
               ))}
             </div>
@@ -176,24 +99,17 @@ const AboutUs = () => {
 
           {/* Report Fake or Inappropriate Products Section */}
           <section className="py-12 text-center">
-            <h2 className="text-2xl font-semibold text-gray-900">
-              Report Fake or Inappropriate Products
-            </h2>
-            <p className=" text-gray-700 bg-gray-50 p-8 rounded-lg shadow-lg text-lg py-12  mt-8">
-              If you come across a product that seems fake or inappropriate, you
-              can easily report it. Our team will review your report and take
-              necessary actions to maintain a safe and trustworthy environment
-              for all users.
+            <h2 className="text-2xl font-semibold text-gray-900">{t("report_fake_products")}</h2>
+            <p className="text-gray-700 bg-gray-50 p-8 rounded-lg shadow-lg text-lg py-12 mt-8">
+              {t("report_fake_products_description")}
             </p>
           </section>
 
           {/* Call to Action Section */}
           <section className="text-center mt-12">
-            <h2 className="text-3xl font-bold text-[#C02244]">
-              Join the 3skici Community
-            </h2>
+            <h2 className="text-3xl font-bold text-[#C02244]">{t("join_community")}</h2>
             <button className="mt-6 bg-[#C02244] text-white py-3 px-8 rounded-lg hover:bg-red-700 transition shadow-md">
-              Start Shopping
+              {t("start_shopping")}
             </button>
           </section>
         </div>
@@ -203,6 +119,7 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
+
 
 // import React from "react";
 

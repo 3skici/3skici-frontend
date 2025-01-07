@@ -1,24 +1,33 @@
 {
-    "faq": "Sıkça Sorulan Sorular",
-    "what_is_3skici": "3skici nedir?",
-    "what_is_3skici_description": "3skici, ikinci el ürünlerin alım ve satımını sorunsuz bir şekilde bağlayan bir platformdur. Hem alıcılar hem de satıcılar için tamamen ücretsiz bir deneyim sunarak ikinci el alışverişi daha kolay ve erişilebilir hale getiriyoruz.",
-    "how_does_3skici_work": "3skici nasıl çalışır?",
-    "how_does_3skici_work_description": "Satıcılar, ürünlerini ayrıntılı açıklamalar ve resimlerle listelemek için kaydolabilir ve giriş yapabilirler. Alıcılar hesap oluşturmadan ürünleri tarayabilir ve satın alabilirler. Bir alıcı bir ürün bulduğunda, satıcıyla doğrudan iletişime geçerek işlemi tamamlayabilir.",
-    "is_3skici_free": "3skici kullanımı ücretsiz mi?",
-    "is_3skici_free_description": "Evet, 3skici tamamen ücretsizdir. Ürün listeleme veya satın alma işlemlerinde herhangi bir ücret alınmaz.",
-    "how_to_list_item": "Satışa nasıl ürün ekleyebilirim?",
-    "how_to_list_item_description": "Basitçe bir hesap oluşturun, giriş yapın ve 'Sat' bölümüne gidin. Buradan ürününüz için resimler yükleyebilir, açıklamalar ekleyebilir ve fiyat belirleyebilirsiniz.",
-    "need_account_to_buy": "Ürün satın almak için hesap gerekli mi?",
-    "need_account_to_buy_description": "Hayır, alıcılar hesap oluşturmadan ürünleri inceleyebilir ve satın alabilirler. Ancak, bir hesaba sahip olmak satın alma işlemlerini takip etmeyi ve satıcılarla daha etkili iletişim kurmayı sağlar.",
-    "return_policy": "İade politikası nedir?",
-    "return_policy_description": "3skici'de iade politikası bulunmamaktadır. Platformumuz alıcıları ve satıcıları doğrudan birbirine bağlar ve ürünlerin durumu veya orijinalliği konusunda sorumluluk almaz. Kullanıcıların satın alma işlemi yapmadan önce açıkça iletişim kurmasını ve ürünleri doğrulamasını öneririz.",
-    "does_3skici_offer_delivery": "3skici teslimat hizmeti sunuyor mu?",
-    "does_3skici_offer_delivery_description": "Şu anda satın alma sürecini daha kolay hale getirmek için bir teslimat hizmeti geliştiriyoruz. Yakında sunulacak özel teslimat seçenekleri için bizi takip edin!",
-    "report_fake_products": "Sahte veya uygunsuz ürünleri nasıl bildirebilirim?",
-    "report_fake_products_description": "Eğer sahte veya uygunsuz görünen bir ürünle karşılaşırsanız, ürün sayfasındaki 'Bildir' düğmesini kullanarak kolayca şikayette bulunabilirsiniz. Ekibimiz, raporunuzu inceleyerek pazarın güvenilirliğini sağlamak için gerekli önlemleri alacaktır.",
-    "how_is_3skici_different": "3skici diğer ikinci el pazar yerlerinden nasıl farklıdır?",
-    "how_is_3skici_different_description": "Diğer platformlardan farklı olarak, 3skici hem satıcılar hem de alıcılar için tamamen ücretsiz bir deneyim sunar. Ayrıntılı ürün listeleri ve kullanıcılar arasında doğrudan iletişim sağlayarak güvenli ve düzenli bir pazar ortamı sunmayı hedefliyoruz.",
-    "benefits_of_using_3skici": "3skici kullanmanın avantajları nelerdir?",
-    "benefits_of_using_3skici_description": "3skici, ikinci el ürünlerin alım ve satımı için ücretsiz bir platform sağlar, detaylı ürün açıklamaları ve görseller sunar, alıcılarla satıcılar arasında doğrudan iletişim kurulmasını sağlar ve büyüyen topluluğuyla gerçek zamanlı pazar istatistiklerini gösterir."
-  }
+  "faq_title": "Sıkça Sorulan Sorular",
   
+  "what_is_3skici": "3skici nedir?",
+  "what_is_3skici_text": "3skici, ikinci el ürünleri sorunsuz bir şekilde alıcılarla satıcıları buluşturan bir platformdur. Her iki taraf için de tamamen ücretsiz bir deneyim sunarak ikinci el alışverişini daha kolay ve erişilebilir hale getiriyoruz.",
+  
+  "how_does_3skici_work": "3skici nasıl çalışır?",
+  "how_does_3skici_work_text": "Satıcılar, ürünlerini ayrıntılı açıklamalar ve resimlerle listelemek için kaydolabilir ve giriş yapabilir. Alıcılar ise hesap oluşturmadan ürünlere göz atabilir ve satın alabilir. Bir alıcı bir ürün bulduğunda, doğrudan satıcı ile iletişime geçerek işlemi tamamlayabilir.",
+  
+  "is_3skici_free": "3skici kullanımı ücretsiz mi?",
+  "is_3skici_free_text": "Evet, 3skici hem satıcılar hem de alıcılar için tamamen ücretsizdir. Platformumuzda ürün listelemek veya satın almak için herhangi bir ücret veya gizli masraf yoktur.",
+  
+  "how_to_list_item": "Satış için nasıl ürün listeleyebilirim?",
+  "how_to_list_item_text": "Bir hesap oluşturmak için kaydolun, giriş yapın ve ardından 'Sat' bölümüne gidin. Buradan resimler yükleyebilir, açıklamalar ekleyebilir ve ürününüz için fiyat belirleyebilirsiniz.",
+  
+  "do_i_need_account": "Ürün satın almak için bir hesaba ihtiyacım var mı?",
+  "do_i_need_account_text": "Hayır, alıcılar bir hesap oluşturmadan ürünlere göz atabilir ve satın alabilir. Ancak bir hesaba sahip olmak, satın alma işlemlerinizi takip etmenize ve satıcılarla daha verimli bir şekilde iletişim kurmanıza olanak tanır.",
+  
+  "return_policy": "İade politikası nedir?",
+  "return_policy_text": "Lütfen 3skici'de herhangi bir iade politikasının bulunmadığını unutmayın. Platformumuz alıcıları doğrudan satıcılarla buluşturur ve ürünlerin durumu veya orijinalliği ile ilgili sorumluluk kabul etmez. Tüm kullanıcıların satın almadan önce ürünleri doğrulamasını ve net bir iletişim kurmasını öneririz.",
+  
+  "delivery_service": "3skici teslimat hizmeti sunuyor mu?",
+  "delivery_service_text": "Şu anda satın alma sürecini daha rahat hale getirmek için bir teslimat hizmeti geliştirme aşamasındayız. Özel teslimat seçeneklerini içerecek yeni özellikler için bizi takip etmeye devam edin.",
+  
+  "report_fake_products": "Sahte veya uygunsuz ürünleri nasıl bildirebilirim?",
+  "report_fake_products_text": "Eğer sahte veya uygunsuz görünen bir ürünle karşılaşırsanız, ürün sayfasındaki 'Bildir' düğmesini kullanarak kolayca bildirimde bulunabilirsiniz. Özel ekibimiz raporunuzu inceleyerek pazar yerinin güvenliğini ve bütünlüğünü sağlamak için gerekli önlemleri alacaktır.",
+  
+  "difference_from_others": "3skici diğer ikinci el pazar yerlerinden nasıl farklıdır?",
+  "difference_from_others_text": "Diğer platformlardan farklı olarak, 3skici hem satıcılar hem de alıcılar için tamamen ücretsiz bir deneyim sunar. Ayrıntılı ürün listeleri ve kullanıcılar arasında doğrudan iletişim imkanı sağlayarak güvenli ve düzenli bir pazar yeri sunmaya odaklanıyoruz.",
+  
+  "benefits_of_3skici": "3skici kullanmanın avantajları nelerdir?",
+  "benefits_of_3skici_text": "3skici, ikinci el ürünleri satın almak ve satmak için ücret talep etmeyen bir platform sunar. Ürünler için ayrıntılı açıklamalar ve görseller sağlar, alıcılar ve satıcılar arasında doğrudan iletişim imkanı tanır ve gerçek zamanlı istatistiklerle pazar yerinin canlılığını gösteren büyüyen bir topluluk sunar."
+}

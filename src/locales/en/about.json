@@ -1,19 +1,49 @@
 {
-  "about_hero_title":" Welcome to 3skici, the platform dedicated to connecting sellers and buyers of second-hand products seamlessly.",
- "about_introductory_text": " Unlike other similar platforms, 3skici offers a completely free experience for both sellers and buyers. Sellers simply need to register and log in to list their items, while buyers can browse and purchase products without creating an account. This makes buying second-hand items easier and more accessible for everyone.",
-  "about_us": "Welcome to 3skici, the platform dedicated to connecting sellers and buyers of second-hand products seamlessly. Unlike other similar platforms, 3skici offers a completely free experience for both sellers and buyers. Sellers simply need to register and log in to list their items, while buyers can browse and purchase products without creating an account. This makes buying second-hand items easier and more accessible for everyone. The products listed on 3skici come with detailed descriptions, images, and seller contact information, so buyers can directly connect with sellers to finalize transactions. Features requiring registration, such as listing items for sale or reporting inappropriate products, are designed to maintain a safe and organized marketplace, while all other functionalities are freely accessible.",
-  "unique_features": {
-    "title": "Our Unique Features",
-    "free_service": "Completely Free for Sellers and Buyers: At 3skici, there are no fees or hidden charges. Selling or buying second-hand items on our platform is completely free. Sellers can register and list items without worrying about commissions, and buyers can access all the product details and make direct purchases with no barriers.",
-    "report_products": "Report Fake or Inappropriate Products: If you encounter any product that seems fake or inappropriate, you can easily report it. Our dedicated team will review your report and take necessary actions to ensure the integrity of the marketplace."
-  },
-  "returns_policy": "Returns Policy: Please note that there is no return policy on 3skici. As our platform simply connects buyers and sellers directly, we do not take responsibility for the condition or authenticity of the products. Transactions are made between users, and we act solely as a bridge to facilitate the buying and selling process. We advise all users to communicate clearly and verify items before purchasing.",
-  "delivery_service": "Delivery Service: We are currently working to develop a delivery service that will make the buying process even more convenient for our users. In the future, we plan to offer specialized delivery accounts and mechanisms to make delivering items easier. Stay tuned as we work to launch this exciting feature soon!",
-  "in_numbers_title": "3skici in Numbers",
-  "in_numbers": "3skici in Numbers: This section dynamically showcases our community statistics—live figures on the number of active users, items for sale, and successful transactions, updated in real-time from our backend.",
-  "contact_us": {
-    "title": "Contact Us",
-    "phone": "Phone Number: [Your Phone Number]",
-    "email": "Email: [Your Email Address]"
-  }
+  "welcome_to_3skici": "Welcome to 3skici",
+  "welcome_description": "The platform dedicated to connecting sellers and buyers of second-hand products seamlessly. Join us for a completely free, simple, and transparent way to buy and sell pre-loved items.",
+
+  "our_mission": "Our Mission",
+  "mission_description": "At 3skici, our mission is to empower people to make smarter, more sustainable buying decisions by connecting them with others who have what they need. We aim to simplify the process of buying and selling second-hand goods, creating an accessible and enjoyable experience for everyone.",
+
+  "our_key_features": "Our Key Features",
+  "discover_features": "Discover the powerful features that make our platform the best choice for your business.",
+  "blazing_fast": "Blazing Fast",
+  "blazing_fast_description": "Lightning-fast performance for a seamless experience.",
+  "highly_customizable": "Highly Customizable",
+  "highly_customizable_description": "Tailor the platform to your unique needs.",
+  "scalable_infrastructure": "Scalable Infrastructure",
+  "scalable_infrastructure_description": "Robust infrastructure to handle your growing needs.",
+  "secure_and_reliable": "Secure and Reliable",
+  "secure_and_reliable_description": "Strong security measures for peace of mind.",
+  "enterprise_grade": "Enterprise-Grade",
+  "enterprise_grade_description": "Built to handle large-scale business demands.",
+  "support_24_7": "24/7 Support",
+  "support_24_7_description": "Dedicated support team available around the clock.",
+  "seamless_integration": "Seamless Integration",
+  "seamless_integration_description": "Easily integrates with your existing workflows.",
+  "accelerate_innovation": "Accelerate Innovation",
+  "accelerate_innovation_description": "Drive innovation with our advanced solutions.",
+
+  "how_it_works": "How It Works",
+  "for_sellers": "For Sellers",
+  "for_sellers_description": "Listing items is easy and completely free. Register, log in, and create your listing with clear descriptions and images.",
+  "for_buyers": "For Buyers",
+  "for_buyers_description": "Browse items freely, contact sellers directly, and make informed purchases. No account required for browsing or buying!",
+  "transaction_process": "Transaction Process",
+  "transaction_process_description": "Transactions are handled directly between buyers and sellers. Clear communication and verification are key to a successful purchase.",
+
+  "free_for_users": "✔ Completely Free for Sellers and Buyers: No fees, no hidden charges. Everything is transparent and cost-free.",
+  "direct_communication": "✔ Direct Communication: Buyers can contact sellers directly through the product listings for smooth transactions.",
+  "simple_accessible": "✔ Simple & Accessible: No account required for browsing and buying. Registration is only needed for selling and reporting issues.",
+
+  "3skici_numbers": "3skici numbers",
+  "active_users": "1,999 Active Users",
+  "items_for_sale": "567 Items for Sale",
+  "successful_transactions": "890 Successful Transactions",
+
+  "report_fake_products": "Report Fake or Inappropriate Products",
+  "report_fake_products_description": "If you come across a product that seems fake or inappropriate, you can easily report it. Our team will review your report and take necessary actions to maintain a safe and trustworthy environment for all users.",
+
+  "join_community": "Join the 3skici Community",
+  "start_shopping": "Start Shopping"
 }

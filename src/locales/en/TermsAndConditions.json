@@ -1,3 +1,59 @@
 {
-    "terms_and_conditions":  "Terms and Conditions"
-}
+    "terms_and_conditions": "Terms and Conditions",
+    "terms_intro": "By using the 3skici platform, you agree to comply with these Terms and Conditions. Please read them carefully before registering or posting products on the platform.",
+    
+    "general_terms": "1. General Terms",
+    "general_terms_text": "3skici is a second-hand marketplace that connects buyers and sellers. You agree to use the platform responsibly and in compliance with all applicable laws. By using the platform, you agree to act in good faith, respect other users, and refrain from any activity that could harm the integrity of the marketplace.",
+
+    "account_registration": "2. Account Registration Terms",
+    "account_registration_text": "To access certain features of 3skici, such as posting products or managing your account, you must create an account. By registering, you agree to:",
+    "account_registration_points": [
+      "Provide accurate, current, and complete information during registration.",
+      "Keep your login credentials confidential and notify 3skici immediately of any unauthorized use of your account.",
+      "Be at least 18 years old, or have the consent of a parent or guardian to use the platform.",
+      "Comply with all applicable laws when using the platform."
+    ],
+
+    "product_listing": "3. Product Listing Terms",
+    "product_listing_text": "If you wish to sell products on 3skici, you agree to:",
+    "product_listing_points": [
+      "Provide accurate and truthful descriptions of the items you are listing.",
+      "Only list products that you legally own or have the right to sell.",
+      "Ensure that your product listings do not violate any local or international laws, including those regarding counterfeit goods, prohibited items, or unsafe products.",
+      "Upload clear images that represent the condition and appearance of the products being sold.",
+      "Refrain from listing products that could be considered illegal, hazardous, or offensive."
+    ],
+
+    "transaction_terms": "4. Transaction Terms",
+    "transaction_terms_text": "Transactions on 3skici are between the buyer and seller directly. You agree to:",
+    "transaction_terms_points": [
+      "Negotiate and finalize all terms of the transaction between yourself and the other party.",
+      "Ensure that payments and product deliveries are conducted in good faith and in compliance with any agreements made."
+    ],
+
+    "privacy_security": "5. Privacy and Security",
+    "privacy_security_text": "We are committed to protecting your privacy. Please refer to our Privacy Policy for information on how we collect, use, and protect your data.",
+
+    "moderation_reporting": "6. Moderation and Reporting",
+    "moderation_reporting_text": "3skici implements a reporting system for inappropriate content or behavior. You agree to:",
+    "moderation_reporting_points": [
+      "Report any suspicious or inappropriate listings through the platform’s reporting system.",
+      "Not engage in fraudulent activities, including posting fake products or providing false information."
+    ],
+
+    "sustainabiility": "7. Sustainability and Environmental Responsibility",
+    "sustainability_text": "By using 3skici, you acknowledge the importance of sustainability and eco-conscious consumption. You agree to:",
+    "sustainability_points": [
+      "Engage in responsible reuse and recycling by listing only quality pre-owned items.",
+      "Support the circular economy by choosing to purchase second-hand items instead of new products whenever possible."
+    ],
+
+    "dispute_resolution": "8. Dispute Resolution",
+    "dispute_resolution_text": "Any disputes arising between buyers and sellers on 3skici should be resolved directly. 3skici is not responsible for any issues related to transactions, product disputes, or delivery problems. We recommend using trusted payment and shipping methods to ensure a secure transaction.",
+
+    "limitation_liability": "9. Limitation of Liability",
+    "limitation_liability_text": "3skici is not liable for any damages, losses, or issues arising from the use of the platform, including issues with product listings, transactions, or communication between buyers and sellers.",
+
+    "final_terms": "10. Final Terms",
+    "final_terms_text": "These Terms and Conditions may be updated periodically. It is your responsibility to review these terms regularly to stay informed of any changes."
+  }

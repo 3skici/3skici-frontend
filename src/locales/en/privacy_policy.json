@@ -1,46 +1,43 @@
 {
-    "privacy_title": "Privacy Policy",
+    "privacy_policy": "Privacy Policy",
     "effective_date": "Effective Date:",
-    "privacy_edited_date": "2024.12.30",
-    "privacy_policy_introduction": "At 3skici, we value the privacy of our users and are committed to maintaining a transparent and trustworthy relationship with them. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit or use our platform.",
+    "date": "2024.12.30",
+    "privacy_intro": "At 3skici, we value the privacy of our users and are committed to maintaining a transparent and trustworthy relationship with them. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit or use our platform.",
     "privacy_agreement": "By accessing or using 3skici, you agree to the collection and use of your information in accordance with this Privacy Policy. Please read it carefully.",
-    "sections": {
-        "information_we_collect": {
-            "title": "1. Information We Collect",
-            "description": "We collect several types of information in order to provide and improve our platform and services. The information we collect includes:",
-            "categories": {
-                "personal_information": "Personal Information: When you register as a seller or buyer, we collect information such as your name, email address, phone number, and any other contact information you provide to create your account or communicate with other users.",
-                "transaction_information": "Transaction Information: We may collect information related to your transactions on the platform, such as products listed or purchased, including product details, payment methods, and transaction history. Please note that 3skici does not process payments directly; payments are handled between buyers and sellers.",
-                "usage_data": "Usage Data: We collect information on how you interact with the platform, including your IP address, browser type, device information, pages visited, time spent on pages, and other diagnostic data. This helps us understand user behavior and improve our services.",
-                "cookies": "Cookies: 3skici uses cookies to improve your browsing experience. Cookies are small files stored on your device that allow us to recognize your preferences and personalize your experience on the platform. You can manage cookie settings through your browser."
-            }
-        },
-        "how_we_use_your_information": {
-            "title": "2. How We Use Your Information",
-            "description": "The information we collect is used for the following purposes:",
-            "purposes": {
-                "provide_improve_services": "To Provide and Improve Our Services: We use your personal information to create and manage your account, process transactions, and communicate with you regarding your listings or inquiries. We also analyze usage data to enhance the platform’s functionality and user experience.",
-                "facilitate_communication": "To Facilitate Communication: We use your contact information to send you important notifications related to your account, transactions, or changes to our services. Additionally, we use this information to facilitate communication between buyers and sellers through the platform.",
-                "marketing_promotions": "For Marketing and Promotional Purposes: With your consent, we may send you updates, newsletters, and promotional offers related to 3skici. You can opt out of these communications at any time by following the unsubscribe link in the emails or by updating your preferences in your account settings.",
-                "ensure_compliance": "To Ensure Compliance: We may use your information to ensure compliance with our platform’s policies and to prevent fraudulent or illegal activities."
-            }
-        },
-        "how_we_protect_your_information": {
-            "title": "3. How We Protect Your Information",
-            "description": "We are committed to safeguarding your personal data and employ a variety of security measures to ensure its protection:",
-            "measures": {
-                "encryption": "Encryption: We use encryption technologies to protect sensitive information, such as passwords, from unauthorized access.",
-                "access_control": "Access Control: Only authorized personnel have access to your personal data, and we implement strict security protocols to restrict access based on necessity.",
-                "secure_payment_processing": "Secure Payment Processing: As 3skici does not facilitate payments directly, we encourage users to use secure and trusted third-party payment systems when completing transactions.",
-                "limitations": "While we take reasonable precautions to protect your information, please note that no method of electronic transmission or storage is completely secure. We cannot guarantee the absolute security of your data."
-            }
-        },
-        "sharing_your_information": {
-            "title": "4. Sharing Your Information",
-            "description": "We do not sell, trade, or rent your personal information to third parties. However, we may share your information in the following cases:",
-            "cases": {
-                "service_providers": "With Service Providers: We may share your information with trusted third-party service providers who assist us in operating the platform and delivering our services. These providers are obligated to maintain the confidentiality of your information and are not permitted to use it for other purposes."
-            }
-        }
-    }
-}
+    
+    "information_we_collect": "1. Information We Collect",
+    "personal_information": "Personal Information",
+    "personal_information_text": "When you register as a seller or buyer, we collect information such as your name, email address, phone number, and any other contact information you provide to create your account or communicate with other users.",
+    "transaction_information": "Transaction Information",
+    "transaction_information_text": "We may collect information related to your transactions on the platform, such as products listed or purchased, including product details, payment methods, and transaction history. Please note that 3skici does not process payments directly; payments are handled between buyers and sellers.",
+    "usage_data": "Usage Data",
+    "usage_data_text": "We collect information on how you interact with the platform, including your IP address, browser type, device information, pages visited, time spent on pages, and other diagnostic data. This helps us understand user behavior and improve our services.",
+    "cookies": "Cookies",
+    "cookies_text": "3skici uses cookies to improve your browsing experience. Cookies are small files stored on your device that allow us to recognize your preferences and personalize your experience on the platform. You can manage cookie settings through your browser.",
+    
+    "how_we_use_information": "2. How We Use Your Information",
+    "provide_improve_services": "To Provide and Improve Our Services",
+    "provide_improve_services_text": "We use your personal information to create and manage your account, process transactions, and communicate with you regarding your listings or inquiries. We also analyze usage data to enhance the platform’s functionality and user experience.",
+    "facilitate_communication": "To Facilitate Communication",
+    "facilitate_communication_text": "We use your contact information to send you important notifications related to your account, transactions, or changes to our services. Additionally, we use this information to facilitate communication between buyers and sellers through the platform.",
+    "marketing_purposes": "For Marketing and Promotional Purposes",
+    "marketing_purposes_text": "With your consent, we may send you updates, newsletters, and promotional offers related to 3skici. You can opt out of these communications at any time by following the unsubscribe link in the emails or by updating your preferences in your account settings.",
+    "ensure_compliance": "To Ensure Compliance",
+    "ensure_compliance_text": "We may use your information to ensure compliance with our platform’s policies and to prevent fraudulent or illegal activities.",
+    
+    "how_we_protect_information": "3. How We Protect Your Information",
+    "data_security_text": "We implement robust security measures to safeguard your personal information from unauthorized access, alteration, disclosure, or destruction.",
+
+    "your_rights_title": "Your Rights",
+    "access_rights_title": "Access Rights",
+    "access_rights_text": "You have the right to request access to the personal data we hold about you.",
+    "rectification_rights_title": "Rectification Rights",
+    "rectification_rights_text": "You can request corrections if your personal data is inaccurate or incomplete.",
+    "erasure_rights_title": "Erasure Rights",
+    "erasure_rights_text": "You have the right to request the deletion of your personal data under certain conditions.",
+    "portability_rights_title": "Data Portability Rights",
+    "portability_rights_text": "You can request a copy of your data in a structured, commonly used, and machine-readable format.",
+    
+    "contact_us_title": "Contact Us",
+    "contact_email": "privacy@example.com"
+  }

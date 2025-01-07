@@ -16,7 +16,10 @@ import enContact from "./locales/en/contact.json";
 import enAuth from "./locales/en/auth.json";
 import enPrivacy from "./locales/en/privacy_policy.json";
 import enTerms from "./locales/en/TermsAndConditions.json";
-import enSustainability from "./locales/en/Sustainability.json"
+import enSustainability from "./locales/en/Sustainability.json";
+import enFAQ from "./locales/en/FAQ.json";
+import enSitemap from "./locales/en/Sitemap.json"
+
 
 import arCommon from "./locales/ar/common.json";
 import arHome from "./locales/ar/home.json";
@@ -26,7 +29,9 @@ import arContact from "./locales/ar/contact.json";
 import arAuth from "./locales/ar/auth.json";
 import arPrivacy from "./locales/ar/privacy_policy.json";
 import arTerms from "./locales/ar/TermsAndConditions.json";
-import arSustainability from "./locales/ar/Sustainability.json"
+import arSustainability from "./locales/ar/Sustainability.json";
+import arFAQ from "./locales/ar/FAQ.json";
+import arSitemap from "./locales/ar/Sitemap.json"
 
 
 
@@ -38,7 +43,9 @@ import trContact from "./locales/tr/contact.json";
 import trAuth from "./locales/tr/auth.json";
 import trPrivacy from "./locales/tr/privacy_policy.json";
 import trTerms from "./locales/tr/TermsAndConditions.json";
-import trSustainability from "./locales/tr/Sustainability.json"
+import trSustainability from "./locales/tr/Sustainability.json";
+import trFAQ from "./locales/tr/FAQ.json";
+import trSitemap from "./locales/tr/Sitemap.json"
 
 
 
@@ -88,7 +95,9 @@ i18n
           ...enAuth,
           ...enPrivacy,
           ...enTerms,
-          ...enSustainability
+          ...enSustainability,
+          ...enFAQ,
+          ...enSitemap
         },
       },
       ar: {
@@ -102,7 +111,9 @@ i18n
           ...arAuth,
           ...arPrivacy,
           ...arTerms,
-          ...arSustainability
+          ...arSustainability,
+          ...arFAQ,
+          ...arSitemap
         },
       },
       tr: {
@@ -116,7 +127,10 @@ i18n
           ...trAuth,
           ...trPrivacy,
           ...trTerms,
-          ...trSustainability
+          ...trSustainability,
+          ...trFAQ,
+          ...trSitemap
+          
     
         },
       },

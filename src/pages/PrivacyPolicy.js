@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex items-center justify-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-8">
-              {t("privacy_title")}
+              {t("privacy_policy")}
             </h1>
           </div>
           <section className="mb-8">
@@ -24,13 +24,13 @@ const PrivacyPolicy = () => {
                   {t("effective_date")}
                 </span>
                 <span className="text-s whitespace-nowrap">
-                  {t("privacy_edited_date")}
+                  {t("date")}
                 </span>
               </span>
             </div>
             <div className="mb-4">
               <p className="text-gray-600 leading-relaxed">
-                {t("privacy_policy_introduction")}
+                {t("privacy_intro")}
               </p>
             </div>
             <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded flex items-center mb-8">
@@ -42,17 +42,15 @@ const PrivacyPolicy = () => {
 
             <div className="mb-4 py-8">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                {t("sections.information_we_collect.title")}
+                {t("information_we_collect")}
               </h2>
-              <p className="text-gray-600 leading-relaxed">
-                {t("sections.information_we_collect.description")}
-              </p>
               <div className="mt-4 space-y-2">
-                {Object.values(
-                  t("sections.information_we_collect.categories", {
-                    returnObjects: true,
-                  })
-                ).map((category, index) => (
+                {[
+                  "personal_information",
+                  "transaction_information",
+                  "usage_data",
+                  "cookies"
+                ].map((category, index) => (
                   <div key={index} className="flex items-start">
                     <div className="flex-shrink-0 h-6 w-6 text-blue-500">
                       <svg
@@ -69,7 +67,7 @@ const PrivacyPolicy = () => {
                         />
                       </svg>
                     </div>
-                    <span className="ml-3 text-gray-600">{category}</span>
+                    <span className="ml-3 text-gray-600">{t(category)}</span>
                   </div>
                 ))}
               </div>
@@ -78,15 +76,16 @@ const PrivacyPolicy = () => {
 
           <section className="mb-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              {t("sections.how_we_use_your_information.title")}
+              {t("how_we_use_information")}
             </h2>
             <div className="bg-gray-50 rounded-lg p-6">
               <ul className="space-y-4">
-                {Object.values(
-                  t("sections.how_we_use_your_information.purposes", {
-                    returnObjects: true,
-                  })
-                ).map((purpose, index) => (
+                {[
+                  "provide_improve_services",
+                  "facilitate_communication",
+                  "marketing_purposes",
+                  "ensure_compliance"
+                ].map((purpose, index) => (
                   <li key={index} className="flex items-start">
                     <div className="flex-shrink-0 h-6 w-6 text-blue-500">
                       <svg
@@ -103,7 +102,7 @@ const PrivacyPolicy = () => {
                         />
                       </svg>
                     </div>
-                    <span className="ml-3 text-gray-600">{purpose}</span>
+                    <span className="ml-3 text-gray-600">{t(purpose)}</span>
                   </li>
                 ))}
               </ul>
@@ -112,7 +111,7 @@ const PrivacyPolicy = () => {
 
           <section className="mb-8">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              {t("sections.how_we_protect_your_information.title")}
+              {t("how_we_protect_information")}
             </h2>
             <div className="prose text-gray-600">
               <p className="mb-4">{t("data_security_text")}</p>
@@ -124,32 +123,19 @@ const PrivacyPolicy = () => {
               {t("your_rights_title")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-medium text-gray-900 mb-2">
-                  {t("access_rights_title")}
-                </h3>
-                <p className="text-gray-600">{t("access_rights_text")}</p>
-              </div>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-medium text-gray-900 mb-2">
-                  {t("rectification_rights_title")}
-                </h3>
-                <p className="text-gray-600">
-                  {t("rectification_rights_text")}
-                </p>
-              </div>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-medium text-gray-900 mb-2">
-                  {t("erasure_rights_title")}
-                </h3>
-                <p className="text-gray-600">{t("erasure_rights_text")}</p>
-              </div>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-medium text-gray-900 mb-2">
-                  {t("portability_rights_title")}
-                </h3>
-                <p className="text-gray-600">{t("portability_rights_text")}</p>
-              </div>
+              {[
+                "access_rights",
+                "rectification_rights",
+                "erasure_rights",
+                "portability_rights"
+              ].map((right, index) => (
+                <div key={index} className="bg-gray-50 p-6 rounded-lg">
+                  <h3 className="font-medium text-gray-900 mb-2">
+                    {t(`${right}_title`)}
+                  </h3>
+                  <p className="text-gray-600">{t(`${right}_text`)}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -158,7 +144,6 @@ const PrivacyPolicy = () => {
               {t("contact_us_title")}
             </h2>
             <div className="bg-gray-50 rounded-lg p-6">
-              <p className="text-gray-600 mb-4">{t("contact_us_text")}</p>
               <div className="flex items-center space-x-2 text-blue-600">
                 <svg
                   className="h-5 w-5"
@@ -174,11 +159,8 @@ const PrivacyPolicy = () => {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <a
-                  href="mailto:privacy@example.com"
-                  className="hover:underline"
-                >
-                  privacy@example.com
+                <a href="mailto:privacy@example.com" className="hover:underline">
+                  {t("contact_email")}
                 </a>
               </div>
             </div>

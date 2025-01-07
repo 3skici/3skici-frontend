@@ -11,29 +11,41 @@ const Sustainability = () => {
       <p className="mb-4 text-gray-700">
         {t("commitment_statement")} 
       </p>
+      
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">
-        Why Sustainability Matters
+        {t("why_sustainability_matters")}
       </h2>
       <p className="mb-6 text-gray-700">
-        Modern consumerism has led to an alarming increase in waste, overproduction, and resource depletion. These issues contribute to environmental degradation, climate change, and the exhaustion of natural resources. At 3skici, we recognize the role that second-hand commerce can play in combating these problems.
+        {t("why_sustainability_matters_description")}
       </p>
+      
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">
-        How 3skici Promotes Sustainability
+        {t("how_3skici_promotes_sustainability")}
       </h2>
       <ul className="list-disc list-inside mb-6 text-gray-700">
-        <li><strong>Extending Product Lifecycles:</strong> By providing a platform for buying and selling second-hand goods, we help extend the lifecycle of products, reducing the need for new manufacturing.</li>
-        <li><strong>Reducing Waste:</strong> Encouraging reuse prevents items from ending up in landfills and minimizes the environmental footprint of disposal processes.</li>
-        <li><strong>Fostering a Circular Economy:</strong> Our platform supports a circular economy, where goods are reused, refurbished, or repurposed, promoting a sustainable consumption model.</li>
-        <li><strong>Empowering Eco-Conscious Decisions:</strong> By making second-hand commerce accessible and cost-effective, we empower users to make environmentally responsible choices without compromising on quality or affordability.</li>
+        <li>
+          <strong>{t("extending_product_lifecycles")}</strong>: {t("extending_product_lifecycles_description")}
+        </li>
+        <li>
+          <strong>{t("reducing_waste")}</strong>: {t("reducing_waste_description")}
+        </li>
+        <li>
+          <strong>{t("fostering_circular_economy")}</strong>: {t("fostering_circular_economy_description")}
+        </li>
+        <li>
+          <strong>{t("empowering_eco_conscious_decisions")}</strong>: {t("empowering_eco_conscious_decisions_description")}
+        </li>
       </ul>
+      
       <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-800">
-        Join Us in Making a Difference
+        {t("join_us_in_making_a_difference")}
       </h2>
       <p className="mb-6 text-gray-700">
-        Every item bought or sold on 3skici contributes to a more sustainable future. Together, we can reduce waste, conserve resources, and create a positive impact on our planet. Whether you're decluttering your home, seeking affordable pre-owned items, or starting a small business, 3skici offers the tools and environment to make a difference.
+        {t("join_us_description")}
       </p>
+      
       <p className="mb-6 text-gray-700">
-        Thank you for joining us on this journey toward a more sustainable and eco-conscious world. Let's build a better future, one transaction at a time.
+        {t("thank_you_for_joining")}
       </p>
     </div>
   );

@@ -1,3 +1,59 @@
 {
-    "terms_and_conditions": "#####################"
-}
+    "terms_and_conditions": "Şartlar ve Koşullar",
+    "terms_intro": "3skici platformunu kullanarak, bu Şartlar ve Koşullara uymayı kabul etmiş olursunuz. Lütfen platforma kaydolmadan veya ürünleri listelemeden önce bunları dikkatlice okuyun.",
+
+    "general_terms": "1. Genel Koşullar",
+    "general_terms_text": "3skici, alıcıları ve satıcıları bir araya getiren ikinci el pazarıdır. Platformu sorumlu bir şekilde ve yürürlükteki tüm yasalara uygun olarak kullanmayı kabul edersiniz. Platformu kullanarak, iyi niyetle hareket etmeyi, diğer kullanıcılara saygı göstermeyi ve pazarın bütünlüğüne zarar verebilecek herhangi bir faaliyetten kaçınmayı kabul edersiniz.",
+
+    "account_registration": "2. Hesap Kaydı Koşulları",
+    "account_registration_text": "3skici’nin belirli özelliklerine erişmek, ürün listelemek veya hesabınızı yönetmek için bir hesap oluşturmanız gerekmektedir. Kayıt olarak aşağıdakileri kabul edersiniz:",
+    "account_registration_points": [
+      "Kayıt sırasında doğru, güncel ve eksiksiz bilgiler sağlamak.",
+      "Giriş bilgilerinizi gizli tutmak ve hesabınızın yetkisiz kullanımını derhal 3skici’ye bildirmek.",
+      "En az 18 yaşında olmak veya platformu kullanmak için ebeveyn veya vasi iznine sahip olmak.",
+      "Platformu kullanırken yürürlükteki tüm yasalara uymak."
+    ],
+
+    "product_listing": "3. Ürün Listeleme Koşulları",
+    "product_listing_text": "3skici'de ürün satmak istiyorsanız, aşağıdakileri kabul edersiniz:",
+    "product_listing_points": [
+      "Listelediğiniz ürünler hakkında doğru ve dürüst açıklamalar sağlamak.",
+      "Yalnızca yasal olarak sahip olduğunuz veya satma hakkına sahip olduğunuz ürünleri listelemek.",
+      "Ürün listelemelerinizin sahte ürünler, yasaklanmış eşyalar veya güvensiz ürünler gibi konularda yerel ve uluslararası yasaları ihlal etmediğinden emin olmak.",
+      "Satılan ürünlerin durumunu ve görünümünü doğru şekilde temsil eden net görseller yüklemek.",
+      "Yasadışı, tehlikeli veya rahatsız edici olabilecek ürünleri listelemekten kaçınmak."
+    ],
+
+    "transaction_terms": "4. İşlem Koşulları",
+    "transaction_terms_text": "3skici’de yapılan işlemler doğrudan alıcı ve satıcı arasındadır. Aşağıdakileri kabul edersiniz:",
+    "transaction_terms_points": [
+      "Satış işlemlerinin tüm koşullarını karşı taraf ile doğrudan müzakere etmek ve tamamlamak.",
+      "Ödeme ve ürün teslimatlarının iyi niyet çerçevesinde ve yapılan anlaşmalara uygun olarak gerçekleştirilmesini sağlamak."
+    ],
+
+    "privacy_security": "5. Gizlilik ve Güvenlik",
+    "privacy_security_text": "Gizliliğinizi korumaya kararlıyız. Kişisel verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuz hakkında bilgi almak için Gizlilik Politikamıza bakınız.",
+
+    "moderation_reporting": "6. Denetleme ve Bildirme",
+    "moderation_reporting_text": "3skici, uygunsuz içerik veya davranışları bildirmek için bir raporlama sistemi uygular. Aşağıdakileri kabul edersiniz:",
+    "moderation_reporting_points": [
+      "Şüpheli veya uygunsuz listelemeleri platformun raporlama sistemi aracılığıyla bildirmek.",
+      "Sahte ürünler yayınlamak veya yanlış bilgi sağlamak gibi dolandırıcılık faaliyetlerinde bulunmamak."
+    ],
+
+    "sustainabiility": "7. Sürdürülebilirlik ve Çevresel Sorumluluk",
+    "sustainability_text": "3skici’yi kullanarak sürdürülebilirliğin ve çevreye duyarlı tüketimin önemini kabul etmiş olursunuz. Aşağıdakileri kabul edersiniz:",
+    "sustainability_points": [
+      "Yalnızca kaliteli ikinci el ürünleri listeleyerek sorumlu bir şekilde yeniden kullanım ve geri dönüşüme katılmak.",
+      "Yeni ürünler yerine mümkün olduğunca ikinci el ürünleri tercih ederek döngüsel ekonomiyi desteklemek."
+    ],
+
+    "dispute_resolution": "8. Uyuşmazlık Çözümü",
+    "dispute_resolution_text": "3skici’de alıcılar ve satıcılar arasında ortaya çıkan anlaşmazlıklar doğrudan taraflar arasında çözülmelidir. 3skici, işlemler, ürün anlaşmazlıkları veya teslimat sorunları ile ilgili herhangi bir sorumluluk kabul etmez. Güvenli bir işlem sağlamak için güvenilir ödeme ve gönderim yöntemlerini kullanmanızı öneririz.",
+
+    "limitation_liability": "9. Sorumluluğun Sınırlandırılması",
+    "limitation_liability_text": "3skici, platformun kullanımından kaynaklanan herhangi bir zarar, kayıp veya sorundan sorumlu değildir. Bu, ürün listelemeleri, işlemler veya alıcılar ve satıcılar arasındaki iletişimle ilgili sorunları da içerir.",
+
+    "final_terms": "10. Son Hükümler",
+    "final_terms_text": "Bu Şartlar ve Koşullar periyodik olarak güncellenebilir. Güncellemeler hakkında bilgi sahibi olmak için bu şartları düzenli olarak gözden geçirmek sizin sorumluluğunuzdadır."
+  }
