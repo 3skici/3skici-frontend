@@ -25,58 +25,58 @@ const Footer = () => {
   const faq = getPathWithLanguage("/faq", currentLanguage);
   const contact = getPathWithLanguage("/contact-us", currentLanguage);
 
-  // handle language change
-  const handleLanguageChange = (lang) => {
-    i18n.changeLanguage(lang, () => {
-      setLanguageDropdownOpen(false);
+  // // handle language change
+  // const handleLanguageChange = (lang) => {
+  //   i18n.changeLanguage(lang, () => {
+  //     setLanguageDropdownOpen(false);
 
-      // Update the current URL with the new language
-      const currentPath = location.pathname;
-      const newSlug = getPathWithLanguage(currentPath, lang);
-      navigate(newSlug);
-    });
-  };
+  //     // Update the current URL with the new language
+  //     const currentPath = location.pathname;
+  //     const newSlug = getPathWithLanguage(currentPath, lang);
+  //     navigate(newSlug);
+  //   });
+  // };
 
-  // lang switcher drop
-  const toggleLanguageDropdown = () => {
-    setLanguageDropdownOpen(!languageDropdownOpen);
-    setProfileDropdown(false);
-  };
+  // // lang switcher drop
+  // const toggleLanguageDropdown = () => {
+  //   setLanguageDropdownOpen(!languageDropdownOpen);
+  //   setProfileDropdown(false);
+  // };
 
-  // language switcher
-  const languages = [
-    { code: "ar", label: "Arabic", icon: "🇾🇪" },
-    { code: "tr", label: "Turkish", icon: "🇹🇷" },
-    { code: "en", label: "English", icon: "🇬🇧" },
-  ];
+  // // language switcher
+  // const languages = [
+  //   { code: "ar", label: "Arabic", icon: "🇾🇪" },
+  //   { code: "tr", label: "Turkish", icon: "🇹🇷" },
+  //   { code: "en", label: "English", icon: "🇬🇧" },
+  // ];
 
-  // handle closing outside language drop
-  const handleClickOutside = (event) => {
-    if (!event.target.closest(".dropdown")) {
-      setLanguageDropdownOpen(false);
-      setProfileDropdown(false);
-    }
-  };
+  // // handle closing outside language drop
+  // const handleClickOutside = (event) => {
+  //   if (!event.target.closest(".dropdown")) {
+  //     setLanguageDropdownOpen(false);
+  //     setProfileDropdown(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
+  // useEffect(() => {
+  //   document.addEventListener("click", handleClickOutside);
 
-    const handleLanguageChanged = (lang) => {
-      setCurrentLanguage(lang);
-    };
+  //   const handleLanguageChanged = (lang) => {
+  //     setCurrentLanguage(lang);
+  //   };
 
-    i18n.on("languageChanged", handleLanguageChanged);
+  //   i18n.on("languageChanged", handleLanguageChanged);
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-      i18n.off("languageChanged", handleLanguageChanged);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //     i18n.off("languageChanged", handleLanguageChanged);
+  //   };
+  // }, []);
 
   return (
     <footer className="bg-[#7e193e] text-white py-4">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Left Column: 3skici Section */}
           <div>
             <h3 className="text-2xl font-bold mb-4">3skici</h3>
@@ -187,47 +187,6 @@ const Footer = () => {
             </ul>
           </div>
           {/* Language Switcher Dropdown */}
-          <div className="relative dropdown">
-            <button
-              onClick={toggleLanguageDropdown}
-              className="flex items-center hover:text-[#C02244] focus:outline-none"
-            >
-              <span className="mr-1 text-l sm:text-xl md:text-3xl">
-                {languages.find((lang) => lang.code === currentLanguage)?.icon}
-              </span>
-              {/* <IoMdArrowDropdown className="text-2xl" /> */}
-            </button>
-            {languageDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-900 text-black rounded-md shadow-lg">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className="block px-4 py-2 w-full hover:bg-gray-200 dark:text-white w-full text-left flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="mr-2">{lang.icon}</span>
-                    {lang.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="dropdown dropdown-top">
-            <div tabIndex={0} role="button" className="btn m-1">
-              Click
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Social Media Section */}

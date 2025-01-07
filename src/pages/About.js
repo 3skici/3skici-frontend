@@ -120,9 +120,9 @@ const AboutUs = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-gray-50 w-40 h-40 rounded-full justify-items-center text-center p-10 shadow-md border-x-4 border-y-4 border-[#C02244]"
+                  className="bg-gray-50 w-44 h-44 rounded-full justify-items-center text-center p-9 shadow-md border-x-4 border-y-4 border-[#C02244]"
                 >
-                  <h3 className="text-2xl font-bold text-[#C02244]">
+                  <h3 className="text-2xl font-bold text-[#C02244] mb-4">
                     {stat.numbers}
                   </h3>
                   <p> {t(stat.key)}</p>
