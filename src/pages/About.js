@@ -19,7 +19,7 @@ const AboutUs = () => {
 
           {/* Mission Section */}
           <section className="bg-gradient-to-r from-[#C02244] to-[#c34867] p-8 rounded-lg shadow-lg mt-12 text-white">
-            <h2 className="text-2xl font-semibold">Our Mission</h2>
+            <h2 className="text-2xl font-semibold text-center">Our Mission</h2>
             <p className="mt-4">
               At 3skici, our mission is to empower people to make smarter, more
               sustainable buying decisions by connecting them with others who
