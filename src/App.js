@@ -8,7 +8,6 @@ import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import EditProduct from "./components/products/EditProduct";
 import AboutUs from "./pages/About";
-import Products from "./components/products/ProductManagement";
 import ProductSearchAndFilter from "./components/filter&search/ProductSearchAndFilter";
 import Report from "./components/report/Report";
 import SellingProduct from "./components/products/SellingProduct";
@@ -30,13 +29,12 @@ import Sustainability from "./pages/Sustainability";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavorites } from "./features/products/favoriteSlice";
 import Test from "./pages/Test";
 import LocalizedFontWrapper from "./components/helpers/LocalizedFontWrapper";
 import Settings from "./components/layout/Settings";
-import EditProfile from "./components/profile/EditProfile";
+
 function App() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user?._id);
@@ -58,14 +56,19 @@ function App() {
         <Routes>
           {/* Default route redirects to English version */}
           <Route path="/" element={<Navigate to={`/en`} replace />} />
-          <Route path="/:lang/test" element={<Test />} />
+          <Route
+            path="/:lang/edit-product/:productId"
+            element={<EditProduct />}
+          />
 
           {/* Language-specific routes */}
           <Route path="/:lang" element={<Home />} />
           <Route path="/:lang/about-us" element={<AboutUs />} />
-          <Route path="/:lang/browse-products" element={<Products />} />
           <Route path="/:lang/selling-product" element={<SellingProduct />} />
-          <Route path="/:lang/edit-product/:id" element={<EditProduct />} />
+          <Route
+            path="/:lang/edit-product/:productId"
+            element={<EditProduct />}
+          />
           <Route path="/:lang/login" element={<Login />} />
           <Route path="/:lang/cat" element={<Category />} />
           <Route path="/:lang/categories" element={<CategoryList />} />

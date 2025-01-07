@@ -4,7 +4,7 @@ import { receiveMessage, setTyping } from "../features/chat/chatSlice";
 
 // Replace with your actual server URL
 const SOCKET_SERVER_URL =
-  process.env.REACT_APP_SOCKET_SERVER_URL || "http://localhost:3000";
+  process.env.REACT_APP_SOCKET_SERVER_URL || "http://localhost:5000";
 
 // Initialize Socket.IO client
 const socket = io(SOCKET_SERVER_URL, {
