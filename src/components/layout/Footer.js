@@ -25,54 +25,6 @@ const Footer = () => {
   const faq = getPathWithLanguage("/faq", currentLanguage);
   const contact = getPathWithLanguage("/contact-us", currentLanguage);
 
-  // // handle language change
-  // const handleLanguageChange = (lang) => {
-  //   i18n.changeLanguage(lang, () => {
-  //     setLanguageDropdownOpen(false);
-
-  //     // Update the current URL with the new language
-  //     const currentPath = location.pathname;
-  //     const newSlug = getPathWithLanguage(currentPath, lang);
-  //     navigate(newSlug);
-  //   });
-  // };
-
-  // // lang switcher drop
-  // const toggleLanguageDropdown = () => {
-  //   setLanguageDropdownOpen(!languageDropdownOpen);
-  //   setProfileDropdown(false);
-  // };
-
-  // // language switcher
-  // const languages = [
-  //   { code: "ar", label: "Arabic", icon: "🇾🇪" },
-  //   { code: "tr", label: "Turkish", icon: "🇹🇷" },
-  //   { code: "en", label: "English", icon: "🇬🇧" },
-  // ];
-
-  // // handle closing outside language drop
-  // const handleClickOutside = (event) => {
-  //   if (!event.target.closest(".dropdown")) {
-  //     setLanguageDropdownOpen(false);
-  //     setProfileDropdown(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   const handleLanguageChanged = (lang) => {
-  //     setCurrentLanguage(lang);
-  //   };
-
-  //   i18n.on("languageChanged", handleLanguageChanged);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //     i18n.off("languageChanged", handleLanguageChanged);
-  //   };
-  // }, []);
-
   return (
     <footer className="bg-[#7e193e] text-white py-4">
       <div className="container mx-auto">

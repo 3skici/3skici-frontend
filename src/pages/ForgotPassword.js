@@ -1,48 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { forgotPassword } from "../features/auth/authSlice";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.auth);
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
       toast.error("Invalid email address");
       return;
     }
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/forgetPassword`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error("Email is not found");
-          } else {
-            throw new Error("Server error");
-          }
-        }
-        return response.json();
-      })
-      .then((data) => {
-        toast.success("Email sent successfully!");
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-    // Handle password reset, e.g., send reset email
+    dispatch(forgotPassword(email));
   };
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      toast.success("Email sent successfully!");
+    } else if (status === "failed") {
+      toast.error(error || "Something went wrong.");
+    }
+  }, [status, error]); // Monitor changes in status and error
 
   return (
     <div className="container mx-auto max-w-md mt-6">
@@ -65,8 +51,9 @@ const ForgotPassword = () => {
         <button
           type="submit"
           className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+          disabled={status === "loading"}
         >
-          Send Password Reset Link
+          {status === "loading" ? "Sending..." : "Send Password Reset Link"}
         </button>
       </form>
     </div>

@@ -116,12 +116,65 @@ export const updateUserProfile = createAsyncThunk(
   }
 );
 
-const initialState = {
-  token: localStorage.getItem("token") || null,
-  user: null,
-  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
-};
+// Async thunk for requesting password reset email
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (email, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/forgetPassword`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        return thunkAPI.rejectWithValue(
+          error.message || "Failed to send reset email"
+        );
+      }
+
+      return { message: "Reset email sent successfully" };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to send reset email"
+      );
+    }
+  }
+);
+
+// Async thunk for resetting password
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, newPassword }, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/auth/reset-password/${token}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newPassword }),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        return thunkAPI.rejectWithValue(
+          error.message || "Failed to reset password"
+        );
+      }
+
+      return { message: "Password reset successful" };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.message || "Failed to reset password"
+      );
+    }
+  }
+);
 
 // Add a helper function to normalize the user object
 const normalizeUser = (user) => {
@@ -198,6 +251,28 @@ const authSlice = createSlice({
         state.user = action.payload; // Update the user data
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      // Forgot Password
+      .addCase(forgotPassword.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

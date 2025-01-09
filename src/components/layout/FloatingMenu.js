@@ -83,7 +83,7 @@ const FloatingMenu = () => {
       </div>
 
       {/* Buttons for left and right positioning */}
-      <div className="fixed bottom-0 left-0 m-4 flex space-x-6">
+      {/* <div className="fixed bottom-0 left-0 m-4 flex space-x-6">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded mx-4"
           onClick={() => moveToPosition(5, window.innerHeight / 2 - 50)}
@@ -98,7 +98,7 @@ const FloatingMenu = () => {
         >
           Right
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

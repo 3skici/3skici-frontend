@@ -180,7 +180,6 @@ const AddProductPage = () => {
           body: formData,
         }
       );
-      console.log("this is the respose of post fetch: ", response);
       if (response.ok) {
         const { data: newProduct } = await response.json();
         // setUserProducts([...userProducts, newProduct]);
@@ -267,12 +266,6 @@ const AddProductPage = () => {
               {/* <button className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg">
                 💾 Save Draft
               </button> */}
-              <button
-                type="submit"
-                className="px-4 py-2 bg-emerald-700 text-white  rounded-lg hover:bg-emerald-600"
-              >
-                ✅ Add Product
-              </button>
             </div>
           </div>
 
@@ -493,6 +486,14 @@ const AddProductPage = () => {
                     className="w-full p-3 border border-gray-300 rounded-lg mt-2"
                   />
                 </div>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-emerald-700 text-white  rounded-lg hover:bg-emerald-600"
+                >
+                  ✅ Add Product
+                </button>
               </div>
             </div>
           </div>
