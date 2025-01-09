@@ -200,19 +200,8 @@ const Navbar = () => {
                       >
                         {t("chat")}
                       </Link>
-                      {/* Settings Link */}
-                      <Link
-                        to={getPathWithLanguage(
-                          "/user-settings",
-                          currentLanguage
-                        )}
-                        className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
-                      >
-                        {t("settings")}
-                      </Link>
 
                       {/* selling product*/}
-
                       <Link
                         to={getPathWithLanguage(
                           "/selling-product",

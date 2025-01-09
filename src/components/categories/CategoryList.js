@@ -41,7 +41,6 @@ const CategoryList = () => {
       dispatch(fetchProducts());
     }
   };
-
   return (
     <div className="bg-off-white min-h-screen py-2">
       <div className="container mx-auto px-4">

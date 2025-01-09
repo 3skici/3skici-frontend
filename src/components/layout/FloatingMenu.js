@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { FaCommentDots, FaHeart, FaGlobe } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
+import i18n from "../../i18n";
+import { useSelector } from "react-redux";
+import { FaFlag } from "react-icons/fa"; // Importing a generic flag icon
 
 const FloatingMenu = () => {
+  const isLoggedIn = useSelector((state) => state.auth.token !== null); // Check if user is logged in
+  const currentLanguage = i18n.language;
+
   // Initial position: start on the left side
   const [position, setPosition] = useState({
     x: 5, // Left side of the screen
@@ -14,26 +22,23 @@ const FloatingMenu = () => {
   });
 
   const handleMouseDown = (e) => {
-    // Store the initial mouse position for drag calculation
     setDragging(true);
     setInitialMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e) => {
     if (dragging) {
-      // Calculate the distance moved and update position
       const deltaX = e.clientX - initialMousePosition.x;
       const deltaY = e.clientY - initialMousePosition.y;
       setPosition({
         x: position.x + deltaX,
         y: position.y + deltaY,
       });
-      setInitialMousePosition({ x: e.clientX, y: e.clientY }); // Update mouse position for next move
+      setInitialMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
   const handleMouseUp = () => {
-    // Stop dragging and snap to nearest boundary (left or right)
     setDragging(false);
     snapToClosestPosition();
   };
@@ -42,63 +47,73 @@ const FloatingMenu = () => {
     const { x } = position;
 
     if (x < window.innerWidth / 3) {
-      setPosition({
-        x: 5, // Left side
-        y: position.y,
-      });
+      setPosition({ x: 5, y: position.y });
     } else if (x > (2 * window.innerWidth) / 3) {
-      setPosition({
-        x: window.innerWidth - 55, // Right side
-        y: position.y,
-      });
+      setPosition({ x: window.innerWidth - 55, y: position.y });
     } else {
-      setPosition({
-        x: window.innerWidth / 2 - 50, // Center
-        y: position.y,
-      });
+      setPosition({ x: window.innerWidth / 2 - 50, y: position.y });
     }
   };
 
-  const moveToPosition = (x, y) => {
-    setPosition({ x, y });
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
   };
 
   return (
     <div className="flex flex-col items-center">
       <div
-        className="fixed w-12 h-60 bg-gray-500 rounded-full flex flex-col-reverse items-center justify-around text-white shadow-lg z-50"
+        className="fixed w-12 h-60 bg-transparent hover:bg-slate-200 rounded-full flex flex-col-reverse items-center justify-around text-white shadow-lg z-50"
         style={{
           top: `${position.y}px`,
           left: `${position.x}px`,
-          cursor: dragging ? "grabbing" : "grab",
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp} // Stop drag if mouse leaves the element
+        onMouseLeave={handleMouseUp}
       >
-        <FaCommentDots />
-        <FaHeart />
-        <FaGlobe />
+        {isLoggedIn ? (
+          <>
+            <Link to={getPathWithLanguage("/chat", currentLanguage)}>
+              <FaCommentDots className="text-fiery-red" />
+            </Link>
+            <Link to={getPathWithLanguage("/fav", currentLanguage)}>
+              <FaHeart className="text-fiery-red" />
+            </Link>
+          </>
+        ) : null}
+        {/* Language Icons */}{" "}
+        <div className="flex flex-col gap-4 mt-4">
+          {" "}
+          {/* Arabic Flag Icon */}{" "}
+          <button
+            onClick={() => changeLanguage("ar")}
+            title="Arabic"
+            className="text-white"
+          >
+            {" "}
+            🇾🇪{" "}
+          </button>{" "}
+          {/* Turkish Flag Icon */}{" "}
+          <button
+            onClick={() => changeLanguage("tr")}
+            title="Turkish"
+            className="text-white"
+          >
+            {" "}
+            🇹🇷{" "}
+          </button>{" "}
+          {/* English Flag Icon */}{" "}
+          <button
+            onClick={() => changeLanguage("en")}
+            title="English"
+            className="text-white"
+          >
+            {" "}
+            🇬🇧{" "}
+          </button>{" "}
+        </div>
       </div>
-
-      {/* Buttons for left and right positioning */}
-      {/* <div className="fixed bottom-0 left-0 m-4 flex space-x-6">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded mx-4"
-          onClick={() => moveToPosition(5, window.innerHeight / 2 - 50)}
-        >
-          Left
-        </button>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={() =>
-            moveToPosition(window.innerWidth - 55, window.innerHeight / 2 - 50)
-          }
-        >
-          Right
-        </button>
-      </div> */}
     </div>
   );
 };
