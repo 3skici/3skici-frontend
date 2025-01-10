@@ -120,7 +120,7 @@ export const fetchProductsByCategory = createAsyncThunk(
       `${process.env.REACT_APP_API_URL}/product/bycategory/${categoryId}`
     );
     const data = await handleFetchResponse(response);
-    return data.data;
+    return data.products;
   }
 );
 
