@@ -23,9 +23,7 @@ const PrivacyPolicy = () => {
                 <span className="group-hover:underline dark:text-gray-800">
                   {t("effective_date")}
                 </span>
-                <span className="text-s whitespace-nowrap">
-                  {t("date")}
-                </span>
+                <span className="text-s whitespace-nowrap">{t("date")}</span>
               </span>
             </div>
             <div className="mb-4">
@@ -49,7 +47,7 @@ const PrivacyPolicy = () => {
                   "personal_information",
                   "transaction_information",
                   "usage_data",
-                  "cookies"
+                  "cookies",
                 ].map((category, index) => (
                   <div key={index} className="flex items-start">
                     <div className="flex-shrink-0 h-6 w-6 text-blue-500">
@@ -84,7 +82,7 @@ const PrivacyPolicy = () => {
                   "provide_improve_services",
                   "facilitate_communication",
                   "marketing_purposes",
-                  "ensure_compliance"
+                  "ensure_compliance",
                 ].map((purpose, index) => (
                   <li key={index} className="flex items-start">
                     <div className="flex-shrink-0 h-6 w-6 text-blue-500">
@@ -127,7 +125,7 @@ const PrivacyPolicy = () => {
                 "access_rights",
                 "rectification_rights",
                 "erasure_rights",
-                "portability_rights"
+                "portability_rights",
               ].map((right, index) => (
                 <div key={index} className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="font-medium text-gray-900 mb-2">
@@ -159,7 +157,7 @@ const PrivacyPolicy = () => {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <a href="mailto:privacy@example.com" className="hover:underline">
+                <a href="mailto:3skici@gmail.com" className="hover:underline">
                   {t("contact_email")}
                 </a>
               </div>

@@ -15,6 +15,7 @@ import { toast, ToastContainer } from "react-toastify"; // Import toast and Toas
 import "react-toastify/dist/ReactToastify.css"; // Import the ToastContainer CSS
 import { getImageUrl } from "../../utils/imgagesHelper";
 import { format } from "timeago.js";
+import currencyIcons from "../../assets/icons/currencyIcons ";
 
 const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
   const navigate = useNavigate();
@@ -96,9 +97,10 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
         </button>
       </div>
       {/* Product Info */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col h-full">
         <div className="flex flex-row justify-between">
-          <div className="flex flex-col max-w-[150px]">
+          {/* product name */}
+          <div className="flex flex-col max-w-[115px]">
             <span
               className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden"
               title={product.name || "No product name"}
@@ -109,7 +111,9 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
 
           {/* Price */}
           <span className="font-bold text-red-600">
-            <span>{product.price.currency}</span>
+            <span>
+              {currencyIcons[product.price.currency] || product.price.currency}
+            </span>
             {product.price && product.price.amount != null
               ? product.price.amount.toFixed(2)
               : "0.00"}
@@ -119,7 +123,7 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
         {/* description */}
         <div className="flex items-center mb-2 mt-3">
           <span
-            className="py-1 text-s rounded font-semibold text-[#7281a3] truncate max-w-[180px]"
+            className=" text-s rounded font-semibold text-[#7281a3] max-w-[230px] overflow-hidden line-clamp-3"
             title={product.description}
           >
             {product.description}

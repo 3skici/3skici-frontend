@@ -10,6 +10,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import countryData from "country-telephone-data"; // Import data for countries
 import Flag from "react-world-flags";
+import currencyIcons from "../../assets/icons/currencyIcons ";
+
 const AddProductPage = () => {
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
@@ -252,6 +254,35 @@ const AddProductPage = () => {
     };
   }, [product.images]);
 
+  // Create the currency options dynamically from the currencyIcons object
+  const currencyOptions = Object.keys(currencyIcons).map((currencyKey) => ({
+    value: currencyKey,
+    label: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ marginRight: "5px" }}>{currencyIcons[currencyKey]}</span>
+        {currencyKey}
+      </div>
+    ),
+  }));
+
+  const allowedCurrencies = [
+    "TL",
+    "USD",
+    "EUR",
+    "GBP",
+    "JPY",
+    "AUD",
+    "CAD",
+    "YER",
+    "EGP",
+    "AED",
+    "SAR",
+    "KWD",
+    "BHD",
+    "OMR",
+    "QAR",
+  ];
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <ToastContainer />
@@ -343,7 +374,7 @@ const AddProductPage = () => {
                 </div>
                 <div>
                   <label className="block text-gray-700 font-semibold">
-                    Curreny
+                    Currency
                   </label>
                   <select
                     name="price.currency"
@@ -351,8 +382,11 @@ const AddProductPage = () => {
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg mt-2"
                   >
-                    <option value="USD">USD</option>
-                    <option value="TL">TL</option>
+                    {allowedCurrencies.map((currencyKey) => (
+                      <option key={currencyKey} value={currencyKey}>
+                        {currencyIcons[currencyKey]} {currencyKey}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
