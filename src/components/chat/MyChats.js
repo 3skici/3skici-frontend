@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchChats, selectChat } from "../../features/chat/chatSlice";
 import { format } from "timeago.js";
 import pic from "../../assets/images/chair.jpg";
+import { getImageUrl } from "../../utils/imgagesHelper";
 const MyChats = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token); // Token from Redux state
@@ -60,15 +61,17 @@ const MyChats = () => {
           ))
         ) : chats && chats.length > 0 ? (
           chats.map((conversation) => {
-            console.log("conversation: ", conversation);
             // Identify the recipient (other participant)
             const recipient = conversation.participants.find(
               (user) => user._id !== userId
             );
-
             // Determine the display name
             const displayName = recipient ? recipient.username : "Unknown User";
-
+            const userPic = recipient ? (
+              recipient.avatar
+            ) : (
+              <FaUser className="text-white text-xl" />
+            );
             // Access the last message content and timestamp
             const lastMessageContent =
               conversation.lastMessage?.content || "No message yet";
@@ -87,15 +90,11 @@ const MyChats = () => {
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                    {conversation.userAvatar ? (
-                      <img
-                        src={conversation.userAvatar}
-                        alt="User Avatar"
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                    ) : (
-                      <FaUser className="text-white text-xl" /> // Default user icon
-                    )}
+                    <img
+                      src={getImageUrl(userPic)}
+                      alt="User Avatar"
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
                   </div>
                   <div className="flex flex-col">
                     <p className="text-sm font-semibold text-gray-800">

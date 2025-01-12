@@ -123,7 +123,7 @@ const Navbar = () => {
                   <img
                     src={getImageUrl(user?.avatar)}
                     alt="Profile"
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 rounded-full ring-1"
                   />
                 </button>
                 {profileDropdown && (
