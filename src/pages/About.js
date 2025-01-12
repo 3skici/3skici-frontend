@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchStatistics } from "../features/stats/statsSlice";
 
 const AboutUs = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const stats = useSelector((state) => state.stats);
+  console.log("stats: ", stats);
+  useEffect(() => {
+    dispatch(fetchStatistics());
+  }, [dispatch]);
   return (
     <div className="min-h-screen bg-[#fff1f4] text-gray-900">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -114,9 +122,9 @@ const AboutUs = () => {
             </h2>
             <div className="flex flex-wrap justify-center gap-40 text-center">
               {[
-                { numbers: "890", key: "active_users" },
-                { numbers: "10000", key: "items_for_sale" },
-                { numbers: "1200", key: "successful_transactions" },
+                { numbers: stats.users, key: "active_users" },
+                { numbers: stats.products, key: "items_for_sale" },
+                { numbers: stats.categories, key: "categories" },
               ].map((stat, index) => (
                 <div
                   key={index}

@@ -42,6 +42,7 @@ const Navbar = () => {
   const handleClickOutside = (event) => {
     if (!event.target.closest(".dropdown")) {
       setLanguageDropdownOpen(false);
+      setProfileDropdown(false);
     }
   };
 
@@ -85,53 +86,8 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Hamburger menu button for small screens */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500"
-              aria-controls="mobile-menu"
-              aria-expanded={menuOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {menuOpen ? (
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex space-x-6 sm:hidden">
             <Link
               to={getPathWithLanguage("/categories", currentLanguage)}
               className="text-gray-700 hover:text-fiery-red text-base md:text-lg lg:text-xl leading-relaxed py-2 lg:py-0"
@@ -157,7 +113,7 @@ const Navbar = () => {
           {/* Profile and Language Section */}
           <div className="flex items-center space-x-4">
             {isLoggedIn ? (
-              <div className="relative">
+              <div className="relative dropdown">
                 <button
                   onClick={toggleProfileDropdown}
                   className="flex items-center text-lg sm:text-xl hover:text-[#803e4c] focus:outline-none"
@@ -171,7 +127,7 @@ const Navbar = () => {
                   />
                 </button>
                 {profileDropdown && (
-                  <div className="absolute z-50 right-8  mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200">
+                  <div className="absolute z-50 right-8   mt-6 w-56 max-w-screen bg-white text-black rounded-md shadow-lg transition-all ease-in-out duration-300 border border-gray-200">
                     <div className="overflow-auto max-h-60">
                       {/* Profile Link */}
                       <Link
@@ -189,8 +145,7 @@ const Navbar = () => {
                         )}
                         className={`block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full text-left flex items-center`}
                       >
-                        {/* {t("user_dashboard")} */}
-                        Notifications
+                        {t("notifications")}
                       </Link>
 
                       {/* chatting Link */}
@@ -231,7 +186,6 @@ const Navbar = () => {
                 {t("navbar:login")}
               </Link>
             )}
-
             {/* Language Dropdown */}
             <div className="relative dropdown">
               <button
@@ -264,32 +218,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      {menuOpen && (
-        <div className="md:hidden" id="mobile-menu">
-          <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-            <Link
-              to={getPathWithLanguage("/categories", currentLanguage)}
-              className="block text-gray-700 hover:text-gray-900"
-            >
-              {t("navbar:categories")}
-            </Link>
-            <Link
-              to={getPathWithLanguage("/selling-product", currentLanguage)}
-              className="  hover:text-red-300 py-2 lg:py-0"
-            >
-              {t("selling_product")}
-            </Link>
-            <Link
-              to={getPathWithLanguage("/browse", currentLanguage)}
-              className="block text-gray-700 hover:text-gray-900"
-            >
-              {t("navbar:browse_products")}
-            </Link>
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

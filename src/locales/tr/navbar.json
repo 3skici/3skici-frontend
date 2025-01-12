@@ -8,6 +8,8 @@
   "settings": "Ayarlar",
   "logout": "Çıkış Yap",
   "login": "Giriş",
+  "notifications": "bildirimler",
+  "chat": "sohbet",
   "browse_products": "ürünleri gözden geçirin",
   "user_dashboard": "Kullanıcı Paneli"
 }

@@ -8,6 +8,8 @@
   "settings": "Settings",
   "logout": "Logout",
   "login": "Login",
+  "chat": "Chat",
+  "notifications": "Notifications",
   "browse_products": "Browse Products",
   "user_dashboard": "User Dashboard"
 }

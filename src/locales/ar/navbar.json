@@ -8,6 +8,8 @@
   "settings": "الإعدادات",
   "logout": "تسجيل الخروج",
   "login": "تسجيل الدخول",
+  "notifications": "إشعارات",
+  "chat": "دردشة",
   "browse_products": "تصفح المنتجات",
   "user_dashboard": "لوحة التحكم"
 }

@@ -102,7 +102,7 @@ const Footer = () => {
 
           {/* Right Column: Regular Visited Links */}
           <div>
-            <h3 className="font-semibold  text-xl mb-4">Quick Links</h3>
+            <h3 className="font-semibold  text-xl mb-4">{t("quick_links")}</h3>
             <ul className="space-y-2">
               <li>
                 <Link

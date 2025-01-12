@@ -310,7 +310,7 @@ const AddProductPage = () => {
 
                 {/* availability */}
                 <label className="block font-medium text-gray-700">
-                  Availability
+                  Status
                 </label>
                 <select
                   name="availability"

@@ -5,6 +5,7 @@ import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { ReactComponent as SignupSVG } from "../../assets/images/LS.svg";
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -58,16 +59,12 @@ const Signup = () => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Left Section */}
-      <div className="relative flex-1">
-        <img
-          src={image}
-          alt="Background"
-          className="absolute inset-0 object-cover w-full h-full brightness-75"
-        />
+      <div className="relative flex-1 flex justify-center items-center bg-gray-100">
+        <SignupSVG className="w-3/4 h-3/4 text-blue-500" />
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col items-center flex-1 bg-white px-6 py-2 sm:py-10">
+      <div className="flex flex-col justify-center items-center flex-1 bg-gradient-to-r from-[#fcd9e1] to-[#fffdfd] px-6  sm:py-16">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 text-center">
           {t("register")}
         </h1>
