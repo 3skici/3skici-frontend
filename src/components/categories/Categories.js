@@ -1,7 +1,7 @@
 // src/components/Categories.js
 import React from "react";
 import PropTypes from "prop-types";
-import categoryIcons from "../../icons/categoryIcons";
+import categoryIcons from "../../assets/icons/categoryIcons";
 
 const Categories = ({
   categories,
