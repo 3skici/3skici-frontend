@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats, selectChat } from "../../features/chat/chatSlice";
 import { format } from "timeago.js";
-
+import pic from "../../assets/images/chair.jpg";
 const MyChats = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token); // Token from Redux state
@@ -60,6 +60,7 @@ const MyChats = () => {
           ))
         ) : chats && chats.length > 0 ? (
           chats.map((conversation) => {
+            console.log("conversation: ", conversation);
             // Identify the recipient (other participant)
             const recipient = conversation.participants.find(
               (user) => user._id !== userId
@@ -132,7 +133,6 @@ const MyChats = () => {
           </div>
         )}
       </div>
-
       {/* Footer */}
       <div className="border-t py-4 px-6 text-center text-gray-500">
         <p className="text-xs">

@@ -155,14 +155,37 @@ const Product = ({ suggestedProducts = [] }) => {
               <p>
                 <strong>Posted At:</strong> {postedTime}
               </p>
+              {/* customId to be copy */}
+              {/* Product ID and Report Icon */}
+              <div className="py-2 border-gray-200 flex items-center justify-between">
+                {/* Optimized Product ID */}
+                <div className="flex items-center">
+                  <p className="">
+                    <strong>Product ID:</strong>{" "}
+                    <span className="">{productId.slice(-8)}</span>
+                  </p>
+                  <button
+                    className="ml-2 text-gray-500 hover:text-blue-600 focus:outline-none"
+                    onClick={handleCopy}
+                    title="Copy full ID"
+                  >
+                    <FaCopy className="text-sm" />
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="mt-6">
-              <button
+            <div className="mt-6 flex justify-center">
+              <Link
+                to={token ? chatRoom : "#"}
                 onClick={handleChatClick}
-                className="w-full bg-black text-white py-3 rounded-lg font-semibold"
+                className="bg-black text-white py-3 rounded-lg font-semibold min-w-[350px] max-w-[350px] w-full sm:w-auto text-center"
               >
-                Chat with Seller
-              </button>
+                {isLoading
+                  ? "Loading..."
+                  : user
+                  ? "Chat with seller"
+                  : "Please log in to chat"}
+              </Link>
             </div>
           </div>
         </div>

@@ -140,37 +140,9 @@ const Footer = () => {
           </div>
           {/* Language Switcher Dropdown */}
         </div>
-
-        {/* Social Media Section */}
-        {/* <div className="flex justify-center space-x-6 mt-10">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className=" hover:text-red-300 transition duration-200"
-          >
-            Facebook
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className=" hover:text-red-300 transition duration-200"
-          >
-            Twitter
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className=" hover:text-red-300 transition duration-200"
-          >
-            Instagram
-          </a>
-        </div> */}
         <div></div>
         {/* Copyright */}
-        <div className="text-center text-gray-100 mt-8">
+        <div className="  text-center text-gray-100 mt-8">
           &copy; {new Date().getFullYear()} {t("copyright_notice")}.
         </div>
       </div>
