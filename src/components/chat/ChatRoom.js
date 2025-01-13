@@ -156,7 +156,7 @@ const ChatRoom = () => {
             <div key={date} className="mb-6">
               <div className="flex justify-center my-4">
                 <div className="bg-gray-200 text-gray-500 py-2 px-6 rounded-xl text-sm font-medium">
-                  {date}
+                  {format(date)}
                 </div>
               </div>
 
@@ -165,8 +165,9 @@ const ChatRoom = () => {
                 {messages.map((message, idx) => {
                   // Check for senderId before rendering the message
                   const isCurrentUser = message.senderId?._id === userId;
-                  const senderName = message.senderId?.name || "Unknown User";
+                  console.log("sender: ", isCurrentUser);
 
+                  const senderName = message.senderId?.name || "Unknown User";
                   // Check if this is the first occurrence of the product
                   const shouldDisplayProduct =
                     message.product && message.product._id !== lastProductId;

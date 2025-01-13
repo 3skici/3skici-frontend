@@ -4,7 +4,6 @@ import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChats, selectChat } from "../../features/chat/chatSlice";
 import { format } from "timeago.js";
-import pic from "../../assets/images/chair.jpg";
 import { getImageUrl } from "../../utils/imgagesHelper";
 const MyChats = () => {
   const dispatch = useDispatch();
@@ -13,6 +12,8 @@ const MyChats = () => {
   const { chats, loading } = useSelector((state) => state.chats);
 
   const [skeletonCount, setSkeletonCount] = useState(3); // Default count
+  const [activeChatKey, setActiveChatKey] = useState(null); // Local state to track selected chat
+  const [clickTimeout, setClickTimeout] = useState(null); // Timeout state to debounce clicks
 
   // Determine the number of skeletons based on screen height
   useEffect(() => {
@@ -35,7 +36,13 @@ const MyChats = () => {
   }, [dispatch, token]);
 
   const handleChatClick = (chatKey) => {
-    dispatch(selectChat(chatKey));
+    // Check if the clicked chat is already the active one
+    if (activeChatKey === chatKey) {
+      setActiveChatKey(null); // Deselect the chat if it's already active
+    } else {
+      setActiveChatKey(chatKey); // Set the clicked chat as active
+      dispatch(selectChat(chatKey)); // Optionally dispatch selectChat if needed
+    }
   };
 
   // Loading Skeleton Component
@@ -83,7 +90,9 @@ const MyChats = () => {
               <div
                 key={conversation.chatKey}
                 onClick={() => handleChatClick(conversation.chatKey)}
-                className="flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition duration-200 ease-in-out"
+                className={`flex items-center justify-between px-4 py-3 border-b hover:bg-gray-50 cursor-pointer transition duration-200 ease-in-out ${
+                  activeChatKey === conversation.chatKey ? "bg-blue-100" : ""
+                }`}
                 role="button"
                 tabIndex={0}
                 aria-label={`Open chat with ${displayName}`}
