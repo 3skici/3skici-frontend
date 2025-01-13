@@ -97,10 +97,10 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
         </button>
       </div>
       {/* Product Info */}
-      <div className="p-4 flex flex-col h-full">
+      <div className="p-4  sm:p-6 md:p-8 flex flex-col h-full">
         <div className="flex flex-row justify-between">
           {/* product name */}
-          <div className="flex flex-col max-w-[115px]">
+          <div className="flex flex-col max-w-[101px]">
             <span
               className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden"
               title={product.name || "No product name"}
@@ -115,7 +115,7 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
               {currencyIcons[product.price.currency] || product.price.currency}
             </span>
             {product.price && product.price.amount != null
-              ? product.price.amount.toFixed(2)
+              ? product.price.amount
               : "0.00"}
           </span>
         </div>
@@ -123,7 +123,7 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
         {/* description */}
         <div className="flex items-center mb-2 mt-3">
           <span
-            className=" text-s rounded font-semibold text-[#7281a3] max-w-[230px] overflow-hidden line-clamp-3"
+            className=" text-l rounded font-semibold text-[#7281a3] max-w-[230px] overflow-hidden line-clamp-3"
             title={product.description}
           >
             {product.description}

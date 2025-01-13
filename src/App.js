@@ -35,6 +35,7 @@ import Test from "./pages/Test";
 import LocalizedFontWrapper from "./components/helpers/LocalizedFontWrapper";
 import Settings from "./components/layout/Settings";
 import FloatingMenu from "./components/layout/FloatingMenu";
+import BrowseProducts from "./pages/BrowseProducts";
 
 function App() {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function App() {
           <Route path="/:lang/chat-room/" element={<ChatRoom />} />
           <Route path="/:lang/card" element={<ProductSmallCard />} />
           <Route path="/:lang/product/:id" element={<ProductDetails />} />
+          <Route path="/:lang/browse-products" element={<BrowseProducts />} />
           <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/:lang/settings" element={<Settings />} />
           <Route

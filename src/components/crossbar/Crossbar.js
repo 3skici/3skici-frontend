@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { selectCategories } from "../../features/categories/categoriesSlice";
 import { useSelector } from "react-redux";
-import categoryIcons from "../../assets/icons/categoryIcons";
+import { categoryIcons } from "../../assets/icons/categoryIcons";
 
 const Crossbar = () => {
   const categories = useSelector(selectCategories);

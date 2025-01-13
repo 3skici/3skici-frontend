@@ -75,10 +75,10 @@ const FloatingMenu = () => {
         {isLoggedIn ? (
           <>
             <Link to={getPathWithLanguage("/chat", currentLanguage)}>
-              <FaCommentDots className="text-fiery-red" />
+              <FaCommentDots className="text-fiery-red hover:scale-150 transition-transform duration-200" />
             </Link>
             <Link to={getPathWithLanguage("/fav", currentLanguage)}>
-              <FaHeart className="text-fiery-red" />
+              <FaHeart className="text-fiery-red hover:scale-150 transition-transform duration-200" />
             </Link>
           </>
         ) : null}
@@ -89,7 +89,7 @@ const FloatingMenu = () => {
           <button
             onClick={() => changeLanguage("ar")}
             title="Arabic"
-            className="text-white"
+            className="text-white hover:scale-150 transition-transform duration-200"
           >
             {" "}
             🇾🇪{" "}
@@ -98,7 +98,7 @@ const FloatingMenu = () => {
           <button
             onClick={() => changeLanguage("tr")}
             title="Turkish"
-            className="text-white"
+            className="text-white hover:scale-150 transition-transform duration-200"
           >
             {" "}
             🇹🇷{" "}
@@ -107,7 +107,7 @@ const FloatingMenu = () => {
           <button
             onClick={() => changeLanguage("en")}
             title="English"
-            className="text-white"
+            className="text-white hover:scale-150 transition-transform duration-200"
           >
             {" "}
             🇬🇧{" "}

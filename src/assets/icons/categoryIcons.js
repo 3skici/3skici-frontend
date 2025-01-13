@@ -1,25 +1,55 @@
-// src/icons/categoryIcons.js
-const categoryIcons = {
-  "Electronics":
-    "https://api.iconify.design/mdi:cellphone.svg?color=%230076d6&height=48",
-  "Furniture":
-    "https://api.iconify.design/mdi:sofa.svg?color=%23f5821f&height=48",
-  "Accessories":
-    "https://api.iconify.design/mdi:tshirt-crew.svg?color=%23e91e63&height=48",
-  "Sports ":
-    "https://api.iconify.design/mdi:campfire.svg?color=%234caf50&height=48",
-  "Toys ":
-    "https://api.iconify.design/mdi:toy-brick.svg?color=%23ff9800&height=48",
-  "Books & Entertainment":
-    "https://api.iconify.design/mdi:book-open-page-variant.svg?color=%239c27b0&height=48",
-  "Health & Beauty":
-    "https://api.iconify.design/mdi:lipstick.svg?color=%23ff4081&height=48",
-  "Home Improvement & Tools":
-    "https://api.iconify.design/mdi:wrench.svg?color=%23679f38&height=48",
-  "Automotive & Bikes":
-    "https://api.iconify.design/mdi:bike.svg?color=%23606270&height=48",
-  "Pet Supplies":
-    "https://api.iconify.design/mdi:paw.svg?color=%23ff5722&height=48",
-};
+import {
+  FaTshirt,
+  FaPhoneAlt,
+  FaCouch,
+  FaHome,
+  FaBook,
+  FaPuzzlePiece,
+  FaFutbol,
+  FaTint,
+  FaGift,
+} from "react-icons/fa";
 
-export default categoryIcons;
+export const categoryIcons = {
+  Clothing: {
+    icon: <FaTshirt />,
+    bgColor: "bg-blue-100",
+    activeColor: "bg-blue-500",
+  },
+  Electronics: {
+    icon: <FaPhoneAlt />,
+    bgColor: "bg-green-100",
+    activeColor: "bg-green-500",
+  },
+  Furniture: {
+    icon: <FaCouch />,
+    bgColor: "bg-yellow-100",
+    activeColor: "bg-yellow-500",
+  },
+  Home: {
+    icon: <FaHome />,
+    bgColor: "bg-purple-100",
+    activeColor: "bg-purple-500",
+  },
+  Books: { icon: <FaBook />, bgColor: "bg-red-100", activeColor: "bg-red-500" },
+  Toys: {
+    icon: <FaPuzzlePiece />,
+    bgColor: "bg-orange-100",
+    activeColor: "bg-orange-500",
+  },
+  Sports: {
+    icon: <FaFutbol />,
+    bgColor: "bg-teal-100",
+    activeColor: "bg-teal-500",
+  },
+  Beauty: {
+    icon: <FaTint />,
+    bgColor: "bg-pink-100",
+    activeColor: "bg-pink-500",
+  },
+  Free: {
+    icon: <FaGift />,
+    bgColor: "bg-gray-100",
+    activeColor: "bg-gray-500",
+  },
+};

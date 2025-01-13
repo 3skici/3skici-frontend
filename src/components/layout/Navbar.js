@@ -103,7 +103,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              to={getPathWithLanguage("/browse", currentLanguage)}
+              to={getPathWithLanguage("/browse-products", currentLanguage)}
               className="text-gray-700 hover:text-fiery-red text-base md:text-lg lg:text-xl leading-relaxed py-2 lg:py-0"
             >
               {t("browse_products")}
