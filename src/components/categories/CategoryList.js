@@ -32,7 +32,6 @@ const CategoryList = () => {
   }, [dispatch]);
 
   const handleCategorySelect = (category) => {
-    console.log("category", category._id);
     setSelectedCategory(category);
     if (category) {
       // Fetch products for the selected category

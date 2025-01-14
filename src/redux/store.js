@@ -9,6 +9,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Defaults to localStorage for web
 import socketMiddleware from "../middleware/socketMiddleware";
 import statsReducer from "../features/stats/statsSlice";
+import reportsReducer from "../features/reports/reportSlice";
 const persistConfig = {
   key: "auth",
   storage,
@@ -37,6 +38,7 @@ const store = configureStore({
     favorites: favoriteReducer,
     chats: chatReducer,
     stats: statsReducer,
+    reports: reportsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(socketMiddleware),

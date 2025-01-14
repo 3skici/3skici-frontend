@@ -36,6 +36,7 @@ import LocalizedFontWrapper from "./components/helpers/LocalizedFontWrapper";
 import Settings from "./components/layout/Settings";
 import FloatingMenu from "./components/layout/FloatingMenu";
 import BrowseProducts from "./pages/BrowseProducts";
+import MyReports from "./components/report/MyReports";
 
 function App() {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ function App() {
           <Route path="/:lang/browse-products" element={<BrowseProducts />} />
           <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/:lang/settings" element={<Settings />} />
+          <Route path="/:lang/my-reports" element={<MyReports />} />
           <Route
             path="/:lang/3skici-and-sustainability"
             element={<Sustainability />}

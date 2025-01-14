@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import { toast } from "react-toastify";
+import { getImageUrl } from "../../utils/imgagesHelper";
 
 const ProductCard = memo(({ product }) => {
   const currentLanguage = i18n.language;
@@ -118,8 +119,10 @@ const ProductCard = memo(({ product }) => {
       </div>
       {/* Image */}
       <img
-        src={product.image || "https://via.placeholder.com/400x200"}
-        alt={product.name}
+        src={
+          getImageUrl(product.images[0]) || "https://via.placeholder.com/150"
+        }
+        alt={product.name || "No product name"}
         className="w-full h-48 object-cover"
       />
 

@@ -6,11 +6,21 @@ import i18n from "../../i18n";
 import ProductCard from "../products/ProductCard";
 import { format } from "timeago.js";
 import { toast } from "react-toastify";
+import {
+  fetchUserReport,
+  submitReport,
+} from "../../features/reports/reportSlice";
+import { fetchedProductByCustomId } from "../../features/products/productsSlice";
 
 const Report = () => {
   const token = useSelector((state) => state.auth.token);
-  const products = useSelector((state) => state.products.items);
-  console.log(products);
+  const fetchedProduct = useSelector(
+    (state) => state.products.fetchedProductByCustomId
+  );
+  const prevReports = useSelector((state) => state.reports.reports || []);
+  const dispatch = useDispatch();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [formData, setFormData] = useState({
     customId: "",
     reportType: "",
@@ -18,9 +28,14 @@ const Report = () => {
     priority: "Low",
   });
 
-  const dispatch = useDispatch();
-  const [prevReports, setPrevReports] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(!!token);
+  }, [token]);
+
+  // Fetch all user previous reports when logged in
+  useEffect(() => {
+    dispatch(fetchUserReport());
+  }, [isLoggedIn, dispatch]);
 
   // Handle input changes for all form fields
   const handleChange = (e) => {
@@ -32,41 +47,24 @@ const Report = () => {
     }));
   };
 
-  useEffect(() => {
-    setIsLoggedIn(!!token);
-  }, [token]);
+  const handleFetchProduct = () => {
+    if (!formData.customId) {
+      toast.error("Please enter a Product Custom ID.");
+      return;
+    }
 
-  // Fetch all user previous reports when logged in
-  useEffect(() => {
-    const fetchUserReports = async () => {
-      if (!isLoggedIn) return;
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/report/my-reports`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+    dispatch(fetchedProductByCustomId(formData.customId))
+      .unwrap() // Assuming the action supports .unwrap for promise resolution
+      .then(() => {
+        toast.success("Product fetched successfully!");
+      })
+      .catch((error) => {
+        console.error("Error fetching product:", error);
+        toast.error(
+          error?.message || "Failed to fetch the product. Please try again."
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch reports");
-        }
-        const data = await response.json();
-        setPrevReports(data.data);
-      } catch (error) {
-        console.error("Error fetching reports:", error);
-        setPrevReports([]);
-      }
-    };
-
-    fetchUserReports();
-  }, [isLoggedIn, token]);
-
-  // Get product from products state based on customId
-  const product = products.find((prod) => prod.customId === formData.customId);
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,44 +73,16 @@ const Report = () => {
       return;
     }
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/report`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
+    dispatch(submitReport({ formData, token }))
+      .unwrap()
+      .then(() => {
+        toast.success("Report submitted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error submitting report:", error);
+        toast.error(error || "Failed to submit the report. Please try again.");
       });
-
-      const result = await response.json();
-      if (response.ok) {
-        toast.success(result.message);
-
-        // Re-fetch user reports after submitting a new one
-        const updatedReportsResponse = await fetch(
-          `${process.env.REACT_APP_API_URL}/report/my-reports`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (updatedReportsResponse.ok) {
-          const updatedData = await updatedReportsResponse.json();
-          setPrevReports(updatedData.data);
-        }
-      } else {
-        alert("Error: " + result.message);
-      }
-    } catch (error) {
-      console.error("Error submitting report:", error);
-      alert("Failed to submit report");
-    }
   };
-
   const priorityStyle = {
     Low: "bg-green-100 text-green-800",
     Medium: "bg-yellow-100 text-yellow-800",
@@ -123,16 +93,33 @@ const Report = () => {
     const date = new Date(isoString);
     return date.toLocaleString(); // Adjust formatting as needed
   };
-
   return (
     <div className="container mx-auto p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Informational Banner */}
+        <div className="col-span-2 bg-blue-100 border border-blue-200 text-blue-800 p-4 rounded-lg shadow-sm mb-6">
+          <p className="text-lg font-semibold mb-2">
+            Thank You for Your Responsibility!
+          </p>
+          <p>
+            We appreciate your effort in reporting inappropriate or illegal
+            products to keep our marketplace safe. Please remember to use this
+            feature responsibly and refrain from submitting false or misleading
+            reports.
+          </p>
+        </div>
+
         {/* Report Form */}
-        <div className="border rounded-lg p-6 shadow-lg bg-white">
-          <h2 className="text-2xl font-bold mb-4">Report Product</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700" htmlFor="customId">
+        <div className="border rounded-lg p-8 shadow-lg bg-white">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+            Report Product
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="form-group flex items-center">
+              <label
+                className="block text-gray-600 text-sm font-medium mr-4"
+                htmlFor="customId"
+              >
                 Product Custom ID:
               </label>
               <input
@@ -141,8 +128,15 @@ const Report = () => {
                 name="customId"
                 value={formData.customId}
                 onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                className="flex-grow border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
               />
+              <button
+                type="button"
+                onClick={handleFetchProduct}
+                className="ml-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+              >
+                Display Product
+              </button>
             </div>
 
             <div className="mb-4">
@@ -210,11 +204,12 @@ const Report = () => {
 
         {/* Product Card */}
         <div className="border rounded-lg overflow-hidden shadow-lg bg-white relative">
-          {product ? (
-            <ProductCard key={product._id} product={product} />
+          {fetchedProduct ? (
+            <ProductCard key={fetchedProduct._id} product={fetchedProduct} />
           ) : (
-            <div className="p-4 text-gray-500">
-              Enter a Product Custom ID (e.g., PROD-xxxx) to display the product
+            <div className="p-6 text-gray-500">
+              Enter a Product Custom ID (e.g., PROD-xxxx) and click "Fetch
+              Product" to display it here.
             </div>
           )}
         </div>

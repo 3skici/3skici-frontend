@@ -4,6 +4,7 @@ import { getImageUrl } from "../utils/imgagesHelper";
 import { format } from "timeago.js";
 import EditProfile from "../components/profile/EditProfile";
 import UserProduct from "../components/products/UserProduct";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,10 @@ const Profile = () => {
   const token = useSelector((state) => state.auth.token);
   const [activeTab, setActiveTab] = useState("overview");
 
+  if (!user) {
+    toast.error("Please login in order to see your profile page!");
+    return;
+  }
   const tabs = [
     // { id: "favorites", title: "Favorites" },
     { id: "product_management", title: "Product Management" },

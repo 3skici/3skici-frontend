@@ -124,6 +124,42 @@ export const fetchProductsByCategory = createAsyncThunk(
   }
 );
 
+// fetch product by customId
+export const fetchedProductByCustomId = createAsyncThunk(
+  "products/fetchedProductByCustomId",
+  async (customId, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/product/${customId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Ensure the response is valid
+      if (!response.ok) {
+        return rejectWithValue(
+          "Failed to fetch product: " + response.statusText
+        );
+      }
+
+      const data = await handleFetchResponse(response);
+      // Assuming the API returns { success: true, data: [...] }
+      if (data.success) {
+        return data.data;
+      } else {
+        return rejectWithValue("Product not found or API error.");
+      }
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      return rejectWithValue("Error fetching product: " + error.message);
+    }
+  }
+);
+
 // Products slice
 const productsSlice = createSlice({
   name: "products",
@@ -132,6 +168,7 @@ const productsSlice = createSlice({
     status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
     selectedProduct: null,
+    fetchedProductByCustomId: null,
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -206,6 +243,17 @@ const productsSlice = createSlice({
       .addCase(fetchUserProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // fetched product by customID
+      .addCase(fetchedProductByCustomId.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchedProductByCustomId.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.fetchedProductByCustomId = action.payload;
+      })
+      .addCase(fetchedProductByCustomId.rejected, (state, action) => {
+        state.error = action.payload;
       });
   },
 });
@@ -215,5 +263,7 @@ export const selectLoading = (state) => state.products.status === "loading";
 export const selectError = (state) => state.products.error;
 export const { setSelectedProduct, clearSelectedProduct } =
   productsSlice.actions;
+export const selectFetchedProductByCustomId = (state) =>
+  state.products.fetchedProductByCustomId;
 
 export default productsSlice.reducer;
