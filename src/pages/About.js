@@ -7,7 +7,6 @@ const AboutUs = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const stats = useSelector((state) => state.stats);
-  console.log("stats: ", stats);
   useEffect(() => {
     dispatch(fetchStatistics());
   }, [dispatch]);

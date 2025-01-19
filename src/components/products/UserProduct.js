@@ -65,11 +65,13 @@ const UserProduct = () => {
         <tbody>
           {products &&
             products.map((product) => (
-              <tr key={product._id} className="border-b">
+              <tr key={product._id} className="border-b hover:bg-gray-300">
                 <th scope="row" className="px-6 py-4 font-medium">
                   {product.name}
                 </th>
-                <td className="px-6 py-4">{product.category}</td>
+                <td className="py-2 break-words truncate max-w-xs ">
+                  {product.category}
+                </td>
                 <td className="px-6 py-4">
                   {product.price.amount} {product.price.currency}
                 </td>
