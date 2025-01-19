@@ -8,6 +8,8 @@ import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 import { getImageUrl } from "../../utils/imgagesHelper";
 import logo from "../../assets/logos/logo2.svg";
+import { toast } from "react-toastify";
+import useAuthValidation from "../hooks/useAuthValidation";
 
 const Navbar = () => {
   const { t } = useTranslation();
@@ -18,10 +20,10 @@ const Navbar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.token !== null);
+  const { validateLogin } = useAuthValidation();
   const user = useSelector((state) => state.auth.user);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
   const handleLogout = () => dispatch(logout());
 
   const toggleProfileDropdown = () => {
@@ -94,13 +96,25 @@ const Navbar = () => {
             >
               {t("categories")}
             </Link>
-
-            <Link
-              to={getPathWithLanguage("/selling-product", currentLanguage)}
-              className="hover:text-fiery-red py-2 lg:py-0 text-base md:text-lg lg:text-xl leading-relaxed"
-            >
-              {t("selling_product")}
-            </Link>
+            {/* selling produce  */}
+            {
+              // Conditional rendering based on login status
+              isLoggedIn ? (
+                <Link
+                  to={getPathWithLanguage("/selling-product", currentLanguage)}
+                  className="text-gray-700 hover:text-fiery-red text-base md:text-lg lg:text-xl leading-relaxed py-2 lg:py-0"
+                >
+                  {t("selling_product")}
+                </Link>
+              ) : (
+                <button
+                  className="text-gray-700 hover:text-fiery-red text-base md:text-lg lg:text-xl leading-relaxed py-2 lg:py-0"
+                  onClick={(e) => validateLogin(e, "sell a product")}
+                >
+                  {t("selling_product")}
+                </button>
+              )
+            }
 
             <Link
               to={getPathWithLanguage("/browse-products", currentLanguage)}
@@ -157,16 +171,28 @@ const Navbar = () => {
                       </Link>
 
                       {/* selling product*/}
-                      <Link
-                        to={getPathWithLanguage(
-                          "/selling-product",
-                          currentLanguage
-                        )}
-                        className="block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full flex  items-center"
-                      >
-                        {t("selling_product")}
-                      </Link>
-
+                      {
+                        // Conditional rendering based on login status
+                        isLoggedIn ? (
+                          <Link
+                            to={getPathWithLanguage(
+                              "/selling-product",
+                              currentLanguage
+                            )}
+                            className="block px-6 py-3 hover:bg-gray-100 transition-all duration-200 w-full flex items-center"
+                            onClick={(e) => validateLogin(e, "sell a product")}
+                          >
+                            {t("selling_product")}
+                          </Link>
+                        ) : (
+                          <button
+                            className="block px-6 py-3 w-full flex items-center"
+                            disabled
+                          >
+                            {t("selling_product")}
+                          </button>
+                        )
+                      }
                       {/* Logout Button */}
                       <button
                         onClick={handleLogout}

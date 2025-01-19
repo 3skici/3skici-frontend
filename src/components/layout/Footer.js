@@ -3,15 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getPathWithLanguage } from "../../utils/pathHelpers";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import useAuthValidation from "../hooks/useAuthValidation";
 
 const Footer = () => {
   const { t } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
-  const [profileDropdown, setProfileDropdown] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-
+  const isLoggedIn = useSelector((state) => state.auth.token !== null);
+  const { validateLogin } = useAuthValidation();
   // Define your routes with language
   const about = getPathWithLanguage("/about-us", currentLanguage);
   const sitemap = getPathWithLanguage("/sitemap", currentLanguage);
@@ -129,12 +128,21 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to={getPathWithLanguage("/report", currentLanguage)}
-                  className="   hover:text-red-300 py-2 lg:py-0"
-                >
-                  {t("report_product")}
-                </Link>
+                {isLoggedIn ? (
+                  <Link
+                    to={getPathWithLanguage("/report", currentLanguage)}
+                    className="   hover:text-red-300 py-2 lg:py-0"
+                  >
+                    {t("report_product")}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={(e) => validateLogin(e, "report product")}
+                    className="   hover:text-red-300 py-2 lg:py-0"
+                  >
+                    {t("report_product")}
+                  </button>
+                )}
               </li>
             </ul>
           </div>

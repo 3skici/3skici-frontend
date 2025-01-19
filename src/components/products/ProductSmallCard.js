@@ -102,7 +102,7 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
           {/* product name */}
           <div className="flex flex-col max-w-[101px]">
             <span
-              className="text-l text-dark-blue font-bold truncate whitespace-nowrap overflow-hidden"
+              className="text-l font-bold truncate whitespace-nowrap overflow-hidden"
               title={product.name || "No product name"}
             >
               {product.name || "No product name"}
