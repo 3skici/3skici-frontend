@@ -88,8 +88,12 @@ const reportSlice = createSlice({
       })
       .addCase(submitReport.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // Add the new report to the existing reports
-        state.reports.push(action.payload);
+        // Ensure we're adding the report object correctly
+        if (action.payload.report) {
+          state.reports.unshift(action.payload.report); // Add to beginning
+        } else {
+          state.reports.unshift(action.payload);
+        }
       })
       .addCase(submitReport.rejected, (state, action) => {
         state.status = "failed";
