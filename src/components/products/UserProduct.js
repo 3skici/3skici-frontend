@@ -16,7 +16,8 @@ import { getImageUrl } from "../../utils/imgagesHelper";
 const UserProduct = () => {
   const currentLanguage = i18n.language;
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.products || []);
+  console.log("products", products);
   const { user, token } = useSelector((state) => state.auth);
 
   // userId will be extracted from user._id
@@ -55,13 +56,13 @@ const UserProduct = () => {
         </Link>
       </div>
 
-      {products?.length === 0 ? (
+      {products.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-xl shadow-sm">
           <p className="text-gray-500 text-lg">No products found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products?.map((product) => (
+          {products.map((product) => (
             <div
               key={product._id}
               className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4"
@@ -80,13 +81,32 @@ const UserProduct = () => {
                   <h3 className="font-semibold text-gray-800 truncate">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-gray-500">{product.category}</p>
+
+                  {/* Categories Container */}
+                  <div className="flex flex-wrap gap-2 mt-1 mb-2">
+                    {product.category?.length > 0 ? (
+                      product.category.map((category, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 truncate max-w-[120px]"
+                          title={category.name} // Show full name on hover
+                        >
+                          {category.name}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                        Unclassified
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Price */}
                   <p className="text-lg font-medium text-blue-600 mt-1">
                     {product.price.amount} {product.price.currency}
                   </p>
                 </div>
               </div>
-
               <div className="flex justify-between items-center border-t pt-4">
                 <Link
                   to={getPathWithLanguage(

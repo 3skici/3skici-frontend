@@ -168,16 +168,14 @@ const ProductCard = memo(({ product }) => {
           </div>
           {product.category && product.category.length > 0 ? (
             <div className="flex flex-wrap">
-              {getCategoryNames(product.category)
-                .split(", ") // Split the concatenated category names into an array
-                .map((categoryName, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded"
-                  >
-                    {categoryName}
-                  </span>
-                ))}
+              {product.category.map((cat, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded"
+                >
+                  {cat.name || "Uncategorized"}
+                </span>
+              ))}
             </div>
           ) : (
             <p className="text-gray-600">No categories available.</p>
