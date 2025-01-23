@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { updateUserProfile } from "../../features/auth/authSlice";
 
-const EditProfile = () => {
+const EditProfile = ({ onClose }) => {
   const { user, status, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -60,6 +60,7 @@ const EditProfile = () => {
     const result = await dispatch(updateUserProfile(dataToSend)); // Handle result of dispatc
     if (result.meta.requestStatus === "fulfilled") {
       toast.success("Profile updated successfully!");
+      onClose();
     } else {
       toast.error("Failed to update profile. Please try again.");
     }
@@ -75,129 +76,176 @@ const EditProfile = () => {
     : null;
 
   return (
-    <div className="p-6 rounded-lg shadow-md w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-            value={formData.name}
-            onChange={handleChange}
-          />
+    <div className="p-8 w-full max-w-2xl mx-auto">
+      {/* Header Section */}
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Edit Profile</h2>
+      </div>
+
+      {/* edit form */}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Form Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Name Input */}
+          <div className="space-y-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+          {/* Username Input */}
+          <div className="space-y-2">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
+          {/* Email Input */}
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            />
+          </div>
+
+          {/* Phone Input */}
+          <div className="space-y-2">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone Number
+            </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Phone
-          </label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="avatar"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Profile Picture
-          </label>
-          <input
-            type="file"
-            id="avatar"
-            name="avatar"
-            accept="image/*" // Optional: Restrict to image files
-            onChange={handleAvatarChange} // Add the onChange handler
-            className="mt-1 p-2 border border-gray-300 rounded-lg w-full"
-          />
-          {avatar && (
-            <p className="text-sm text-gray-500 mt-1">
-              Selected file: {avatar.name}
-            </p>
-          )}
-          {avatar && (
-            <div className="mt-2">
-              <p className="text-sm text-gray-500">
-                Selected file: {avatar.name}
-              </p>
-              <img
-                src={URL.createObjectURL(avatar)}
-                alt="Avatar Preview"
-                className="w-16 h-16 rounded-full object-cover mt-2"
-              />
+
+        {/* Avatar Upload Section */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="avatar"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Profile Picture
+            </label>
+            <div className="mt-1 flex items-center gap-4">
+              <label
+                htmlFor="avatar"
+                className="cursor-pointer relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 transition-colors group"
+              >
+                <svg
+                  className="w-8 h-8 text-gray-400 group-hover:text-blue-500 mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="text-sm text-gray-600 group-hover:text-blue-600">
+                  {avatar ? avatar.name : "Click to upload a new photo"}
+                </span>
+                <input
+                  type="file"
+                  id="avatar"
+                  name="avatar"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="sr-only"
+                />
+              </label>
+
+              {avatar && (
+                <div className="shrink-0">
+                  <img
+                    src={URL.createObjectURL(avatar)}
+                    alt="Preview"
+                    className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm"
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div>
+          </div>
+
           {user.avatars && user.avatars.length > 0 && (
             <div className="mt-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+              <h3 className="text-lg font-semibold text-gray-700 mb-3">
                 Previous Avatars
               </h3>
-              <div className="flex space-x-4">
+              <div className="grid grid-cols-4 gap-3">
                 {user.avatars.map((avatarPath, index) => (
-                  <img
+                  <div
                     key={index}
-                    src={avatarUrl}
-                    alt={`Previous Avatar ${index + 1}`}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
+                    className="relative group rounded-lg overflow-hidden"
+                  >
+                    <img
+                      key={index}
+                      src={avatarUrl}
+                      alt={`Previous Avatar ${index + 1}`}
+                      className="w-full h-24 object-cover hover:opacity-75 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-colors" />
+                  </div>
                 ))}
               </div>
             </div>
           )}
         </div>
-        <div className="flex justify-center mt-4">
+
+        {/* Form Actions */}
+        <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2.5 text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 rounded-lg font-medium transition-colors"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="px-5 py-2.5 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
           >
             Save Changes
           </button>
