@@ -61,28 +61,37 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
   };
 
   return (
-    <div className="bg-card-bg rounded-lg shadow-lg overflow-hidden m-3 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <div className="bg-card-bg rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
       {/* Product Image and Favorite Icon */}
-      <div className="relative cursor-pointer" onClick={handleProductClick}>
+      <div
+        className="relative cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+        onClick={handleProductClick}
+      >
         <img
           src={
             getImageUrl(product.images[0]) || "https://via.placeholder.com/150"
           }
-          alt={product.name || "No product name"}
-          className="w-full h-48 object-cover"
+          alt={product.name || "Product image"}
+          className="w-full h-32 xs:h-40 sm:h-48 md:h-56 object-cover aspect-[3/2]"
+          loading="lazy"
+          decoding="async"
         />
+
         <button
           onClick={handleFavoriteClick}
-          className={`absolute top-3 right-3 bg-white p-2 rounded-full shadow-lg transition-all duration-300 ${
+          className={`absolute top-3 right-3 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ${
             isFavorited ? "text-rose-700" : "text-gray-600"
-          }`}
+          } hover:scale-105 active:scale-95 z-10`}
+          aria-label={
+            isFavorited ? "Remove from favorites" : "Add to favorites"
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            className="w-6 h-6 hover:text-rose-700"
+            className="w-6 h-6 sm:w-7 sm:h-7 hover:text-rose-700"
           >
             <path
               strokeLinecap="round"
@@ -96,13 +105,14 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
           </svg>
         </button>
       </div>
+
       {/* Product Info */}
       <div className="p-4  sm:p-6 md:p-8 flex flex-col h-full">
-        <div className="flex flex-row justify-between">
-          {/* product name */}
-          <div className="flex flex-col max-w-[101px]">
+        <div className="flex flex-row justify-between items-start sm:items-centers">
+          {/* Product name */}
+          <div className="flex flex-col flex-grow min-w-0">
             <span
-              className="text-l font-bold truncate whitespace-nowrap overflow-hidden"
+              className="text-base sm:text-lg font-bold truncate overflow-hidden hover:overflow-visible hover:whitespace-normal transition-all duration-200"
               title={product.name || "No product name"}
             >
               {product.name || "No product name"}
@@ -110,20 +120,21 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
           </div>
 
           {/* Price */}
-          <span className="font-bold text-red-600">
-            <span>
-              {currencyIcons[product.price.currency] || product.price.currency}
+          <div className="flex-shrink-0 pl-4">
+            <span className="font-bold text-red-600 text-base sm:text-lg whitespace-nowrap">
+              <span className="mr-1">
+                {currencyIcons[product.price.currency] ||
+                  product.price.currency}
+              </span>
+              {product.price?.amount?.toLocaleString() ?? "0.00"}
             </span>
-            {product.price && product.price.amount != null
-              ? product.price.amount
-              : "0.00"}
-          </span>
+          </div>
         </div>
 
         {/* description */}
         <div className="flex items-center mb-2 mt-3">
           <span
-            className=" text-l rounded font-semibold text-[#7281a3] max-w-[230px] overflow-hidden line-clamp-3"
+            className="text-base md:text-lg font-semibold text-[#7281a3] max-w-full md:max-w-[300px] lg:max-w-[400px] overflow-hidden line-clamp-2 md:line-clamp-3 hover:text-[#5a678a] transition-colors duration-200"
             title={product.description}
           >
             {product.description}
@@ -131,12 +142,14 @@ const ProductSmallCard = ({ product, isFetchedFromParent = false }) => {
         </div>
 
         {/* Card Footer */}
-        <div className="flex justify-between text-sm text-gray-500">
+        <div className="flex justify-between md:flex-row md:justify-between md:gap-0 text-xs md:text-sm text-gray-500">
           <div>
-            <span>{product.location.city}</span>
+            <span className="truncate">{product.location.city}</span>
           </div>
-          <div>
-            <span>{format(product.createdAt)}</span>
+          <div className="flex items-center gap-1.5">
+            <span className="whitespace-nowrap">
+              {format(product.createdAt)}
+            </span>
           </div>
         </div>
       </div>

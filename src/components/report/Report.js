@@ -11,6 +11,7 @@ import {
   submitReport,
 } from "../../features/reports/reportSlice";
 import { fetchedProductByCustomId } from "../../features/products/productsSlice";
+import { getImageUrl } from "../../utils/imgagesHelper";
 
 const Report = () => {
   const token = useSelector((state) => state.auth.token);
@@ -303,7 +304,7 @@ const Report = () => {
             <div className="space-y-4">
               {fetchedProduct.images?.[0] && (
                 <img
-                  src={fetchedProduct.images[0]}
+                  src={getImageUrl(fetchedProduct.images[0])}
                   alt={fetchedProduct.name}
                   className="w-full h-48 object-cover rounded-lg"
                 />

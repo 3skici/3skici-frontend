@@ -45,19 +45,21 @@ const CategoryList = () => {
   return (
     <div className="bg-off-white min-h-screen py-2">
       <div className="container mx-auto px-4">
-        {/* Categories Component */}
-        <div className="flex justify-center items-center">
-          <Categories
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategorySelect={handleCategorySelect}
-            loading={categoriesLoading}
-          />
+        {/* Categories Component with horizontal scroll on mobile */}
+        <div className="w-full overflow-x-auto pb-2 md:overflow-visible">
+          <div className="inline-flex min-w-max space-x-4 md:min-w-full md:flex-wrap md:justify-center md:gap-4 md:space-x-0">
+            <Categories
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onCategorySelect={handleCategorySelect}
+              loading={categoriesLoading}
+            />
+          </div>
         </div>
         {/* Selected Category Description */}
         {selectedCategory && (
           <div className="text-center">
-            <h2 className="text-l font-bold text-gray-800 mb-4">
+            <h2 className="text-l font-bold text-gray-800 mb-2">
               {selectedCategory.name}
             </h2>
             {/* <p className="text-gray-600">{selectedCategory.description}</p> */}
@@ -66,9 +68,6 @@ const CategoryList = () => {
 
         {/* Products Section */}
         <div>
-          {/* <h3 className="text-xl font-bold text-gray-800 mb-4">
-            {selectedCategory ? `Products in ${selectedCategory.name}` : 'All Products'}
-          </h3> */}
           {productsLoading ? (
             <p>Loading products...</p>
           ) : products.length > 0 ? (
