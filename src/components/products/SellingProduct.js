@@ -120,7 +120,6 @@ const AddProductPage = () => {
     }
     // Validate phone number before submitting
     const sellerPhoneNumber = `+${selectedCountryCode}${product.contactInfo.phone.trim()}`;
-    console.log("this is phone number:", sellerPhoneNumber);
     if (!sellerPhoneNumber || !product.contactInfo.phone.trim()) {
       toast.error("Phone number can not be empty!!");
       return;
