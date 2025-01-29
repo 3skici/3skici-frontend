@@ -1,29 +1,31 @@
-server {
-    listen 443 ssl;
-    server_name 3skici.com www.3skici.com;
+name: Deploy to DigitalOcean Droplet
 
-    ssl_certificate /etc/letsencrypt/live/3skici.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/3skici.com/privkey.pem;
+on:
+  push:
+    branches: [main]
 
-    root /var/www/3skici/build;
-    index index.html;
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-    # Serve static files
-    location /static {
-        alias /var/www/3skici/build/static;
-    }
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # Handle React routing
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    # Proxy API requests
-    location /api {
-        proxy_pass http://localhost:5000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-    }
-}
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            cd /root/3skici-app
+            git pull origin main
+            npm install --prefix 3skici-backend
+            npm install --prefix 3skici-frontend
+            npm run build --prefix 3skici-frontend
+            sudo rm -rf /var/www/3skici/build
+            sudo mv 3skici-frontend/build /var/www/3skici/
+            sudo chown -R www-data:www-data /var/www/3skici/build
+            pm2 restart react-backend
+            sudo systemctl restart nginx
