@@ -18,8 +18,6 @@ const EditProduct = () => {
 
   const product = useSelector((state) => state.products.items);
 
-  // console.log(product);
-
   const productToBeEdit = useSelector((state) => state);
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
