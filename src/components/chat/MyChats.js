@@ -58,7 +58,7 @@ const MyChats = () => {
   );
 
   return (
-    <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md mx-auto">
+    <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden w-full">
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto">
         {loading ? (

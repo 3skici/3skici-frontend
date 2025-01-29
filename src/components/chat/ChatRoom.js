@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { format } from "timeago.js";
@@ -7,6 +13,7 @@ import {
   initializeSocketListeners,
 } from "../../features/chat/chatSlice";
 import socket from "../../utils/socket";
+import { getImageUrl } from "../../utils/imgagesHelper";
 
 const TYPING_INTERVAL = 3000; // in ms - how long after user stops typing to emit stopTyping
 
@@ -20,6 +27,8 @@ const ChatRoom = () => {
   const [newMessage, setNewMessage] = useState("");
   const [typingTimeoutId, setTypingTimeoutId] = useState(null);
   const chatContainerRef = useRef(null);
+  // local message cache
+  const [optimisticMessages, setOptimisticMessages] = useState([]);
 
   // 1) Fetch chat content by chatKey when it changes
   useEffect(() => {
@@ -64,8 +73,25 @@ const ChatRoom = () => {
     }
   };
 
+  // local msg cache
+  useEffect(() => {
+    if (selectedChat?.messages) {
+      setOptimisticMessages(selectedChat.messages);
+    }
+  }, [selectedChat]);
+
   // 4) Handle sending a message
   const handleSendMessage = useCallback(() => {
+    const tempMessage = {
+      _id: Date.now().toString(),
+      content: newMessage,
+      senderId: userId,
+      createdAt: new Date().toISOString(),
+      status: "pending",
+    };
+
+    setOptimisticMessages((prev) => [...prev, tempMessage]);
+
     if (newMessage.trim() && selectedChatKey) {
       // build message data
       const messageData = {
@@ -115,58 +141,67 @@ const ChatRoom = () => {
     }
   }, [error]);
 
-  // A set to keep track of displayed product IDs
-  const shownProducts = new Set();
-
-  // Sort messages by createdAt
-  const sortedMessages = selectedChat?.messages
-    ? selectedChat.messages
-        .slice()
-        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-    : [];
+  //Memoize msg calculation
+  const sortedMessages = useMemo(
+    () =>
+      selectedChat?.messages
+        ?.slice()
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt) || []),
+    [selectedChat?.messages]
+  );
 
   // Group messages by date
-  const groupedMessages = sortedMessages.reduce((groups, message) => {
-    const dateKey = new Date(message.createdAt).toLocaleDateString();
-    if (!groups[dateKey]) {
-      groups[dateKey] = [];
-    }
-    groups[dateKey].push(message);
-    return groups;
-  }, {});
+  const groupedMessages = useMemo(
+    () =>
+      sortedMessages.reduce((groups, message) => {
+        const dateKey = new Date(message.createdAt).toLocaleDateString();
+        groups[dateKey] = [...(groups[dateKey] || []), message];
+        return groups;
+      }, {}),
+    [sortedMessages]
+  );
 
   let lastProductId = null;
 
   return (
     <div className="flex flex-col bg-gray-100 shadow-lg rounded-lg overflow-hidden h-[80vh]">
-      <div className="bg-blue-600 text-white py-4 px-6 rounded-t-lg">
+      <div className="bg-[#7e193e] text-white py-4 px-6 rounded-t-lg">
         <h2 className="text-lg font-semibold">Chat Room</h2>
       </div>
 
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto px-4 py-6 bg-gray-100 space-y-4"
+        className="flex-1 overflow-y-auto px-4 py-4 bg-gray-100 space-y-4"
       >
+        {/* Better skeleton loading */}
         {loading && (
-          <p className="text-center text-gray-600">Loading chat content...</p>
+          <div className="space-y-4">
+            {[...Array(20)].map((_, i) => (
+              <div key={i} className="animate-pulse flex space-x-4">
+                <div className="rounded-full bg-gray-300 h-8 w-8"></div>
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
-
         {Object.keys(groupedMessages).length > 0 ? (
           Object.entries(groupedMessages).map(([date, messages]) => (
             <div key={date} className="mb-6">
-              <div className="flex justify-center my-4">
-                <div className="bg-gray-200 text-gray-500 py-2 px-6 rounded-xl text-sm font-medium">
+              {/* Date Separator */}
+              <div className="sticky top-2 z-10 flex justify-center my-4">
+                <div className="bg-gray-100 text-gray-500 py-1 px-4 rounded-full text-xs font-medium shadow-sm">
                   {format(date)}
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {/* Keep track of the last displayed product */}
                 {messages.map((message, idx) => {
                   // Check for senderId before rendering the message
                   const isCurrentUser = message.senderId?._id === userId;
-                  console.log("sender: ", isCurrentUser);
-
                   const senderName = message.senderId?.name || "Unknown User";
                   // Check if this is the first occurrence of the product
                   const shouldDisplayProduct =
@@ -180,16 +215,34 @@ const ChatRoom = () => {
                     <div key={message._id}>
                       {/* Render Product Info if it's a new product */}
                       {shouldDisplayProduct && (
-                        <div className="p-4 bg-gray-200 rounded-md mb-4">
-                          <h4 className="font-semibold text-lg">
-                            Product: {message.product.name}
-                          </h4>
-                          <p className="text-sm text-gray-600">
-                            Price: ₺{message.product.price.amount}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            Product ID: {message.product.customId}
-                          </p>
+                        <div className="p-4  rounded-md mb-4">
+                          <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4">
+                            <div className="flex gap-4 mb-4">
+                              <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                                {message.product.images?.[0] && (
+                                  <img
+                                    src={getImageUrl(message.product.images[0])}
+                                    alt={message.product.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                )}
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="font-semibold text-gray-800 truncate">
+                                  {message.product.name}
+                                </h3>
+
+                                {/* Price */}
+                                <p className="text-lg font-medium text-red-600 mt-1">
+                                  {message.product.price.amount}{" "}
+                                  {message.product.price.currency}
+                                </p>
+                                <p className="text-lg font-medium text-gray-600 mt-1">
+                                  {message.product.customId}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
 
@@ -204,10 +257,12 @@ const ChatRoom = () => {
                           className={`text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl max-w-xs text-sm ${
                             isCurrentUser
                               ? "bg-sky-200 text-black rounded-br-none"
-                              : "bg-gray-300 text-gray-800 rounded-bl-none"
+                              : "bg-gray-100 text-gray-800 rounded-bl-none"
                           }`}
                         >
-                          <div>{message.content}</div>
+                          <div className="text-sm break-words">
+                            {message.content}
+                          </div>
                           <div className="text-xs text-gray-500 mt-2 text-right">
                             {format(message.createdAt)}
                           </div>
@@ -220,23 +275,25 @@ const ChatRoom = () => {
             </div>
           ))
         ) : (
-          <div className="text-gray-500 text-center py-10">
-            Select a chat to view messages
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="text-gray-400 text-center">
+              <p className="text-lg">No messages yet</p>
+              <p className="text-sm mt-2">Select Exist conversation!</p>
+            </div>
           </div>
         )}
       </div>
 
       {/* Typing Indicator */}
-      {selectedChatKey && isTyping && (
-        <div className="max-w-md mx-auto bg-transparent p-6">
-          <div
-            id="typing-indicator"
-            className={`flex items-center mb-4 ${isTyping ? "" : "hidden"}`}
-          >
-            <span className="animate-pulse mr-1 w-2 h-2 rounded-full bg-gray-400"></span>
-            <span className="animate-pulse mr-1 w-2 h-2 rounded-full bg-gray-400 delay-100"></span>
-            <span className="animate-pulse w-2 h-2 rounded-full bg-gray-400 delay-200"></span>
-            <span className="ml-2 text-sm text-gray-500">is typing...</span>
+      {isTyping && (
+        <div className="px-4 pb-2">
+          <div className="flex items-center text-sm text-gray-500">
+            <div className="flex space-x-1 mr-2">
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+            </div>
+            <span>typing...</span>
           </div>
         </div>
       )}
@@ -261,7 +318,7 @@ const ChatRoom = () => {
           <button
             onClick={handleSendMessage}
             disabled={loading || !newMessage.trim()}
-            className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+            className="flex items-center justify-center bg-[#7e193e] hover:bg-[#ae2859] rounded-xl text-white px-4 py-1 flex-shrink-0"
           >
             <span>Send</span>
             <span className="ml-2">

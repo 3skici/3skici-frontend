@@ -102,7 +102,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        {/* Right Side - Tabs and Content */}
+        {/*  - Tabs and Content */}
         <div className="w-full  bg-gray-200  ">
           <div className="border-b mb-6 bg-gray-100">
             <div className="flex rounded-xl p-2 space-x-4 overflow-x-auto">

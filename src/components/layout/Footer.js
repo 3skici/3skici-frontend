@@ -27,7 +27,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#7e193e] text-white py-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* 3skici Section */}
           <div className="text-center md:text-left">
             <h3 className="text-xl lg:text-2xl font-bold mb-4">3skici</h3>
@@ -120,14 +120,6 @@ const Footer = () => {
                 )
               )}
             </ul>
-          </div>
-
-          {/* Language Switcher */}
-          <div className="text-center md:text-left">
-            <h3 className="text-lg lg:text-xl font-semibold mb-4">
-              {t("language")}
-            </h3>
-            {/* Add your language switcher component here */}
           </div>
         </div>
 
