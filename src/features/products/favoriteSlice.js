@@ -56,7 +56,6 @@ export const addFavorite = createAsyncThunk(
         throw new Error("Failed to add to favorites");
       }
       const data = await response.json();
-      console.log("this is the data of fav:", data);
 
       return data.favorites;
     } catch (error) {
