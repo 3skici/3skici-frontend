@@ -17,7 +17,6 @@ const UserProduct = () => {
   const currentLanguage = i18n.language;
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products || []);
-  console.log("products", products);
   const { user, token } = useSelector((state) => state.auth);
 
   // userId will be extracted from user._id
