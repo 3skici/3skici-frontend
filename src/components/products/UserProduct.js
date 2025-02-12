@@ -4,6 +4,7 @@ import { FiEdit, FiTrash2, FiPlusCircle } from "react-icons/fi";
 import {
   deleteUserProduct,
   fetchUserProducts,
+  setEditingProduct,
 } from "../../features/products/productsSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -109,9 +110,10 @@ const UserProduct = () => {
               <div className="flex justify-between items-center border-t pt-4">
                 <Link
                   to={getPathWithLanguage(
-                    `/test/${product.customId}`,
+                    `/product/edit/${product.customId}`,
                     currentLanguage
                   )}
+                  onClick={() => dispatch(setEditingProduct(product))}
                   className="flex items-center gap-2 text-blue-600 hover:text-blue-700"
                 >
                   <FiEdit className="w-4 h-4" />

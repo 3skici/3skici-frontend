@@ -57,7 +57,7 @@ const EditProfile = ({ onClose }) => {
       dataToSend.append("avatar", avatar);
     }
 
-    const result = await dispatch(updateUserProfile(dataToSend)); // Handle result of dispatc
+    const result = await dispatch(updateUserProfile(dataToSend));
     if (result.meta.requestStatus === "fulfilled") {
       toast.success("Profile updated successfully!");
       onClose();

@@ -90,21 +90,20 @@ export const updateProduct = createAsyncThunk(
     const token = getState().auth.token;
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/product/${productId}`,
+        `${process.env.REACT_APP_API_URL}/product/user-product/${productId}`,
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(updatedData),
+          body: updatedData,
         }
       );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete product");
       }
-      const data = await handleFetchResponse(response);
+      const data = await response.json();
       return data.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -169,6 +168,7 @@ const productsSlice = createSlice({
     error: null,
     selectedProduct: null,
     fetchedProductByCustomId: null,
+    editingProduct: null, // NEW state variable for tracking editing product
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -176,6 +176,12 @@ const productsSlice = createSlice({
     },
     clearSelectedProduct: (state) => {
       state.selectedProduct = null;
+    },
+    setEditingProduct: (state, action) => {
+      state.editingProduct = action.payload;
+    },
+    clearEditingProduct: (state) => {
+      state.editingProduct = null;
     },
   },
   extraReducers: (builder) => {
@@ -265,5 +271,6 @@ export const { setSelectedProduct, clearSelectedProduct } =
   productsSlice.actions;
 export const selectFetchedProductByCustomId = (state) =>
   state.products.fetchedProductByCustomId;
+export const { setEditingProduct, clearEditingProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

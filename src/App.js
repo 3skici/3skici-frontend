@@ -92,6 +92,7 @@ function App() {
           <Route path="/:lang/chat-room/" element={<ChatRoom />} />
           <Route path="/:lang/card" element={<ProductSmallCard />} />
           <Route path="/:lang/product/:id" element={<ProductDetails />} />
+          <Route path="/:lang/product/edit/:id" element={<EditProduct />} />
           <Route path="/:lang/browse-products" element={<BrowseProducts />} />
           <Route path="/:lang/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/:lang/settings" element={<Settings />} />

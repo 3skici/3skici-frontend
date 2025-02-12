@@ -1,106 +1,145 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
-  selectCategories,
-  selectLoading,
-  selectError,
-  fetchCategories,
-} from "../../features/categories/categoriesSlice";
-import {
-  fetchProducts,
+  clearEditingProduct,
+  fetchedProductByCustomId,
+  selectFetchedProductByCustomId,
   updateProduct,
 } from "../../features/products/productsSlice";
+import {
+  fetchCategories,
+  selectCategories,
+  selectError,
+  selectLoading,
+} from "../../features/categories/categoriesSlice";
+import { toast } from "react-toastify";
+
 const EditProduct = () => {
-  const { productId } = useParams();
+  const { id: customId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const product = useSelector((state) => state.products.editingProduct);
+  const productId = product?._id;
 
-  const product = useSelector((state) => state.products.items);
-
-  const productToBeEdit = useSelector((state) => state);
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
 
   const [formData, setFormData] = useState({
-    name: product?.name || "",
-    description: product?.description || "",
-    price: {
-      amount: product?.price?.amount || "",
-      currency: product?.price?.currency || "TL",
-    },
+    name: "",
+    description: "",
+    price: { amount: "", currency: "TL" },
     condition: "used",
-    location: {
-      country: "",
-      city: "",
-      street: "",
-      zipCode: "",
-    },
-    contactInfo: {
-      phone: "",
-      email: "",
-    },
+    location: { country: "", city: "", street: "", zipCode: "" },
+    contactInfo: { phone: "", email: "" },
     categories: [],
     images: [],
     imagesFiles: [],
   });
 
   useEffect(() => {
-    if (productToBeEdit) {
+    if (customId) {
+      dispatch(fetchedProductByCustomId(customId));
+    }
+  }, [dispatch, customId]);
+
+  // Initialize form data when product is loaded
+  useEffect(() => {
+    if (product) {
       setFormData({
-        name: productToBeEdit.name || "",
-        description: productToBeEdit.description || "",
-        price: productToBeEdit.price || "",
-        condition: productToBeEdit.condition || "used",
-        categories: productToBeEdit.categories || [],
+        name: product.name || "",
+        description: product.description || "",
+        price: {
+          amount: product.price?.amount || "",
+          currency: product.price?.currency || "TL",
+        },
+        condition: product.condition || "used",
+        location: {
+          country: product.location?.country || "",
+          city: product.location?.city || "",
+          street: product.location?.street || "",
+          zipCode: product.location?.zipCode || "",
+        },
+        contactInfo: {
+          phone: product.contactInfo?.phone || "",
+          email: product.contactInfo?.email || "",
+        },
+        categories: product.categories || [],
+        images: product.images || [],
+        imagesFiles: [],
       });
     }
-  }, [productToBeEdit]);
+  }, [product]);
 
+  // loading categories
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch, productId]);
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
-    if (name === "categories") {
+    const { name, value, checked, type } = e.target;
+    if (type === "checkbox" && name === "categories") {
       setFormData((prevData) => {
         const updatedCategories = checked
           ? [...prevData.categories, value]
           : prevData.categories.filter((cat) => cat !== value);
         return { ...prevData, categories: updatedCategories };
       });
+    } else if (name.includes(".")) {
+      const [parentKey, childKey] = name.split(".");
+      setFormData((prev) => ({
+        ...prev,
+        [parentKey]: {
+          ...prev[parentKey],
+          [childKey]: value,
+        },
+      }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!productToBeEdit) {
-      console.error("Product to edit not found.");
-      return;
-    }
-    const updatedData = Object.keys(formData).reduce((acc, key) => {
-      if (formData[key] !== productToBeEdit[key]) {
-        acc[key] = formData[key];
-      }
-      return acc;
-    }, {});
 
-    if (Object.keys(updatedData).length > 0) {
-      dispatch(updateProduct({ id: productId, updatedData }))
-        .unwrap()
-        .then(() => {
-          navigate("/:lang/products"); // Redirect to products page after successful edit
-        })
-        .catch((error) => {
-          console.error("Failed to update product: ", error);
-        });
-    } else {
-      navigate("/:lang/products"); // No changes made, navigate back
-      console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+    const updatedData = new FormData();
+
+    // Append all form data to FormData object
+    updatedData.append("name", formData.name);
+    updatedData.append("description", formData.description);
+    updatedData.append("price[amount]", formData.price.amount);
+    updatedData.append("price[currency]", formData.price.currency);
+    updatedData.append("condition", formData.condition);
+    updatedData.append("location[country]", formData.location.country);
+    updatedData.append("location[city]", formData.location.city);
+    updatedData.append("location[street]", formData.location.street);
+    updatedData.append("location[zipCode]", formData.location.zipCode);
+    updatedData.append("contactInfo[phone]", formData.contactInfo.phone);
+    updatedData.append("contactInfo[email]", formData.contactInfo.email);
+
+    // Append categories array
+    formData.categories.forEach((category) => {
+      updatedData.append("categories[]", category);
+    });
+
+    // Append image files if any
+    formData.imagesFiles.forEach((file) => {
+      updatedData.append("images", file);
+    });
+
+    try {
+      const updated = await dispatch(
+        updateProduct({ productId: product._id, updatedData })
+      );
+
+      if (updated.meta.requestStatus === "fulfilled") {
+        toast.success("Product updated successfully!");
+        dispatch(clearEditingProduct());
+      } else {
+        toast.error("Failed to update product. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred during update.");
     }
   };
 
@@ -115,7 +154,10 @@ const EditProduct = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Product Name
             </label>
             <input
@@ -127,7 +169,10 @@ const EditProduct = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
               Description
             </label>
             <textarea
@@ -141,7 +186,7 @@ const EditProduct = () => {
             <div className="absolute inset-y-0 left-3 flex items-center">
               <select
                 name="price.currency"
-                value={product.price.currency}
+                value={formData.price.currency}
                 onChange={handleChange}
                 className="text-sm bg-transparent outline-none rounded-lg h-full"
               >
@@ -151,7 +196,7 @@ const EditProduct = () => {
             </div>
             <input
               name="price.amount"
-              value={product.price.amount}
+              value={formData.price.amount}
               onChange={handleChange}
               type="number"
               placeholder="0.00"
@@ -164,7 +209,7 @@ const EditProduct = () => {
           <div>
             <select
               name="condition"
-              value={product.condition}
+              value={formData.condition}
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded"
             >
@@ -179,7 +224,7 @@ const EditProduct = () => {
             <input
               type="text"
               name="location.country"
-              value={product.location.country}
+              value={formData.location.country}
               onChange={handleChange}
               placeholder="Country"
               className="p-2 border border-gray-300 rounded"
@@ -187,7 +232,7 @@ const EditProduct = () => {
             <input
               type="text"
               name="location.city"
-              value={product.location.city}
+              value={formData.location.city}
               onChange={handleChange}
               placeholder="City"
               className="p-2 border border-gray-300 rounded"
@@ -195,7 +240,7 @@ const EditProduct = () => {
             <input
               type="text"
               name="location.street"
-              value={product.location.street}
+              value={formData.location.street}
               onChange={handleChange}
               placeholder="Street"
               className="p-2 border border-gray-300 rounded"
@@ -204,7 +249,7 @@ const EditProduct = () => {
             {/* zip code */}
             <div>
               <label
-                for="zip-input"
+                htmlFor="zip-input"
                 className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 ZIP code:
@@ -225,7 +270,7 @@ const EditProduct = () => {
                   type="text"
                   id="zip-input"
                   name="location.zipCode"
-                  value={product.location.zipCode}
+                  value={formData.location.zipCode}
                   onChange={handleChange}
                   aria-describedby="helper-text-explanation"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -243,36 +288,52 @@ const EditProduct = () => {
             </div>
           </div>
           {/* contact info */}
-          <div></div>
-          {loading ? (
-            <div className="text-center text-gray-700">
-              Loading categories...
-            </div>
-          ) : (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Categories
-              </label>
-              <div className="grid grid-cols-2 gap-4">
-                {categories.map((category) => (
-                  <div key={category._id} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="categories"
-                      value={category._id}
-                      id={category._id}
-                      checked={formData.categories.includes(category._id)}
-                      onChange={handleChange}
-                      className="mr-2"
-                    />
-                    <label htmlFor={category._id} className="text-gray-700">
-                      {category.name}
-                    </label>
-                  </div>
-                ))}
+          <div>
+            {loading ? (
+              <div className="text-center text-gray-700">
+                Loading categories...
               </div>
-            </div>
-          )}
+            ) : (
+              <div>
+                <label
+                  htmlFor="categories"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Categories
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  {categories.map((category) => (
+                    <div key={category._id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="categories"
+                        value={category._id}
+                        id={category._id}
+                        checked={formData.categories.includes(category._id)}
+                        onChange={handleChange}
+                        className="mr-2"
+                      />
+                      <label htmlFor={category._id} className="text-gray-700">
+                        {category.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            <input
+              type="file"
+              multiple
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  imagesFiles: [...e.target.files],
+                }))
+              }
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
@@ -284,5 +345,4 @@ const EditProduct = () => {
     </div>
   );
 };
-
 export default EditProduct;
