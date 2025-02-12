@@ -17,8 +17,10 @@ import {
   setChatMessages,
 } from "../../features/chat/chatSlice";
 import { getImageUrl } from "../../utils/imgagesHelper";
+import { useTranslation } from "react-i18next";
 
 const Product = ({ suggestedProducts = [] }) => {
+  const { t } = useTranslation();
   const product = useSelector((state) => state.products.selectedProduct);
   const [isFavorited, setIsFavorited] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -121,18 +123,18 @@ const Product = ({ suggestedProducts = [] }) => {
             </p>
             <div className="flex flex-col mt-4  text-gray-700">
               <p>
-                <strong>Condition:</strong> {product.condition}
+                <strong>{t("product_condition")}:</strong> {product.condition}
               </p>
               <p>
-                <strong>Location:</strong> {product.location.city},{" "}
+                <strong>{t("location")}:</strong> {product.location.city},{" "}
                 {product.location.street}, {product.location.zipCode}
               </p>
               <p>
-                <strong>Seller:</strong> {product.seller.username} (
+                <strong>{t("seller")}:</strong> {product.seller.username} (
                 {product.seller.email})
               </p>
               <p>
-                <strong>Email:</strong>{" "}
+                <strong>{t("email")}:</strong>{" "}
                 <a
                   href={`mailto:${product.contactInfo.email}`}
                   className="text-blue-600"
@@ -141,7 +143,7 @@ const Product = ({ suggestedProducts = [] }) => {
                 </a>
               </p>
               <p>
-                <strong>Phone:</strong>{" "}
+                <strong>{t("phone")}:</strong>{" "}
                 <a
                   href={`tel:${product.contactInfo.phone}`}
                   className="text-green-600"
@@ -150,10 +152,10 @@ const Product = ({ suggestedProducts = [] }) => {
                 </a>
               </p>
               <p>
-                <strong>Status:</strong> {product.status}
+                <strong>{t("product_status")}:</strong> {product.status}
               </p>
               <p>
-                <strong>Posted At:</strong> {postedTime}
+                <strong>{t("posted_at")}:</strong> {postedTime}
               </p>
               {/* customId to be copy */}
               {/* Product ID and Report Icon */}
@@ -161,7 +163,7 @@ const Product = ({ suggestedProducts = [] }) => {
                 {/* Optimized Product ID */}
                 <div className="flex items-center">
                   <p className="">
-                    <strong>Product ID:</strong>{" "}
+                    <strong>{t("product_id")}:</strong>{" "}
                     <span className="">{productId.slice(-8)}</span>
                   </p>
                   <button

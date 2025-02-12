@@ -14,7 +14,7 @@
   "facebook": "Facebook",
   "twitter": "Twitter",
   "instagram": "Instagram",
-  "copyright_notice": "© 2024 3skici. Tüm hakları saklıdır.",
+  "copyright_notice": "Eskici Tüm hakları saklıdır",
   "selling_product": "Satış Ürünü",
   "Clothing": "Giyim",
   "Electronics": "Elektronik",
@@ -23,6 +23,17 @@
   "Books": "Kitaplar",
   "Toys": "Oyuncaklar",
   "Sports": "Spor",
+  "search_placeholder": "Ürün adını ara...",
   "Beauty": "Güzellik",
-  "Free": "Ücretsiz"
+  "hero_heading": "Eskici'ye Hoş Geldiniz - Güvenilir İkinci El Pazarınız",
+  "hero_sub_heading": "Kaliteli Kullanılmış Ürünler İçin Sürdürülebilir Pazar Yeri",
+  "Free": "Ücretsiz",
+  "product_condition": "Ürün Durumu",
+  "location": "Konum",
+  "seller": "Satıcı",
+  "email": "E-posta",
+  "phone": "Telefon",
+  "product_status": "Ürün Durumu",
+  "posted_at": "Gönderildiği Tarih",
+  "product_id": "Ürün Kimliği"
 }

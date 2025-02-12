@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   clearEditingProduct,
   fetchedProductByCustomId,
@@ -14,16 +14,19 @@ import {
   selectLoading,
 } from "../../features/categories/categoriesSlice";
 import { toast } from "react-toastify";
+import i18n from "../../i18n";
+import { getPathWithLanguage } from "../../utils/pathHelpers";
 
 const EditProduct = () => {
   const { id: customId } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.products.editingProduct);
   const productId = product?._id;
-
+  const navigate = useNavigate();
   const categories = useSelector(selectCategories);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -135,6 +138,7 @@ const EditProduct = () => {
       if (updated.meta.requestStatus === "fulfilled") {
         toast.success("Product updated successfully!");
         dispatch(clearEditingProduct());
+        navigate(getPathWithLanguage(`/product/${customId}`, currentLanguage));
       } else {
         toast.error("Failed to update product. Please try again.");
       }

@@ -11,7 +11,7 @@ import UserFavorites from "../components/profile/UserFavorites";
 
 const Profile = () => {
   const { user, status, error } = useSelector((state) => state.auth);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("product_management");
   const [showEditModal, setShowEditModal] = useState(false);
 
   if (!user) {

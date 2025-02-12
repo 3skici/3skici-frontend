@@ -15,7 +15,7 @@
   "twitter": "Twitter",
   "instagram": "Instagram",
   "selling_product": "Selling Product",
-  "copyright_notice": "© 2024 3skici. All rights reserved.",
+  "copyright_notice": "Eskici. All rights reserved.",
   "Clothing": "Clothing",
   "Electronics": "Electronics",
   "Furniture": "Furniture",
@@ -24,5 +24,16 @@
   "Toys": "Toys",
   "Sports": "Sports",
   "Beauty": "Beauty",
-  "Free": "Free"
+  "hero_heading": "Welcome to Eskici - Your Trusted Second-Hand Marketplace",
+  "hero_sub_heading": "A Sustainable Marketplace for Quality Pre-Owned Goods",
+  "Free": "Free",
+  "search_placeholder": "Search product name...",
+  "product_condition": "Product Condition",
+  "location": "Location",
+  "seller": "Seller",
+  "email": "Email",
+  "phone": "Phone",
+  "product_status": "Status of product",
+  "posted_at": "Posted At",
+  "product_id": "Product ID"
 }
